@@ -1,0 +1,50 @@
+/* 基础排版与滚动行为 */
+html,
+body,
+#app {
+  height: 100%;
+}
+html {
+  scroll-behavior: smooth;
+}
+
+/* 链接与焦点可见性 */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+:focus {
+  outline: 2px solid rgba(99, 102, 241, 0.6);
+  outline-offset: 2px;
+}
+
+/* 简单过渡 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+/* 容器工具类 */
+.container {
+  max-width: 1400px;
+  @apply w-full mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+/* 进入视图的淡入动画 */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.5s ease both;
+}
