@@ -1,138 +1,134 @@
 <template>
-  <footer class="bg-white py-16 lg:py-20">
-    <div class="container mx-auto px-4">
+  <footer class="bg-white">
+    <div class="container">
       <!-- PC端布局 -->
-      <div class="hidden lg:block">
-        <div class="grid grid-cols-5 gap-8 mb-12">
-          <!-- 品牌Logo区域 -->
-          <div class="col-span-1">
+      <div class="hidden lg:block pt-20">
+        <div class="flex items-start gap-8 mb-20">
+          <!-- 品牌Logo区域（PC：基础50%，可收缩，不增长） -->
+          <div class="basis-1/2 shrink grow-0">
             <div class="flex items-center space-x-2 mb-6">
-              <div class="w-10 h-10 bg-miaowu-green rounded-full flex items-center justify-center">
-                <span class="text-white font-bold text-lg">M</span>
-              </div>
-              <span class="text-2xl font-bold text-black">喵呜AI</span>
+              <img :src="logoDark" alt="喵呜AI" class="h-10 w-auto" />
             </div>
-            <p class="text-gray-600 text-sm leading-relaxed">
+            <!-- <p class="text-gray-600 text-sm leading-relaxed">
               专业的AI顾问式电商平台，让每一次购物都更智能、更贴心。
-            </p>
+            </p> -->
           </div>
 
-          <!-- 我们的产品 -->
-          <div>
-            <h3 class="text-lg font-bold text-black mb-4">我们的产品</h3>
-            <ul class="space-y-2">
-              <li
-                v-for="product in products"
-                :key="product"
-                class="text-gray-600 hover:text-miaowu-green transition-colors duration-200 cursor-pointer"
-              >
-                {{ product }}
-              </li>
-            </ul>
-          </div>
+          <!-- 右侧内容区（PC：基础50%，可增长） -->
+          <div class="basis-1/2 grow">
+            <div class="grid grid-cols-4 gap-8">
+              <!-- 我们的产品 -->
+              <div>
+                <h3 class="text-lg font-bold text-black mb-4">我们的产品</h3>
+                <ul class="space-y-2">
+                  <li v-for="product in products" :key="product.to">
+                    <RouterLink
+                      :to="product.to"
+                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                    >
+                      {{ product.label }}
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
 
-          <!-- 商务与合作 -->
-          <div>
-            <h3 class="text-lg font-bold text-black mb-4">商务与合作</h3>
-            <ul class="space-y-2">
-              <li
-                v-for="cooperation in cooperations"
-                :key="cooperation"
-                class="text-gray-600 hover:text-miaowu-green transition-colors duration-200 cursor-pointer"
-              >
-                {{ cooperation }}
-              </li>
-            </ul>
-          </div>
+              <!-- 商务与合作 -->
+              <div>
+                <h3 class="text-lg font-bold text-black mb-4">商务与合作</h3>
+                <ul class="space-y-2">
+                  <li v-for="cooperation in cooperations" :key="cooperation.to">
+                    <RouterLink
+                      :to="cooperation.to"
+                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                    >
+                      {{ cooperation.label }}
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
 
-          <!-- 关于我们 -->
-          <div>
-            <h3 class="text-lg font-bold text-black mb-4">关于我们</h3>
-            <ul class="space-y-2">
-              <li
-                v-for="about in aboutUs"
-                :key="about"
-                class="text-gray-600 hover:text-miaowu-green transition-colors duration-200 cursor-pointer"
-              >
-                {{ about }}
-              </li>
-            </ul>
-          </div>
+              <!-- 关于我们 -->
+              <div>
+                <h3 class="text-lg font-bold text-black mb-4">关于我们</h3>
+                <ul class="space-y-2">
+                  <li v-for="about in aboutUs" :key="about.to">
+                    <RouterLink
+                      :to="about.to"
+                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                    >
+                      {{ about.label }}
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
 
-          <!-- 服务与条款 -->
-          <div>
-            <h3 class="text-lg font-bold text-black mb-4">服务与条款</h3>
-            <ul class="space-y-2">
-              <li
-                v-for="service in services"
-                :key="service"
-                class="text-gray-600 hover:text-miaowu-green transition-colors duration-200 cursor-pointer"
-              >
-                {{ service }}
-              </li>
-            </ul>
+              <!-- 服务与条款 -->
+              <div>
+                <h3 class="text-lg font-bold text-black mb-4">服务与条款</h3>
+                <ul class="space-y-2">
+                  <li v-for="service in services" :key="service.to">
+                    <RouterLink
+                      :to="service.to"
+                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                    >
+                      {{ service.label }}
+                    </RouterLink>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
       <!-- 移动端布局 -->
-      <div class="lg:hidden space-y-8">
+      <div class="lg:hidden space-y-8 pt-20 pb-10">
         <!-- 品牌Logo区域 -->
-        <div class="text-center">
-          <div class="flex items-center justify-center space-x-2 mb-4">
-            <div class="w-8 h-8 bg-miaowu-green rounded-full flex items-center justify-center">
-              <span class="text-white font-bold">M</span>
-            </div>
-            <span class="text-xl font-bold text-black">喵呜AI</span>
+        <div class="text-left">
+          <div class="flex items-center space-x-2 mb-4">
+            <img :src="logoDark" alt="喵呜AI" class="h-8 w-auto" />
           </div>
-          <p class="text-gray-600 text-sm leading-relaxed">
-            专业的AI顾问式电商平台，让每一次购物都更智能、更贴心。
-          </p>
         </div>
 
-        <!-- 链接区域 -->
-        <div class="grid grid-cols-2 gap-6">
+        <!-- 链接区域（移动端垂直排列） -->
+        <div class="space-y-8">
           <div>
-            <h3 class="text-base font-bold text-black mb-3">我们的产品</h3>
+            <h3 class="text-lg font-bold text-black mb-2">我们的产品</h3>
             <ul class="space-y-2">
-              <li
-                v-for="product in products.slice(0, 2)"
-                :key="product"
-                class="text-gray-600 text-sm"
-              >
-                {{ product }}
+              <li v-for="product in products" :key="product.to">
+                <RouterLink :to="product.to" class="text-black text-base underline">
+                  {{ product.label }}
+                </RouterLink>
               </li>
             </ul>
           </div>
           <div>
-            <h3 class="text-base font-bold text-black mb-3">商务与合作</h3>
+            <h3 class="text-lg font-bold text-black mb-2">商务与合作</h3>
             <ul class="space-y-2">
-              <li
-                v-for="cooperation in cooperations.slice(0, 2)"
-                :key="cooperation"
-                class="text-gray-600 text-sm"
-              >
-                {{ cooperation }}
+              <li v-for="cooperation in cooperations" :key="cooperation.to">
+                <RouterLink :to="cooperation.to" class="text-black text-base underline">
+                  {{ cooperation.label }}
+                </RouterLink>
               </li>
             </ul>
           </div>
           <div>
-            <h3 class="text-base font-bold text-black mb-3">关于我们</h3>
+            <h3 class="text-lg font-bold text-black mb-2">关于我们</h3>
             <ul class="space-y-2">
-              <li v-for="about in aboutUs.slice(0, 2)" :key="about" class="text-gray-600 text-sm">
-                {{ about }}
+              <li v-for="about in aboutUs" :key="about.to">
+                <RouterLink :to="about.to" class="text-black text-base underline">
+                  {{ about.label }}
+                </RouterLink>
               </li>
             </ul>
           </div>
           <div>
-            <h3 class="text-base font-bold text-black mb-3">服务与条款</h3>
+            <h3 class="text-lg font-bold text-black mb-2">服务与条款</h3>
             <ul class="space-y-2">
-              <li
-                v-for="service in services.slice(0, 2)"
-                :key="service"
-                class="text-gray-600 text-sm"
-              >
-                {{ service }}
+              <li v-for="service in services" :key="service.to">
+                <RouterLink :to="service.to" class="text-black text-base underline">
+                  {{ service.label }}
+                </RouterLink>
               </li>
             </ul>
           </div>
@@ -140,12 +136,14 @@
       </div>
 
       <!-- 底部版权和社交图标 -->
-      <div class="border-t border-gray-200 pt-8">
+      <div class="border-gray-200 mb-7">
         <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
           <!-- 版权信息 -->
-          <div class="text-center lg:text-left">
-            <p class="text-gray-500 text-sm">
-              Copyright ©{{ year }} 喵呜宇宙（深圳）网络科技有限公司 粤 ICP 备 2023042737 号 - 1
+          <div class="text-left lg:text-left">
+            <p class="text-black text-base">
+              Copyright © {{ year }} Me&U AI. All Rights
+              Reserved｜喵呜宇宙（深圳）网络科技有限公司｜粤ICP备2023042737号-1
+              <!-- Copyright ©{{ year }} 喵呜宇宙（深圳）网络科技有限公司 粤 ICP 备 2023042737 号 - 1 -->
             </p>
           </div>
 
@@ -166,20 +164,39 @@
 </template>
 
 <script setup lang="ts">
+import logoDark from '../assets/img/logo-dark.png'
+import { RouterLink } from 'vue-router'
 const year = new Date().getFullYear()
 
-const products = ['喵呜AI小程序', '喵呜AI顾问式电商', '喵呜AI供应链', '喵呜AI数字人']
+const products: Array<{ label: string; to: string }> = [
+  { label: '喵呜AI 小程序', to: '/products/mini-program' },
+  { label: '喵呜AI App', to: '/products/app' },
+  { label: '供应商管理后台', to: '/products/supplier-console' },
+  { label: '喵呜商城', to: '/products/mall' },
+]
 
-const cooperations = ['供应商招募', '渠道合作', '媒体合作', '品牌合作']
+const cooperations: Array<{ label: string; to: string }> = [
+  { label: '喵呜品牌供应商招募', to: '/cooperation/suppliers' },
+  { label: '喵呜AI卖手招募', to: '/cooperation/sellers' },
+  { label: '其他商务合作', to: '/cooperation/partners' },
+]
 
-const aboutUs = ['关于喵呜AI', '加入我们', '联系我们', '帮助中心']
+const aboutUs: Array<{ label: string; to: string }> = [
+  { label: '关于喵呜AI', to: '/about/company' },
+  { label: '加入我们', to: '/about/careers' },
+  { label: '联系我们', to: '/about/contact' },
+]
 
-const services = ['用户协议', '隐私政策', '法律声明', '免责声明']
+const services: Array<{ label: string; to: string }> = [
+  { label: '帮助中心', to: '/legal/help' },
+  { label: '隐私协议', to: '/legal/privacy' },
+  { label: '服务条款', to: '/legal/terms' },
+]
 
-const socialPlatforms = [
-  { name: '微信', icon: '微' },
-  { name: '微博', icon: '微' },
-  { name: '抖音', icon: '抖' },
-  { name: '小红书', icon: '小' },
+const socialPlatforms: Array<{ name: string; icon: string }> = [
+  // { name: '微信', icon: '微' },
+  // { name: '微博', icon: '微' },
+  // { name: '抖音', icon: '抖' },
+  // { name: '小红书', icon: '小' },
 ]
 </script>

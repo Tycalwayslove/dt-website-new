@@ -1,62 +1,26 @@
-// 用户相关 API 接口示例
+// 用户相关 API 接口
 
-import { httpDelete, httpGet, httpPost, httpPut } from './http'
-import type { ApiResponse, PaginationData, PaginationParams, User } from './types'
+import { httpGet } from './http.js'
+import type { ApiResponse } from './types.js'
 
-// 用户列表请求参数
-export interface UserListParams extends PaginationParams {
-  keyword?: string
-  status?: 'active' | 'inactive'
-}
-
-// 用户列表响应
-export type UserListResponse = ApiResponse<PaginationData<User>>
-
-// 用户详情响应
-export type UserDetailResponse = ApiResponse<User>
-
-// 创建用户请求参数
-export interface CreateUserRequest {
+// 用户信息数据结构
+export interface UserInfo {
+  id: string
   username: string
-  email: string
-  password: string
-  avatar?: string
-}
-
-// 更新用户请求参数
-export interface UpdateUserRequest {
-  username?: string
+  phone?: string
   email?: string
   avatar?: string
+  avatar_url?: string
+  nickname?: string
+  status?: 'active' | 'inactive'
+  created_at?: string
+  updated_at?: string
 }
 
-// 修改密码请求参数
-export interface ChangePasswordRequest {
-  oldPassword: string
-  newPassword: string
-}
+// 获取用户信息响应类型
+export type UserInfoResponse = ApiResponse<UserInfo[]>
 
-// API 函数定义
-export function apiGetUserList(params: UserListParams): Promise<UserListResponse> {
-  return httpGet<UserListResponse>('/api/users', { params })
-}
-
-export function apiGetUserDetail(id: string): Promise<UserDetailResponse> {
-  return httpGet<UserDetailResponse>(`/api/users/${id}`)
-}
-
-export function apiCreateUser(data: CreateUserRequest): Promise<UserDetailResponse> {
-  return httpPost<UserDetailResponse>('/api/users', data)
-}
-
-export function apiUpdateUser(id: string, data: UpdateUserRequest): Promise<UserDetailResponse> {
-  return httpPut<UserDetailResponse>(`/api/users/${id}`, data)
-}
-
-export function apiDeleteUser(id: string): Promise<ApiResponse<null>> {
-  return httpDelete<ApiResponse<null>>(`/api/users/${id}`)
-}
-
-export function apiChangePassword(data: ChangePasswordRequest): Promise<ApiResponse<null>> {
-  return httpPost<ApiResponse<null>>('/api/users/change-password', data)
+// 获取当前用户信息
+export function apiGetUserInfo(): Promise<UserInfoResponse> {
+  return httpGet<UserInfoResponse>('/api/user/info')
 }

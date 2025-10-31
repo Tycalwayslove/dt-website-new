@@ -3,15 +3,8 @@
     <!-- 首屏轮播Banner -->
     <HeroBanner />
 
-    <!-- 可信赖的专业伙伴 -->
-    <TrustedPartner />
-
-    <!-- 小程序V2.0 -->
-    <MiniProgramV2 />
-
-    <!-- 供应链 -->
-    <SupplyChain />
-
+    <!-- 公司信息 -->
+    <CompanyInfo />
     <!-- 顾问式电商（数字人） -->
     <DigitalHuman />
 
@@ -24,11 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import DigitalHuman from '@/components/DigitalHuman.vue'
-import HeroBanner from '@/components/HeroBanner.vue'
-import MiniProgramV2 from '@/components/MiniProgramV2.vue'
-import Partners from '@/components/Partners.vue'
-import Recruitment from '@/components/Recruitment.vue'
-import SupplyChain from '@/components/SupplyChain.vue'
-import TrustedPartner from '@/components/TrustedPartner.vue'
+import CompanyInfo from './components/CompanyInfo.vue'
+import DigitalHuman from './components/DigitalHuman.vue'
+import HeroBanner from './components/HeroBanner.vue'
+import Partners from './components/Partners.vue'
+import Recruitment from './components/Recruitment.vue'
 </script>

@@ -4,6 +4,19 @@ module.exports = {
   content: ['./index.html', './src/**/*.{vue,ts,tsx,js,jsx}'],
   theme: {
     extend: {
+      screens: {
+        xs: '360px', // 超小屏手机
+        sm: '640px',
+        md: '768px',
+        lg: '1024px',
+        xl: '1280px',
+        '2xl': '1536px',
+        '3xl': '1920px', // 超大屏显示器
+      },
+      spacing: {
+        15: '3.75rem', // 60px - 如果以后需要 py-15
+        18: '4.5rem', // 72px
+      },
       colors: {
         primary: {
           50: '#f0fdf4',

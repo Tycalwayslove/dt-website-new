@@ -14,14 +14,16 @@ const instance: AxiosInstance = axios.create({
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Headers': '*',
     'Access-Control-Allow-Methods': '*',
+    Version: '1.5.1',
   },
 })
 
 instance.interceptors.request.use((config) => {
   const auth = useAuthStore()
+  // header 必须添加version 版本号，低于1.5.1的版本是不加密版本，大于等于1.5.1的版本是加密版本
   if (auth.token) {
     config.headers = config.headers || {}
-      ; (config.headers as any).Authorization = `Bearer ${auth.token}`
+    ;(config.headers as any).Authorization = `Bearer ${auth.token}`
   }
   return config
 })

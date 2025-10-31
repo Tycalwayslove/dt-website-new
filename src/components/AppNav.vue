@@ -1,50 +1,53 @@
 <template>
   <header class="sticky top-0 z-50 bg-black">
-    <nav class="container mx-auto px-4 h-20 flex items-center justify-between">
+    <nav class="container mx-auto px-4 h-20 flex items-center">
       <!-- 移动端：汉堡菜单/关闭按钮（左侧） -->
       <button
-        class="lg:hidden p-2 text-white hover:text-miaowu-green transition-all duration-300"
-        @click="open = !open"
+        class="lg:hidden p-2 text-white hover:text-miaowu-green transition-all duration-300 group relative overflow-hidden active:scale-95"
+        @click="toggleMobileMenu"
       >
-        <!-- 汉堡图标 -->
-        <svg
-          v-if="!open"
-          class="w-6 h-6 transition-transform duration-300"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"
-          ></path>
-        </svg>
-        <!-- 关闭图标 -->
-        <svg
-          v-else
-          class="w-6 h-6 transition-transform duration-300 rotate-90"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M6 18L18 6M6 6l12 12"
-          ></path>
-        </svg>
+        <!-- 汉堡菜单图标容器 -->
+        <div class="relative w-6 h-6">
+          <!-- 汉堡线条 -->
+          <div class="absolute inset-0 flex flex-col justify-center space-y-1">
+            <!-- 第一根线 -->
+            <div
+              class="w-full h-0.5 bg-current transition-all duration-300 ease-in-out origin-center"
+              :class="open ? 'rotate-45 translate-y-1.5' : 'rotate-0 translate-y-0'"
+              :style="{ 'transition-delay': open ? '0ms' : '150ms' }"
+            ></div>
+            <!-- 第二根线 -->
+            <div
+              class="w-full h-0.5 bg-current transition-all duration-200 ease-in-out origin-center"
+              :class="open ? 'opacity-0 scale-x-0' : 'opacity-100 scale-x-100'"
+              :style="{ 'transition-delay': open ? '75ms' : '75ms' }"
+            ></div>
+            <!-- 第三根线 -->
+            <div
+              class="w-full h-0.5 bg-current transition-all duration-300 ease-in-out origin-center"
+              :class="open ? '-rotate-45 -translate-y-1.5' : 'rotate-0 translate-y-0'"
+              :style="{ 'transition-delay': open ? '0ms' : '150ms' }"
+            ></div>
+          </div>
+
+          <!-- 添加一个微妙的背景效果 -->
+          <div
+            class="absolute inset-0 rounded-full transition-all duration-300 ease-in-out"
+            :class="open ? 'bg-miaowu-green/10 scale-110' : 'bg-transparent scale-100'"
+          ></div>
+        </div>
       </button>
 
-      <!-- Logo（PC端左侧，移动端居中） -->
-      <RouterLink to="/" class="flex items-center lg:mr-auto">
+      <!-- Logo（移动端居中，PC端左侧） -->
+      <RouterLink
+        to="/"
+        class="flex items-center absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none lg:translate-x-0"
+      >
         <img :src="logoUrl" alt="喵呜AI Logo" class="h-8 lg:h-10 w-auto" />
       </RouterLink>
 
-      <!-- 中间：桌面导航（仅PC端显示） -->
-      <ul class="hidden lg:flex items-center space-x-8 h-full">
+      <!-- 中间：桌面导航（仅PC端显示，居中） -->
+      <ul class="hidden lg:flex items-center space-x-8 h-full flex-1 justify-center">
         <li
           v-for="item in navItems"
           :key="item.to"
@@ -142,21 +145,212 @@
         </li>
       </ul>
 
-      <!-- 右侧：下载按钮 -->
-      <!-- PC端：完整按钮 -->
-      <button
-        class="hidden lg:flex items-center justify-center gap-2 bg-miaowu-green text-white px-[36px] py-[12px] rounded-2xl text-base hover:bg-white hover:text-black transition-colors duration-200"
-      >
-        <img :src="iconDownloadUrl" alt="下载喵呜App" class="w-6 h-6" />
-        下载喵呜App
-      </button>
+      <!-- 右侧：登录和下载按钮 -->
+      <div class="flex items-center gap-3 ml-auto">
+        <!-- PC端用户头像/登录按钮 -->
+        <div class="hidden lg:block relative">
+          <!-- 未登录状态：显示登录按钮 -->
+          <button
+            v-if="!auth.isLoggedIn"
+            class="flex items-center justify-center border border-white/30 text-white w-12 h-12 rounded-full hover:border-miaowu-green hover:text-miaowu-green transition-all duration-200"
+            @click="ui.openLoginDialog()"
+          >
+            登录
+          </button>
 
-      <!-- 移动端：仅图标按钮 -->
-      <button
-        class="lg:hidden flex items-center justify-center bg-miaowu-green text-white p-3 rounded-2xl hover:bg-green-600 transition-colors duration-200"
-      >
-        <img :src="iconDownloadUrl" alt="下载" class="w-5 h-5" />
-      </button>
+          <!-- 已登录状态：显示用户头像和下拉菜单 -->
+          <div
+            v-else
+            class="relative"
+            @mouseenter="handleUserMouseEnter"
+            @mouseleave="handleUserMouseLeave"
+          >
+            <!-- 用户头像按钮 -->
+            <button
+              class="flex items-center justify-center w-12 h-12 rounded-full overflow-hidden border border-white/30 hover:border-miaowu-green hover:scale-105 transition-all duration-300 group avatar-glow"
+            >
+              <div class="relative w-full h-full">
+                <img
+                  v-if="auth.currentUser?.avatar_url"
+                  :src="auth.currentUser.avatar_url"
+                  :alt="auth.currentUser.nickname || auth.currentUser.username"
+                  class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+                />
+                <div
+                  v-else
+                  class="w-full h-full bg-miaowu-green flex items-center justify-center text-black font-medium transition-all duration-300 group-hover:bg-green-400"
+                >
+                  {{
+                    (auth.currentUser?.nickname || auth.currentUser?.username || 'U')
+                      .charAt(0)
+                      .toUpperCase()
+                  }}
+                </div>
+                <!-- 头像悬停时的遮罩效果 -->
+                <div
+                  class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
+                >
+                  <svg
+                    class="w-4 h-4 text-white"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                    />
+                  </svg>
+                </div>
+              </div>
+            </button>
+
+            <!-- 用户信息下拉菜单 -->
+            <transition
+              enter-active-class="transition-all duration-300 ease-out"
+              enter-from-class="opacity-0 translate-y-2"
+              enter-to-class="opacity-100 translate-y-0"
+              leave-active-class="transition-all duration-200 ease-in"
+              leave-from-class="opacity-100 translate-y-0"
+              leave-to-class="opacity-0 translate-y-2"
+            >
+              <div
+                v-if="userDropdownOpen"
+                class="absolute top-full right-0 z-50 mt-2 min-w-[200px] bg-gray-900 shadow-2xl rounded-lg overflow-hidden border border-gray-800"
+              >
+                <!-- 用户信息区域 -->
+                <div class="px-4 py-3 border-b border-gray-700">
+                  <div class="flex items-center space-x-3">
+                    <div
+                      class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-miaowu-green/20 hover:ring-miaowu-green/40 transition-all duration-300 avatar-fade-in"
+                    >
+                      <img
+                        v-if="auth.currentUser?.avatar_url"
+                        :src="auth.currentUser.avatar_url"
+                        :alt="auth.currentUser.nickname || auth.currentUser.username"
+                        class="w-full h-full object-cover transition-all duration-300 hover:scale-105"
+                      />
+                      <div
+                        v-else
+                        class="w-full h-full bg-miaowu-green flex items-center justify-center text-black font-medium transition-all duration-300 hover:bg-green-400"
+                      >
+                        {{
+                          (auth.currentUser?.nickname || auth.currentUser?.username || 'U')
+                            .charAt(0)
+                            .toUpperCase()
+                        }}
+                      </div>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="text-white font-medium truncate">
+                        {{ auth.currentUser?.nickname || auth.currentUser?.username || '用户' }}
+                      </p>
+                      <p v-if="auth.currentUser?.phone" class="text-gray-400 text-sm truncate">
+                        {{ auth.currentUser.phone }}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 退出登录按钮 -->
+                <div class="px-4 py-2">
+                  <button
+                    @click="handleLogout"
+                    class="w-full text-left px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-md transition-colors duration-200"
+                  >
+                    退出登录
+                  </button>
+                </div>
+              </div>
+            </transition>
+          </div>
+        </div>
+
+        <!-- 移动端用户头像/登录按钮 -->
+        <div class="lg:hidden">
+          <!-- 未登录状态：显示登录按钮 -->
+          <button
+            v-if="!auth.isLoggedIn"
+            class="flex items-center justify-center border border-white/30 text-white w-12 h-12 rounded-full hover:border-miaowu-green hover:text-miaowu-green transition-all duration-200"
+            @click="ui.openLoginDialog()"
+          >
+            登录
+          </button>
+
+          <!-- 已登录状态：显示用户头像 -->
+          <button
+            v-else
+            class="flex items-center justify-center w-12 h-12 rounded-full overflow-hidden border border-white/30 hover:border-miaowu-green hover:scale-105 transition-all duration-300 group active:scale-95 avatar-glow"
+            @click="toggleMobileUserPanel"
+          >
+            <div class="relative w-full h-full">
+              <img
+                v-if="auth.currentUser?.avatar_url"
+                :src="auth.currentUser.avatar_url"
+                :alt="auth.currentUser.nickname || auth.currentUser.username"
+                class="w-full h-full object-cover transition-all duration-300 group-hover:scale-110"
+              />
+              <div
+                v-else
+                class="w-full h-full bg-miaowu-green flex items-center justify-center text-black font-medium transition-all duration-300 group-hover:bg-green-400"
+              >
+                {{
+                  (auth.currentUser?.nickname || auth.currentUser?.username || 'U')
+                    .charAt(0)
+                    .toUpperCase()
+                }}
+              </div>
+              <!-- 头像点击时的遮罩效果 -->
+              <div
+                class="absolute inset-0 bg-black/20 opacity-0 group-active:opacity-100 transition-opacity duration-200 flex items-center justify-center"
+              >
+                <svg
+                  class="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </button>
+        </div>
+
+        <!-- PC端：完整下载按钮 -->
+        <button
+          class="hidden lg:flex items-center justify-center gap-2 bg-miaowu-green text-black px-[36px] py-[12px] rounded-2xl text-base hover:bg-white hover:text-black transition-colors duration-200"
+        >
+          <img :src="iconDownloadUrl" alt="下载喵呜App" class="w-6 h-6" />
+          下载喵呜App
+        </button>
+
+        <!-- 移动端：仅图标按钮 -->
+        <button
+          class="lg:hidden flex items-center justify-center bg-miaowu-green text-white p-3 rounded-2xl hover:bg-green-600 transition-colors duration-200"
+        >
+          <img :src="iconDownloadUrl" alt="下载" class="w-5 h-5" />
+        </button>
+      </div>
     </nav>
 
     <!-- 移动端菜单容器（从导航栏下方开始） -->
@@ -172,7 +366,8 @@
       >
         <div
           v-if="open"
-          class="fixed inset-x-0 top-20 bottom-0 z-40 bg-black/60 backdrop-blur-sm"
+          class="fixed inset-x-0 bottom-0 z-40 bg-black/60 backdrop-blur-sm"
+          :class="mobileMenuTopClass"
           @click="open = false"
         ></div>
       </transition>
@@ -188,10 +383,12 @@
       >
         <div
           v-if="open"
-          class="fixed left-0 top-20 bottom-0 w-3/5 z-50 bg-black shadow-2xl"
+          class="fixed left-0 bottom-0 w-3/5 z-50 bg-black shadow-2xl flex flex-col"
+          :class="mobileMenuTopClass"
           @click.stop
         >
-          <div class="h-full overflow-y-auto px-6 py-8">
+          <!-- 可滚动的内容区域 -->
+          <div class="flex-1 overflow-y-auto px-6 py-8">
             <!-- 导航菜单 -->
             <ul class="space-y-0">
               <li v-for="item in navItems" :key="item.to" class="border-b border-white/10">
@@ -231,38 +428,145 @@
                   </button>
 
                   <!-- 二级菜单 -->
-                  <ul
-                    v-show="openMobileSubmenu === item.to"
-                    class="pb-4 space-y-0 bg-white/5 -mx-6 px-6"
+                  <transition
+                    enter-active-class="transition-all duration-300 ease-out"
+                    enter-from-class="opacity-0 max-h-0 overflow-hidden transform -translate-y-2"
+                    enter-to-class="opacity-100 max-h-96 overflow-visible transform translate-y-0"
+                    leave-active-class="transition-all duration-250 ease-in"
+                    leave-from-class="opacity-100 max-h-96 overflow-visible transform translate-y-0"
+                    leave-to-class="opacity-0 max-h-0 overflow-hidden transform -translate-y-2"
                   >
-                    <li
-                      v-for="(child, idx) in item.children"
-                      :key="child.to"
-                      :class="{ 'border-b border-white/10': idx < item.children.length - 1 }"
+                    <ul
+                      v-if="openMobileSubmenu === item.to"
+                      class="pb-4 space-y-0 bg-white/5 -mx-6 px-6"
                     >
-                      <RouterLink
-                        :to="child.to"
-                        class="block py-4 pl-4 text-base text-white/70 hover:text-miaowu-green transition-colors duration-200"
-                        :class="{ 'text-miaowu-green': isActive(child.to) }"
-                        @click="open = false"
+                      <li
+                        v-for="(child, idx) in item.children"
+                        :key="child.to"
+                        :class="{ 'border-b border-white/10': idx < item.children.length - 1 }"
+                        :style="{ 'animation-delay': `${idx * 50}ms` }"
+                        class="animate-fade-in-up"
                       >
-                        {{ child.label }}
-                      </RouterLink>
-                    </li>
-                  </ul>
+                        <RouterLink
+                          :to="child.to"
+                          class="block py-4 pl-4 text-base text-white/70 hover:text-miaowu-green transition-colors duration-200"
+                          :class="{ 'text-miaowu-green': isActive(child.to) }"
+                          @click="open = false"
+                        >
+                          {{ child.label }}
+                        </RouterLink>
+                      </li>
+                    </ul>
+                  </transition>
                 </div>
               </li>
             </ul>
+          </div>
 
-            <!-- 底部链接 -->
-            <div
-              class="mt-12 pt-8 border-t border-white/10 flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-xs text-miaowu-green px-4"
-            >
+          <!-- 固定在底部的链接 -->
+          <div class="flex-shrink-0 border-t border-white/10 px-6 py-4">
+            <div class="flex items-center justify-center gap-x-3 text-xs text-miaowu-green">
               <a href="#" class="hover:text-white transition-colors">帮助中心</a>
               <span class="text-white/30">|</span>
               <a href="#" class="hover:text-white transition-colors">隐私协议</a>
               <span class="text-white/30">|</span>
               <a href="#" class="hover:text-white transition-colors">服务条款</a>
+            </div>
+          </div>
+        </div>
+      </transition>
+    </div>
+
+    <!-- 移动端用户信息面板（在导航栏下方） -->
+    <div class="lg:hidden relative">
+      <!-- 蒙层 -->
+      <transition
+        enter-active-class="transition-opacity duration-500 ease-out"
+        enter-from-class="opacity-0"
+        enter-to-class="opacity-100"
+        leave-active-class="transition-opacity duration-300 ease-in"
+        leave-from-class="opacity-100"
+        leave-to-class="opacity-0"
+      >
+        <div
+          v-if="mobileUserPanelOpen"
+          class="fixed inset-x-0 bottom-0 z-40 bg-black/60 backdrop-blur-sm"
+          :class="mobileUserPanelTopClass"
+          @click="mobileUserPanelOpen = false"
+        ></div>
+      </transition>
+
+      <!-- 用户信息面板 -->
+      <transition
+        enter-active-class="transition-all duration-500 ease-out"
+        enter-from-class="opacity-0 scale-95 translate-y-[-20px]"
+        enter-to-class="opacity-100 scale-100 translate-y-0"
+        leave-active-class="transition-all duration-300 ease-in"
+        leave-from-class="opacity-100 scale-100 translate-y-0"
+        leave-to-class="opacity-0 scale-95 translate-y-[-20px]"
+      >
+        <div
+          v-if="mobileUserPanelOpen"
+          class="fixed left-0 right-0 z-50 bg-gray-900 shadow-2xl rounded-b-2xl"
+          :class="mobileUserPanelTopClass"
+          @click.stop
+        >
+          <!-- 用户信息内容 -->
+          <div class="px-6 py-6">
+            <!-- 用户头像和基本信息 -->
+            <div
+              class="flex items-center space-x-4 mb-6 animate-fade-in-up"
+              style="animation-delay: 100ms"
+            >
+              <div
+                class="w-16 h-16 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-miaowu-green/20 hover:ring-miaowu-green/40 transition-all duration-300 avatar-fade-in"
+              >
+                <img
+                  v-if="auth.currentUser?.avatar_url"
+                  :src="auth.currentUser.avatar_url"
+                  :alt="auth.currentUser.nickname || auth.currentUser.username"
+                  class="w-full h-full object-cover transition-all duration-300 hover:scale-105"
+                />
+                <div
+                  v-else
+                  class="w-full h-full bg-miaowu-green flex items-center justify-center text-black font-medium text-xl transition-all duration-300 hover:bg-green-400"
+                >
+                  {{
+                    (auth.currentUser?.nickname || auth.currentUser?.username || 'U')
+                      .charAt(0)
+                      .toUpperCase()
+                  }}
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <h3 class="text-white text-lg font-medium truncate">
+                  {{ auth.currentUser?.nickname || auth.currentUser?.username || '用户' }}
+                </h3>
+                <p v-if="auth.currentUser?.phone" class="text-gray-400 text-sm truncate">
+                  {{ auth.currentUser.phone }}
+                </p>
+                <p v-if="auth.currentUser?.email" class="text-gray-400 text-sm truncate">
+                  {{ auth.currentUser.email }}
+                </p>
+              </div>
+            </div>
+
+            <!-- 退出登录按钮 -->
+            <div class="mt-6 animate-fade-in-up" style="animation-delay: 200ms">
+              <button
+                @click="handleLogout"
+                class="w-full flex items-center justify-center px-4 py-3 bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors duration-200"
+              >
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+                  />
+                </svg>
+                退出登录
+              </button>
             </div>
           </div>
         </div>
@@ -274,8 +578,11 @@
 <script setup lang="ts">
 import iconDownload from '@/assets/img/download.png'
 import logoLight from '@/assets/img/logo-light.png'
-import { ref, watchEffect } from 'vue'
+import { ElMessage } from 'element-plus'
+import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
+import { useAuthStore } from '../stores/auth.js'
+import { useUiStore } from '../stores/ui.js'
 
 // Logo URL
 const logoUrl = logoLight
@@ -291,10 +598,81 @@ interface NavItem {
 const open = ref(false)
 const openMobileSubmenu = ref<string | null>(null)
 const activeDropdown = ref<string | null>(null)
+const userDropdownOpen = ref(false)
+const mobileUserPanelOpen = ref(false)
 const route = useRoute()
+const ui = useUiStore()
+const auth = useAuthStore()
+
+// 检测TopAdv是否显示
+const isTopAdvVisible = ref(false)
+
+// 动态计算移动端菜单的top位置
+const mobileMenuTopClass = computed(() => {
+  // 导航栏高度：h-20 = 80px
+  // TopAdv高度：移动端 h-11 = 44px，PC端 h-[66px] = 66px
+  const navHeight = 80 // 导航栏高度
+  const topAdvHeight = isTopAdvVisible.value ? 44 : 0 // 移动端TopAdv高度
+
+  return {
+    'top-20': !isTopAdvVisible.value, // 没有TopAdv时使用默认的top-20
+    'top-[124px]': isTopAdvVisible.value, // 有TopAdv时：80px + 44px = 124px
+  }
+})
+
+// 动态计算移动端用户面板的top位置
+const mobileUserPanelTopClass = computed(() => {
+  // 导航栏高度：h-20 = 80px
+  // TopAdv高度：移动端 h-11 = 44px
+  const navHeight = 80 // 导航栏高度
+  const topAdvHeight = isTopAdvVisible.value ? 44 : 0 // 移动端TopAdv高度
+
+  return {
+    'top-20': !isTopAdvVisible.value, // 没有TopAdv时使用默认的top-20
+    'top-[124px]': isTopAdvVisible.value, // 有TopAdv时：80px + 44px = 124px
+  }
+})
 
 // 延迟关闭定时器
 let closeTimer: number | null = null
+
+// 检测TopAdv可见性的函数
+const checkTopAdvVisibility = () => {
+  // 查找TopAdv元素
+  const topAdvElement =
+    document.querySelector('[data-top-adv]') ||
+    document.querySelector('.bg-gradient-to-r.from-orange-100.to-orange-200')
+
+  if (topAdvElement) {
+    const rect = topAdvElement.getBoundingClientRect()
+    const isVisible = rect.height > 0 && rect.top >= 0
+    isTopAdvVisible.value = isVisible
+  } else {
+    isTopAdvVisible.value = false
+  }
+}
+
+// 组件挂载时开始检测
+onMounted(() => {
+  checkTopAdvVisibility()
+  // 使用MutationObserver监听DOM变化
+  const observer = new MutationObserver(checkTopAdvVisibility)
+  observer.observe(document.body, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['class', 'style'],
+  })
+
+  // 监听窗口大小变化
+  window.addEventListener('resize', checkTopAdvVisibility)
+
+  // 清理函数
+  onUnmounted(() => {
+    observer.disconnect()
+    window.removeEventListener('resize', checkTopAdvVisibility)
+  })
+})
 
 // 监听路由变化，关闭移动端菜单
 watchEffect(() => {
@@ -302,6 +680,8 @@ watchEffect(() => {
   open.value = false
   openMobileSubmenu.value = null
   activeDropdown.value = null
+  userDropdownOpen.value = false
+  mobileUserPanelOpen.value = false
   if (closeTimer) {
     clearTimeout(closeTimer)
     closeTimer = null
@@ -348,44 +728,91 @@ const handleDropdownEnter = () => {
 // 鼠标离开导航项
 const handleMouseLeave = () => {
   // 延迟150ms关闭，给用户时间移动到下拉菜单
-  // closeTimer = window.setTimeout(() => {
-  //   activeDropdown.value = null
-  //   closeTimer = null
-  // }, 150)
+  closeTimer = window.setTimeout(() => {
+    activeDropdown.value = null
+    closeTimer = null
+  }, 150)
 }
 
-// 导航菜单配置（可配置的路由导航）
+// 处理用户下拉菜单
+const handleUserMouseEnter = () => {
+  if (closeTimer) {
+    clearTimeout(closeTimer)
+    closeTimer = null
+  }
+  userDropdownOpen.value = true
+}
+
+const handleUserMouseLeave = () => {
+  // 延迟关闭用户下拉菜单
+  closeTimer = window.setTimeout(() => {
+    userDropdownOpen.value = false
+    closeTimer = null
+  }, 150)
+}
+
+// 退出登录
+const handleLogout = () => {
+  auth.logout()
+  userDropdownOpen.value = false
+  mobileUserPanelOpen.value = false
+  ElMessage.success('已退出登录')
+}
+
+// 切换移动端用户信息面板
+const toggleMobileUserPanel = () => {
+  mobileUserPanelOpen.value = !mobileUserPanelOpen.value
+  // 关闭移动端菜单
+  open.value = false
+  openMobileSubmenu.value = null
+}
+
+// 切换移动端菜单
+const toggleMobileMenu = () => {
+  open.value = !open.value
+  // 关闭用户信息面板
+  mobileUserPanelOpen.value = false
+}
+
+// 导航菜单配置（与路由一致）
 const navItems: NavItem[] = [
+  { to: '/', label: '首页' },
   {
-    to: '/',
-    label: '首页',
-  },
-  {
-    to: '/business',
+    to: '/products',
     label: '喵呜业务',
     children: [
-      { to: '/business/ai-assistant', label: 'AI顾问服务' },
-      { to: '/business/mini-program', label: '小程序开发' },
-      { to: '/business/supply-chain', label: '供应链管理' },
-      { to: '/business/digital-human', label: '数字人服务' },
+      { to: '/products/mini-program', label: '喵呜AI 小程序' },
+      { to: '/products/app', label: '喵呜AI App' },
+      { to: '/products/supplier-console', label: '供应商管理后台' },
+      { to: '/products/mall', label: '喵呜商城' },
     ],
   },
   {
-    to: '/recruitment',
-    label: '喵呜招聘',
+    to: '/cooperation',
+    label: '喵呜招募',
     children: [
-      { to: '/recruitment/positions', label: '招聘职位' },
-      { to: '/recruitment/culture', label: '企业文化' },
-      { to: '/recruitment/benefits', label: '福利待遇' },
+      { to: '/cooperation/suppliers', label: '喵呜品牌供应商招募' },
+      { to: '/cooperation/sellers', label: '喵呜AI卖手招募' },
+      { to: '/cooperation/partners', label: '其他商务合作' },
     ],
   },
   {
     to: '/about',
     label: '关于我们',
+    children: [
+      { to: '/about/company', label: '关于喵呜AI' },
+      { to: '/about/careers', label: '加入我们' },
+      { to: '/about/contact', label: '联系我们' },
+    ],
   },
   {
-    to: '/contact',
-    label: '联系我们',
+    to: '/legal',
+    label: '服务与条款',
+    children: [
+      { to: '/legal/help', label: '帮助中心' },
+      { to: '/legal/privacy', label: '隐私协议' },
+      { to: '/legal/terms', label: '服务条款' },
+    ],
   },
 ]
 </script>
@@ -393,5 +820,116 @@ const navItems: NavItem[] = [
 <style scoped>
 .border-line {
   border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* 移动端二级菜单项淡入上移动画 */
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.3s ease-out forwards;
+  opacity: 0;
+}
+
+/* 汉堡菜单动画效果 */
+@keyframes hamburger-bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-2px);
+  }
+  60% {
+    transform: translateY(-1px);
+  }
+}
+
+.hamburger-bounce {
+  animation: hamburger-bounce 0.6s ease-in-out;
+}
+
+/* 汉堡菜单线条弹性效果 */
+@keyframes line-elastic {
+  0% {
+    transform: scaleX(1);
+  }
+  50% {
+    transform: scaleX(1.1);
+  }
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.line-elastic {
+  animation: line-elastic 0.3s ease-in-out;
+}
+
+/* 头像脉冲效果 */
+@keyframes avatar-pulse {
+  0% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 10px rgba(34, 197, 94, 0);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+  }
+}
+
+.avatar-pulse {
+  animation: avatar-pulse 1.5s ease-in-out;
+}
+
+/* 头像淡入效果 */
+@keyframes avatar-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.8) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.avatar-fade-in {
+  animation: avatar-fade-in 0.6s ease-out;
+}
+
+/* 头像悬停发光效果 */
+.avatar-glow {
+  position: relative;
+}
+
+.avatar-glow::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: linear-gradient(45deg, #22c55e, #16a34a, #22c55e);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.avatar-glow:hover::before {
+  opacity: 0.6;
 }
 </style>
