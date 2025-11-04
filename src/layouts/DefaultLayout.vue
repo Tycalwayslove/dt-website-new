@@ -7,13 +7,15 @@
     <AppNav />
 
     <!-- 主内容区域 -->
-    <main class="flex-1">
-      <RouterView v-slot="{ Component }">
-        <transition name="fade" mode="out-in">
+  <main class="flex-1">
+    <RouterView v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <div class="route-view-wrapper">
           <component :is="Component" />
-        </transition>
-      </RouterView>
-    </main>
+        </div>
+      </transition>
+    </RouterView>
+  </main>
 
     <!-- 底部 -->
     <AppFooter />

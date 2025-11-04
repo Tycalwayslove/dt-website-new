@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  /* 统一复用主按钮样式 */
+  .apply-btn {
+    @apply mt-4 px-20 py-4 text-sm font-medium;
+  }
+  .btn-main-white {
+    @apply inline-flex items-center justify-center rounded-[8px] bg-miaowu-green text-black transition-colors duration-200 hover:bg-black hover:text-miaowu-green;
+  }
+  .btn-main-black {
+    @apply inline-flex items-center justify-center rounded-[8px] bg-miaowu-green text-black transition-colors duration-200 hover:bg-white hover:text-black;
+  }
+}

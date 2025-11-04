@@ -4,6 +4,7 @@
       <div class="space-y-40">
         <!-- PC端：背景图容器（宽度自适应，高度480） -->
         <section
+          v-fade-in-up
           class="w-full h-[480px] relative rounded-2xl overflow-hidden"
           :style="{
             backgroundImage: `url(${img01})`,
@@ -17,6 +18,7 @@
               <!-- 左侧：靠近底部的绝对定位图片 -->
               <div class="relative w-[460px] h-full">
                 <img
+                  v-fade-in-up="{ delay: 500 }"
                   :src="img02"
                   alt="App 左侧展示图"
                   class="hidden lg:block absolute bottom-0 left-0 w-[460px] h-auto object-cover rounded-xl"
@@ -24,7 +26,7 @@
               </div>
 
               <!-- 右侧：文案区域（垂直居中，与左侧有间距） -->
-              <div class="flex-1 flex flex-col justify-center ml-10 mr-20 space-y-5">
+              <div v-stagger="{delay:500}" class="flex-1 flex flex-col justify-center ml-10 mr-20 space-y-5">
                 <!-- 三行文案 -->
                 <h2 class="text-3xl font-semibold text-white drop-shadow-md">喵呜App</h2>
                 <p class="text-xl text-white/90 mt-3 drop-shadow-md">AI 智能体，就用喵呜AI。</p>
@@ -62,7 +64,7 @@
         </section>
         <!-- 下载app展示 -->
         <section class="w-full relative">
-          <div class="space-y-5 text-center color-black">
+          <div v-fade-in-up="{ delay: 500 }" class="space-y-5 text-center color-black">
             <h3 class="font-medium text-[56px] text-black">下载app展示</h3>
             <p class="text-xl text-black">
               5分钟快速生成另一个你,聊天对话客服解答产品推荐，统统帮你搞定;<br />
@@ -70,7 +72,7 @@
             </p>
           </div>
           <!-- 下载地址展示区域 -->
-          <div class="relative w-full mt-10">
+          <div v-stagger="{delay:1000}" class="relative w-full mt-10">
             <div class="flex justify-center gap-8 mx-auto">
               <!-- 卡片：微信扫码下载 -->
               <div
@@ -160,12 +162,12 @@
     <!-- 移动端布局：仅在小屏显示 -->
     <div class="container mx-auto block lg:hidden px-4 py-8">
       <!-- 移动端背景图：全屏自适应，高度300px -->
-      <div class="w-full">
+      <div v-fade-in-up="{ delay: 500 }" class="w-full">
         <img :src="img01" alt="喵呜App 背景图" class="w-full h-[300px] object-cover rounded-2xl" />
       </div>
 
       <!-- 文案区域：置于背景图下方，间距适中 -->
-      <div class="mt-6 space-y-4 text-center">
+      <div v-fade-in-up="{ delay: 500 }" class="mt-6 space-y-4 text-center">
         <h2 class="text-2xl font-semibold text-black">喵呜App</h2>
         <p class="text-base text-gray-700">AI 智能体，就用喵呜AI。</p>
         <p class="text-sm text-gray-600">
@@ -198,7 +200,7 @@
       </div>
 
       <!-- 下载app展示（移动端）：文本居中，卡片竖排 -->
-      <div class="mt-10">
+      <div v-fade-in-up="{ delay: 500 }" class="mt-10">
         <div class="text-center space-y-3">
           <h3 class="text-2xl font-semibold text-black">下载app展示</h3>
           <p class="text-sm text-gray-700 leading-8">

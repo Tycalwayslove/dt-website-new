@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white">
     <!-- pc端展示 -->
-    <div class="container mx-auto px-20 lg:px-20 pt-20 hidden lg:block">
+    <div v-fade-in-up="{ delay: 500 }" class="container mx-auto px-20 lg:px-20 pt-20 hidden lg:block">
       <div class="">
         <section class="flex space-x-10 items-center">
           <!-- 标题 -->
@@ -35,10 +35,16 @@
               </div>
             </div>
             <div class="detail-header">
-              <div class="detail-button">
+              <a
+                class="detail-button"
+                href="https://v05ctaei9gn.feishu.cn/wiki/ECXswio4vi9ja2kN0AUcMISDnqd"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="查询入驻规则（新开页）"
+              >
                 <img class="w-5 h-5 mr-2" :src="img5" alt="" />
                 查询入驻规则
-              </div>
+              </a>
             </div>
           </div>
           <!-- 右侧卡片-70% -->
@@ -70,7 +76,7 @@
       </div>
     </div>
     <!-- 移动端展示 -->
-    <div class="block lg:hidden px-6 pt-10">
+    <div v-fade-in-up="{ delay: 500 }" class="block lg:hidden px-6 pt-10">
       <!-- 标题、描述、分割线各占一行，间距适中 -->
       <section class="space-y-4">
         <h2 class="text-2xl font-medium text-black">供应商管理后台</h2>
@@ -102,10 +108,16 @@
             </div>
           </div>
           <div class="detail-header-mobile">
-            <div class="detail-button-mobile">
+            <a
+              class="detail-button-mobile"
+              href="https://v05ctaei9gn.feishu.cn/wiki/ECXswio4vi9ja2kN0AUcMISDnqd"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="查询入驻规则（新开页）"
+            >
               <img class="w-5 h-5 mr-2" :src="img5" alt="" />
               查询入驻规则
-            </div>
+            </a>
           </div>
         </div>
 

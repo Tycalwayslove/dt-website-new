@@ -96,7 +96,7 @@
             <!-- 选中时的下划线 -->
             <div
               v-if="isActiveParent(item)"
-              class="absolute -bottom-1 left-0 w-full h-3 bg-miaowu-green animate-underline-expand"
+              class="absolute -bottom-6 left-0 w-full h-[10px] bg-miaowu-green animate-underline-expand"
             ></div>
           </div>
 
@@ -133,7 +133,8 @@
                     <RouterLink
                       :to="child.to"
                       class="block w-full h-[60px] flex items-center justify-center text-gray-300 hover:text-miaowu-green transition-all duration-200 relative group/item"
-                      :class="{ ' text-white': isActive(child.to) }"
+                      :class="{ 'text-miaowu-green': isActive(child.to) }"
+                      :aria-current="isActive(child.to) ? 'page' : undefined"
                     >
                       <span class="relative z-10">{{ child.label }}</span>
                     </RouterLink>
@@ -339,6 +340,7 @@
         <!-- PC端：完整下载按钮 -->
         <button
           class="hidden lg:flex items-center justify-center gap-2 bg-miaowu-green text-black px-[36px] py-[12px] rounded-2xl text-base hover:bg-white hover:text-black transition-colors duration-200"
+          @click="goToApp"
         >
           <img :src="iconDownloadUrl" alt="下载喵呜App" class="w-6 h-6" />
           下载喵呜App
@@ -347,6 +349,7 @@
         <!-- 移动端：仅图标按钮 -->
         <button
           class="lg:hidden flex items-center justify-center bg-miaowu-green text-white p-3 rounded-2xl hover:bg-green-600 transition-colors duration-200"
+          @click="goToApp"
         >
           <img :src="iconDownloadUrl" alt="下载" class="w-5 h-5" />
         </button>
@@ -578,11 +581,11 @@
 <script setup lang="ts">
 import iconDownload from '@/assets/img/download.png'
 import logoLight from '@/assets/img/logo-light.png'
+import { useAuthStore } from '@/stores/auth'
+import { useUiStore } from '@/stores/ui'
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
-import { useAuthStore } from '../stores/auth.js'
-import { useUiStore } from '../stores/ui.js'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 // Logo URL
 const logoUrl = logoLight
@@ -601,6 +604,7 @@ const activeDropdown = ref<string | null>(null)
 const userDropdownOpen = ref(false)
 const mobileUserPanelOpen = ref(false)
 const route = useRoute()
+const router = useRouter()
 const ui = useUiStore()
 const auth = useAuthStore()
 
@@ -706,23 +710,27 @@ const toggleMobileSubmenu = (path: string) => {
   openMobileSubmenu.value = openMobileSubmenu.value === path ? null : path
 }
 
-// 鼠标进入导航项
+// 鼠标进入导航项（PC端二级菜单）
 const handleMouseEnter = (path: string) => {
   // 清除延迟关闭定时器
   if (closeTimer) {
     clearTimeout(closeTimer)
     closeTimer = null
   }
+  // 打开对应的二级菜单，同时确保用户下拉关闭
   activeDropdown.value = path
+  userDropdownOpen.value = false
 }
 
-// 鼠标进入下拉菜单
+// 鼠标进入二级下拉菜单区域
 const handleDropdownEnter = () => {
   // 清除延迟关闭定时器
   if (closeTimer) {
     clearTimeout(closeTimer)
     closeTimer = null
   }
+  // 保持二级菜单打开，并确保用户下拉关闭（互斥）
+  userDropdownOpen.value = false
 }
 
 // 鼠标离开导航项
@@ -734,13 +742,15 @@ const handleMouseLeave = () => {
   }, 150)
 }
 
-// 处理用户下拉菜单
+// 处理用户下拉菜单（PC端头像悬停）
 const handleUserMouseEnter = () => {
   if (closeTimer) {
     clearTimeout(closeTimer)
     closeTimer = null
   }
+  // 打开用户下拉，并立即关闭任何二级导航（互斥显示）
   userDropdownOpen.value = true
+  activeDropdown.value = null
 }
 
 const handleUserMouseLeave = () => {
@@ -772,6 +782,11 @@ const toggleMobileMenu = () => {
   open.value = !open.value
   // 关闭用户信息面板
   mobileUserPanelOpen.value = false
+}
+
+// 跳转到喵呜AI App页面
+const goToApp = () => {
+  router.push('/products/app')
 }
 
 // 导航菜单配置（与路由一致）

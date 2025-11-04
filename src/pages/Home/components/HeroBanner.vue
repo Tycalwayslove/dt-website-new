@@ -1,439 +1,615 @@
 <template>
-  <section class="relative overflow-hidden bg-gray-50">
-    <!-- 轮播容器 -->
-    <div class="relative h-[400px] sm:h-[450px] md:h-[500px] lg:h-[600px]">
-      <!-- 轮播项 -->
+  <section class="container overflow-x-hidden pt-10 md:pt-16 lg:pt-20">
+    <!-- 轮播视口 -->
+    <div
+      class="relative w-full overflow-hidden"
+      @mouseenter="stopAutoPlay"
+      @mouseleave="startAutoPlay"
+      @touchstart="onTouchStart"
+      @touchmove.passive="onTouchMove"
+      @touchend="onTouchEnd"
+      @touchcancel="onTouchEnd"
+    >
+      <!-- 轮播轨道（支持首尾克隆，无缝无限轮播） -->
       <div
-        v-for="(slide, index) in slides"
-        :key="index"
-        class="absolute inset-0 transition-all duration-1000 ease-out"
-        :class="{
-          'opacity-100 z-10': currentSlide === index,
-          'opacity-0 z-0': currentSlide !== index,
-        }"
+        class="flex"
+        :class="isTransitionEnabled ? 'transition-transform duration-500 ease-out' : ''"
+        :style="{ transform: `translateX(-${currentIndex * 100}%)` }"
+        @transitionend="onTransitionEnd"
       >
-        <!-- PC端布局 -->
-        <div class="hidden lg:flex h-full">
-          <!-- 图片区 (60%) -->
-          <div class="w-3/5 relative overflow-hidden">
-            <div
-              class="absolute inset-0 transition-all duration-1200 ease-out"
-              :class="{
-                'translate-y-0 opacity-100': currentSlide === index,
-                'translate-y-12 opacity-0': currentSlide !== index,
-              }"
-            >
-              <div class="parallax-container relative w-full h-full">
+        <!-- 轮播项 -->
+        <div
+          v-for="(item, idx) in slidesWithClones"
+          :key="item.id + '-' + idx"
+          class="w-full flex-shrink-0"
+        >
+          <!-- PC端：左图右文（lg 及以上）-->
+          <div class="hidden lg:grid items-center lg:[grid-template-columns:auto_1fr] gap-8">
+            <!-- 左侧图片（按断点和视口计算尺寸与比例），入场动效 + 渐变遮罩 + 浅阴影 -->
+            <div class="w-full flex justify-center">
+              <div
+                class="overflow-hidden relative shadow-sm md:shadow"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-500 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]',
+                ]"
+                :style="desktopImageStyle"
+              >
                 <img
-                  :src="slide.image"
-                  :alt="slide.title"
-                  class="parallax-image w-full h-full object-cover transition-transform duration-1000 ease-out"
-                  :class="{
-                    'scale-105': currentSlide === index,
-                    'scale-100': currentSlide !== index,
-                  }"
+                  :src="getImageSrc(item)"
+                  :alt="item.title"
+                  class="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500"
+                  loading="eager"
                 />
-                <!-- 图片遮罩层 -->
-                <div class="absolute inset-0 bg-black/20"></div>
+                <!-- 微妙渐变遮罩，底部略暗以提升层次 -->
+                <div
+                  class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-black/0 to-black/0"
+                ></div>
+              </div>
+            </div>
+            <!-- 右侧文字区域：渐显+轻微横向滑入，分段延迟 -->
+            <div class="w-full flex flex-col justify-center">
+              <h2
+                class="text-[56px] font-bold text-black leading-tight"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex && isContentEntering
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 translate-x-4',
+                ]"
+                style="transition-delay: 100ms"
+              >
+                {{ item.title }}
+              </h2>
+              <!-- 标题下分割线：120x3 黑色，随标题横向滑入与渐显 -->
+              <div
+                class="mt-[30px] w-[120px] h-[3px] bg-black"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex && isContentEntering
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 translate-x-4',
+                ]"
+                style="transition-delay: 140ms"
+              ></div>
+              <p
+                class="mt-[30px] text-xl text-gray-700 leading-relaxed max-w-[640px]"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex && isContentEntering
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 translate-x-4',
+                ]"
+                style="transition-delay: 180ms"
+              >
+                {{ item.desc }}
+              </p>
+              <div class="mt-[30px]">
+                <router-link
+                  v-if="item.ctaText"
+                  :to="item.ctaLink || '#'"
+                  class="inline-flex items-center px-20 py-3 rounded-md bg-black text-white hover:bg-black/80 transition-colors"
+                  :class="[
+                    shouldAnimateContent
+                      ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                      : 'transition-none',
+                    idx === currentIndex && isContentEntering
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 translate-x-4',
+                  ]"
+                  style="transition-delay: 260ms"
+                >
+                  {{ item.ctaText }}
+                </router-link>
               </div>
             </div>
           </div>
 
-          <!-- 文字区 (40%) -->
-          <div class="w-2/5 bg-white flex items-center justify-center p-8 md:p-10 lg:p-12">
+          <!-- 移动端：上图下文（< lg）-->
+          <div class="lg:hidden mx-auto py-6">
+            <!-- 图片在上（按 335/150 比例自适应，最小高度 150px），入场动效 + 渐变遮罩 + 浅阴影 -->
             <div
-              class="max-w-md space-y-6 md:space-y-8 transition-all duration-1200 ease-out"
-              :class="{
-                'translate-y-0 opacity-100': currentSlide === index,
-                'translate-y-12 opacity-0': currentSlide !== index,
-              }"
+              class="overflow-hidden relative shadow-sm"
+              :class="[
+                shouldAnimateContent
+                  ? 'motion-safe:transition-all motion-safe:duration-500 motion-safe:ease-out'
+                  : 'transition-none',
+                idx === currentIndex ? 'opacity-100 scale-100' : 'opacity-0 scale-[0.98]',
+              ]"
+              :style="mobileImageStyle"
             >
-              <h1
-                class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight transition-all duration-1000 ease-out"
-                :class="{
-                  'translate-y-0 opacity-100': currentSlide === index,
-                  'translate-y-8 opacity-0': currentSlide !== index,
-                }"
-                :style="{ transitionDelay: currentSlide === index ? '200ms' : '0ms' }"
-              >
-                {{ slide.title }}
-              </h1>
-              <p
-                class="text-base md:text-lg text-gray-600 leading-relaxed transition-all duration-1000 ease-out"
-                :class="{
-                  'translate-y-0 opacity-100': currentSlide === index,
-                  'translate-y-8 opacity-0': currentSlide !== index,
-                }"
-                :style="{ transitionDelay: currentSlide === index ? '400ms' : '0ms' }"
-              >
-                {{ slide.content }}
-              </p>
-              <button
-                class="bg-gray-900 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg text-sm md:text-base lg:text-lg font-medium hover:bg-gray-800 transition-all duration-300 shadow-lg transform hover:scale-105"
-                :class="{
-                  'translate-y-0 opacity-100': currentSlide === index,
-                  'translate-y-8 opacity-0': currentSlide !== index,
-                }"
-                :style="{ transitionDelay: currentSlide === index ? '600ms' : '0ms' }"
-              >
-                了解更多
-              </button>
+              <img
+                :src="getImageSrc(item)"
+                :alt="item.title"
+                class="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500"
+                loading="eager"
+              />
+              <!-- 微妙渐变遮罩，底部略暗以提升层次 -->
+              <div
+                class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-black/0 to-black/0"
+              ></div>
             </div>
-          </div>
-        </div>
-
-        <!-- 移动端布局 -->
-        <div class="lg:hidden h-full flex flex-col">
-          <!-- 图片区 -->
-          <div class="flex-1 relative overflow-hidden">
-            <div
-              class="absolute inset-0 transition-all duration-1200 ease-out"
-              :class="{
-                'translate-y-0 opacity-100': currentSlide === index,
-                'translate-y-12 opacity-0': currentSlide !== index,
-              }"
-            >
-              <div class="parallax-container relative w-full h-full">
-                <img
-                  :src="slide.image"
-                  :alt="slide.title"
-                  class="parallax-image w-full h-full object-cover transition-transform duration-1000 ease-out"
-                  :class="{
-                    'scale-105': currentSlide === index,
-                    'scale-100': currentSlide !== index,
-                  }"
-                />
-                <!-- 图片遮罩层 -->
-                <div class="absolute inset-0 bg-black/30"></div>
+            <!-- 文字在下：渐显+轻微横向滑入，分段延迟 -->
+            <div class="mt-5">
+              <h2
+                class="text-2xl md:text-3xl font-bold text-black leading-tight"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex && isContentEntering
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 -translate-x-4',
+                ]"
+                style="transition-delay: 100ms"
+              >
+                {{ item.title }}
+              </h2>
+              <!-- 移动端标题下分割线：120x3 黑色，随标题横向滑入与渐显 -->
+              <div
+                class="mt-2 w-[120px] h-[3px] bg-black"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex && isContentEntering
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 -translate-x-4',
+                ]"
+                style="transition-delay: 140ms"
+              ></div>
+              <p
+                class="mt-3 text-sm md:text-base text-gray-700 leading-relaxed"
+                :class="[
+                  shouldAnimateContent
+                    ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                    : 'transition-none',
+                  idx === currentIndex && isContentEntering
+                    ? 'opacity-100 translate-x-0'
+                    : 'opacity-0 -translate-x-4',
+                ]"
+                style="transition-delay: 180ms"
+              >
+                {{ item.desc }}
+              </p>
+              <div class="mt-5">
+                <router-link
+                  v-if="item.ctaText"
+                  :to="item.ctaLink || '#'"
+                  class="inline-flex items-center px-20 py-3 rounded-md bg-black text-white hover:bg-black/80 transition-colors"
+                  :class="[
+                    shouldAnimateContent
+                      ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
+                      : 'transition-none',
+                    idx === currentIndex && isContentEntering
+                      ? 'opacity-100 translate-x-0'
+                      : 'opacity-0 -translate-x-4',
+                  ]"
+                  style="transition-delay: 260ms"
+                >
+                  {{ item.ctaText }}
+                </router-link>
               </div>
-            </div>
-          </div>
-
-          <!-- 文字区 -->
-          <div class="bg-white p-5 sm:p-6 flex-1 flex items-center justify-center">
-            <div
-              class="text-center space-y-3 sm:space-y-4 transition-all duration-1200 ease-out"
-              :class="{
-                'translate-y-0 opacity-100': currentSlide === index,
-                'translate-y-12 opacity-0': currentSlide !== index,
-              }"
-            >
-              <h1
-                class="text-xl sm:text-2xl font-bold text-gray-900 leading-tight transition-all duration-1000 ease-out"
-                :class="{
-                  'translate-y-0 opacity-100': currentSlide === index,
-                  'translate-y-8 opacity-0': currentSlide !== index,
-                }"
-                :style="{ transitionDelay: currentSlide === index ? '200ms' : '0ms' }"
-              >
-                {{ slide.title }}
-              </h1>
-              <p
-                class="text-xs sm:text-sm text-gray-600 leading-relaxed transition-all duration-1000 ease-out"
-                :class="{
-                  'translate-y-0 opacity-100': currentSlide === index,
-                  'translate-y-8 opacity-0': currentSlide !== index,
-                }"
-                :style="{ transitionDelay: currentSlide === index ? '400ms' : '0ms' }"
-              >
-                {{ slide.content }}
-              </p>
-              <button
-                class="bg-gray-900 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-lg text-xs sm:text-sm font-medium hover:bg-gray-800 transition-all duration-300 w-full transform hover:scale-105"
-                :class="{
-                  'translate-y-0 opacity-100': currentSlide === index,
-                  'translate-y-8 opacity-0': currentSlide !== index,
-                }"
-                :style="{ transitionDelay: currentSlide === index ? '600ms' : '0ms' }"
-              >
-                了解更多
-              </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- 轮播指示器 -->
-    <div
-      class="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 sm:space-x-3 z-20"
-    >
+      <!-- 前后切换按钮 -->
       <button
-        v-for="(slide, index) in slides"
-        :key="`indicator-${index}`"
-        class="group"
-        :aria-label="`切换到第 ${index + 1} 张`"
-        @click="goToSlide(index)"
+        type="button"
+        aria-label="上一张"
+        class="hidden lg:flex absolute left-4 top-1/2 -translate-y-1/2 items-center justify-center w-10 h-10 rounded-full bg-black/60 text-white hover:bg-black/80"
+        @click="prev"
       >
-        <div
-          class="w-2 h-2 sm:w-3 sm:h-3 rounded-full transition-all duration-300"
-          :class="
-            currentSlide === index
-              ? 'bg-gray-900 w-6 sm:w-8'
-              : 'bg-white/70 hover:bg-white hover:w-3 sm:hover:w-4'
-          "
-        ></div>
+        <span class="sr-only">上一张</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M15.78 4.22a.75.75 0 010 1.06L9.06 12l6.72 6.72a.75.75 0 11-1.06 1.06l-7.25-7.25a.75.75 0 010-1.06l7.25-7.25a.75.75 0 011.06 0z"
+            clip-rule="evenodd"
+          />
+        </svg>
       </button>
+      <button
+        type="button"
+        aria-label="下一张"
+        class="hidden lg:flex absolute right-4 top-1/2 -translate-y-1/2 items-center justify-center w-10 h-10 rounded-full bg-black/60 text-white hover:bg-black/80"
+        @click="next"
+      >
+        <span class="sr-only">下一张</span>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          class="w-5 h-5"
+        >
+          <path
+            fill-rule="evenodd"
+            d="M8.22 4.22a.75.75 0 011.06 0l7.25 7.25a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 11-1.06-1.06L14.94 12 8.22 5.28a.75.75 0 010-1.06z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+
+      <!-- 指示器：底部居中（条形样式，轻量化无蒙层），按真实索引高亮；移动端隐藏 -->
+      <div class="hidden lg:block absolute bottom-4 left-1/2 -translate-x-1/2">
+        <div class="pointer-events-auto flex items-center justify-center gap-2">
+          <button
+            v-for="(item, i) in banners"
+            :key="item.id + '-bar'"
+            type="button"
+            class="transition-all duration-200 h-1 lg:h-1.5 rounded-full ring-1"
+            :class="
+              i + 1 === currentRealIndex
+                ? 'w-10 lg:w-12 bg-miaowu-green ring-miaowu-green/60 shadow'
+                : 'w-5 lg:w-6 bg-white/70 hover:bg-white/90 ring-white/50'
+            "
+            @click="goTo(i)"
+            :aria-label="`切换到第 ${i + 1} 张`"
+            :aria-current="i + 1 === currentRealIndex ? 'true' : 'false'"
+          />
+        </div>
+      </div>
+
+      <!-- 数字索引指示器：右下角，显示 01/03；仅当前数字 正方体翻转（cube），总数静态；移动端隐藏 -->
+      <div class="hidden lg:flex absolute bottom-1 right-1 items-center justify-end">
+        <div class="relative inline-block px-2 py-1">
+          <div class="flex items-baseline gap-1 leading-none">
+            <!-- 当前数字：正方体翻转切换（沿 Y 轴旋转） -->
+            <div class="h-[44px] overflow-hidden cube-persp">
+              <transition name="cube-3d" mode="out-in">
+                <span
+                  :key="formattedCurrent"
+                  class="block text-black text-[40px] tracking-widest select-none font-medium cube-face"
+                >
+                  {{ formattedCurrent }}
+                </span>
+              </transition>
+            </div>
+            <!-- 总数：静态显示，不参与翻转动画 -->
+            <span class="text-black text-[40px] tracking-widest select-none font-medium"
+              >/{{ formattedTotal }}</span
+            >
+          </div>
+          <div
+            class="absolute -bottom-1 left-0 w-full h-3 bg-miaowu-green animate-underline-expand"
+          ></div>
+        </div>
+      </div>
     </div>
-
-    <!-- 轮播控制按钮 -->
-    <button
-      class="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white backdrop-blur-sm text-gray-900 p-2 sm:p-3 rounded-full transition-all duration-200 md:left-6 z-20 hover:scale-110 shadow-lg"
-      aria-label="上一张"
-      @click="prevSlide"
-      @mouseenter="pauseAutoplay"
-      @mouseleave="resumeAutoplay"
-    >
-      <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2.5"
-          d="M15 19l-7-7 7-7"
-        ></path>
-      </svg>
-    </button>
-
-    <button
-      class="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white backdrop-blur-sm text-gray-900 p-2 sm:p-3 rounded-full transition-all duration-200 md:right-6 z-20 hover:scale-110 shadow-lg"
-      aria-label="下一张"
-      @click="nextSlide"
-      @mouseenter="pauseAutoplay"
-      @mouseleave="resumeAutoplay"
-    >
-      <svg class="w-4 h-4 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2.5"
-          d="M9 5l7 7-7 7"
-        ></path>
-      </svg>
-    </button>
   </section>
 </template>
 
 <script setup lang="ts">
-import { nextTick, onMounted, onUnmounted, ref } from 'vue'
+import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 
-const currentSlide = ref(0)
-let autoplayTimer: number | null = null
+// 轮播项结构
+interface BannerItem {
+  id: number
+  imageBase: string // 不包含后缀的图片基名，如：banner1
+  title: string
+  desc: string
+  ctaText?: string
+  ctaLink?: string
+}
 
-const slides = [
+// 模拟数据：请确保有如下命名的图片存在于 assets/img/banner/
+// - banner1-b@2x.png, banner1-p@2x.png, banner1-pc@2x.png
+// - banner2-b@2x.png, banner2-p@2x.png, banner2-pc@2x.png
+// - banner3-b@2x.png, banner3-p@2x.png, banner3-pc@2x.png
+const banners = ref<BannerItem[]>([
   {
-    title: '创新科技引领未来',
-    content:
-      '我们致力于通过最前沿的技术创新，为用户提供卓越的产品体验。从人工智能到大数据分析，我们不断探索科技的可能性，让生活变得更加智能和便捷。',
-    image: '/src/assets/img/here-01.jpg',
+    id: 1,
+    imageBase: 'banner1',
+    title: '让每一次推荐，都值得信任',
+    desc: '喵呜AI，不止是工具，是懂用户需求的顾问，是懂你想法的伙伴。在这里，科技不再冰冷，销售不再打扰，每一次连接，都源于理解，成于信任。',
+    ctaText: '了解我们',
+    ctaLink: '/about/company',
   },
   {
-    title: '专业团队值得信赖',
-    content:
-      '拥有多年行业经验的专业团队，我们深谙用户需求，能够提供最优质的解决方案。每一个细节都经过精心打磨，确保产品品质达到最高标准。',
-    image: '/src/assets/img/here-02.jpg',
+    id: 2,
+    imageBase: 'banner2',
+    title: '你的专属AI顾问，现在就出发',
+    desc: '一个人，也可以是一支团队。喵呜AI，为你配备懂行业、懂用户、懂沟通的智能体，让个体价值被放大，让真诚推荐被看见。新电商，从被理解开始。',
+    ctaText: '下载App',
+    ctaLink: 'products/app',
   },
   {
-    title: '持续创新永不止步',
-    content:
-      '在快速变化的市场环境中，我们始终保持敏锐的洞察力和创新精神。通过持续的技术升级和服务优化，为客户创造更大的价值。',
-    image: '/src/assets/img/here-03.jpg',
+    id: 3,
+    imageBase: 'banner3',
+    title: '好产品，值得被真正理解地推荐',
+    desc: '加入喵呜AI，让你的品牌走进千万用户的私人顾问。我们不只卖货，更帮品牌讲好故事，让每一单都是被理解的选择。招商进行中，等你来共建AI新电商。',
+    ctaText: '加入我们',
+    ctaLink: '/cooperation/suppliers',
   },
-]
+])
 
-const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % slides.length
-  // 触发视差效果重置
-  nextTick(() => {
-    resetParallaxEffects()
-  })
-}
-
-const prevSlide = () => {
-  currentSlide.value = currentSlide.value === 0 ? slides.length - 1 : currentSlide.value - 1
-  // 触发视差效果重置
-  nextTick(() => {
-    resetParallaxEffects()
-  })
-}
-
-const goToSlide = (index: number) => {
-  currentSlide.value = index
-  // 用户手动切换后重置自动播放
-  stopAutoplay()
-  startAutoplay()
-  // 触发视差效果重置
-  nextTick(() => {
-    resetParallaxEffects()
-  })
-}
-
-const startAutoplay = () => {
-  stopAutoplay() // 确保不会有多个定时器
-  autoplayTimer = window.setInterval(nextSlide, 6000) // 6秒自动切换，给动画更多时间
-}
-
-const stopAutoplay = () => {
-  if (autoplayTimer) {
-    clearInterval(autoplayTimer)
-    autoplayTimer = null
-  }
-}
-
-const pauseAutoplay = () => {
-  stopAutoplay()
-}
-
-const resumeAutoplay = () => {
-  startAutoplay()
-}
-
-// 视差效果相关函数
-const handleMouseMove = (event: Event) => {
-  const mouseEvent = event as MouseEvent
-  const parallaxImages = document.querySelectorAll('.parallax-image') as NodeListOf<HTMLElement>
-  const rect = (mouseEvent.currentTarget as HTMLElement).getBoundingClientRect()
-  const x = (mouseEvent.clientX - rect.left) / rect.width
-  const y = (mouseEvent.clientY - rect.top) / rect.height
-
-  parallaxImages.forEach((img) => {
-    const speed = 0.1
-    const xOffset = (x - 0.5) * speed * 100
-    const yOffset = (y - 0.5) * speed * 100
-    img.style.transform = `translate(${xOffset}px, ${yOffset}px) scale(1.05)`
-  })
-}
-
-const handleScroll = () => {
-  const parallaxImages = document.querySelectorAll('.parallax-image') as NodeListOf<HTMLElement>
-  const scrolled = window.pageYOffset
-  const rate = scrolled * -0.5
-
-  parallaxImages.forEach((img) => {
-    img.style.transform = `translateY(${rate}px) scale(1.05)`
-  })
-}
-
-const resetParallaxEffects = () => {
-  const parallaxImages = document.querySelectorAll('.parallax-image') as NodeListOf<HTMLElement>
-  parallaxImages.forEach((img) => {
-    img.style.transform = 'translateY(0px) scale(1.05)'
-  })
+// 屏幕宽度监听（用于图片后缀选择）
+const screenWidth = ref<number>(typeof window !== 'undefined' ? window.innerWidth : 1024)
+const screenHeight = ref<number>(typeof window !== 'undefined' ? window.innerHeight : 768)
+const handleResize = () => {
+  screenWidth.value = window.innerWidth
+  screenHeight.value = window.innerHeight
 }
 
 onMounted(() => {
-  startAutoplay()
-  // 添加鼠标移动视差效果
-  const carouselContainer = document.querySelector('.relative.overflow-hidden')
-  if (carouselContainer) {
-    carouselContainer.addEventListener('mousemove', handleMouseMove)
-  }
-  // 添加滚动视差效果
-  window.addEventListener('scroll', handleScroll)
+  window.addEventListener('resize', handleResize, { passive: true })
+  startAutoPlay()
 })
 
 onUnmounted(() => {
-  stopAutoplay()
-  // 清理事件监听器
-  const carouselContainer = document.querySelector('.relative.overflow-hidden')
-  if (carouselContainer) {
-    carouselContainer.removeEventListener('mousemove', handleMouseMove)
-  }
-  window.removeEventListener('scroll', handleScroll)
+  window.removeEventListener('resize', handleResize)
+  stopAutoPlay()
 })
+
+// 根据断点选择图片后缀
+const imgSuffix = computed<'b' | 'p' | 'pc'>(() => {
+  if (screenWidth.value >= 1920) return 'pc' // 3xl
+  if (screenWidth.value >= 1024) return 'p' // lg ~ 2xl
+  return 'b' // < lg
+})
+
+// 生成图片路径（使用与项目一致的 /src 资产引用方式）
+function getImageSrc(item: BannerItem): string {
+  return `/src/assets/img/banner/${item.imageBase}-${imgSuffix.value}@2x.png`
+}
+
+// 轮播逻辑（无缝无限）：首尾克隆
+const slidesWithClones = computed(() => {
+  const arr = banners.value
+  if (arr.length === 0) return []
+  const first = arr[0]
+  const last = arr[arr.length - 1]
+  return [last, ...arr, first]
+})
+
+// 当前索引从 1 开始（指向首个真实项）
+const currentIndex = ref<number>(1)
+const isTransitionEnabled = ref(true)
+// 防抖：动画进行中时忽略快速点击，避免索引越界
+const isAnimating = ref(false)
+// 文本内容入场控制：切换过程中不入场，过渡结束后才进入
+const isContentEntering = ref(true)
+const shouldAnimateContent = computed(() => isContentEntering.value)
+
+// 真实总数与真实索引（忽略克隆）
+const total = computed(() => banners.value.length)
+const currentRealIndex = computed(() => {
+  const totalSlides = slidesWithClones.value.length
+  if (totalSlides === 0) return 0
+  if (currentIndex.value === 0) return total.value // 指向头部克隆（最后一张）
+  if (currentIndex.value === totalSlides - 1) return 1 // 指向尾部克隆（第一张）
+  return currentIndex.value
+})
+
+function next() {
+  if (isAnimating.value) return
+  isTransitionEnabled.value = true
+  // 切换过程中先关闭内容入场
+  isContentEntering.value = false
+  currentIndex.value += 1
+  // 索引边界保护（含克隆项）
+  const maxIndex = slidesWithClones.value.length - 1
+  if (currentIndex.value > maxIndex) currentIndex.value = maxIndex
+  isAnimating.value = true
+}
+
+function prev() {
+  if (isAnimating.value) return
+  isTransitionEnabled.value = true
+  // 切换过程中先关闭内容入场
+  isContentEntering.value = false
+  currentIndex.value -= 1
+  // 索引边界保护（含克隆项）
+  if (currentIndex.value < 0) currentIndex.value = 0
+  isAnimating.value = true
+}
+
+function goTo(i: number) {
+  if (isAnimating.value) return
+  isTransitionEnabled.value = true
+  // 切换过程中先关闭内容入场
+  isContentEntering.value = false
+  currentIndex.value = i + 1 // 映射到真实索引（克隆后）
+  // 索引边界保护（含克隆项）
+  const maxIndex = slidesWithClones.value.length - 1
+  if (currentIndex.value < 0) currentIndex.value = 0
+  if (currentIndex.value > maxIndex) currentIndex.value = maxIndex
+  isAnimating.value = true
+}
+
+function onTransitionEnd() {
+  const totalSlides = slidesWithClones.value.length
+  if (totalSlides <= 2) return
+  // 到达尾部克隆（从最后一张前进到首克隆），重置到首真实项
+  if (currentIndex.value === totalSlides - 1) {
+    isTransitionEnabled.value = false
+    currentIndex.value = 1
+    nextTick(() => {
+      isTransitionEnabled.value = true
+      // 重置完成后再触发内容入场
+      isContentEntering.value = true
+    })
+    isAnimating.value = false
+    return
+  }
+  // 到达头部克隆（从第一张后退到尾克隆），重置到尾真实项
+  if (currentIndex.value === 0) {
+    isTransitionEnabled.value = false
+    currentIndex.value = totalSlides - 2
+    nextTick(() => {
+      isTransitionEnabled.value = true
+      // 重置完成后再触发内容入场
+      isContentEntering.value = true
+    })
+    isAnimating.value = false
+    return
+  }
+  // 普通切换完成：允许内容入场
+  isContentEntering.value = true
+  isAnimating.value = false
+}
+
+// 自动播放控制
+let timer: number | null = null
+const intervalMs = 5000
+
+function startAutoPlay() {
+  if (timer != null) return
+  timer = window.setInterval(() => {
+    next()
+  }, intervalMs)
+}
+
+function stopAutoPlay() {
+  if (timer != null) {
+    clearInterval(timer)
+    timer = null
+  }
+}
+
+// 图片容器尺寸样式（桌面端）
+const desktopImageStyle = computed(() => {
+  const w = screenWidth.value
+  // PC 图片不缩小：固定尺寸
+  // >= 1920px：固定为 1180 x 360
+  if (w >= 1920) {
+    return { width: '1180px', height: '360px' }
+  }
+  // 1024px ~ 1919px：固定为 805 x 360
+  if (w >= 1024) {
+    return { width: '805px', height: '360px' }
+  }
+  // 其余情况交由移动端样式处理
+  return {}
+})
+
+// 图片容器尺寸样式（移动端）
+const mobileImageStyle = computed(() => {
+  return {
+    width: '100%',
+    aspectRatio: '335 / 150',
+    minHeight: '150px',
+  } as any
+})
+
+// 移动端滑动手势支持
+const touchStartX = ref(0)
+const touchStartY = ref(0)
+const touchDeltaX = ref(0)
+const swiping = ref(false)
+const touchThreshold = 50
+
+function onTouchStart(e: TouchEvent) {
+  if (!e.touches || e.touches.length === 0) return
+  stopAutoPlay()
+  const t = e.touches[0]
+  touchStartX.value = t.clientX
+  touchStartY.value = t.clientY
+  touchDeltaX.value = 0
+  swiping.value = true
+}
+
+function onTouchMove(e: TouchEvent) {
+  if (!swiping.value || !e.touches || e.touches.length === 0) return
+  const t = e.touches[0]
+  const dx = t.clientX - touchStartX.value
+  const dy = t.clientY - touchStartY.value
+  // 如果竖向滑动更明显则忽略，避免影响页面滚动
+  if (Math.abs(dy) > Math.abs(dx)) return
+  touchDeltaX.value = dx
+}
+
+function onTouchEnd() {
+  if (!swiping.value) {
+    startAutoPlay()
+    return
+  }
+  const dx = touchDeltaX.value
+  if (Math.abs(dx) > touchThreshold) {
+    if (dx < 0) next()
+    else prev()
+  }
+  swiping.value = false
+  touchDeltaX.value = 0
+  startAutoPlay()
+}
+
+// 数字索引格式化
+const formattedCurrent = computed(() => String(currentRealIndex.value).padStart(2, '0'))
+const formattedTotal = computed(() => String(total.value).padStart(2, '0'))
 </script>
 
 <style scoped>
-/* 图片进入动画 */
-@keyframes slideInFromTop {
-  from {
-    opacity: 0;
-    transform: translateY(-40px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1.05);
-  }
+/* 数字索引切换过渡 */
+.counter-fade-enter-active,
+.counter-fade-leave-active {
+  transition:
+    opacity 200ms ease,
+    transform 200ms ease;
+}
+.counter-fade-enter-from,
+.counter-fade-leave-to {
+  opacity: 0;
+  transform: translateY(6px);
 }
 
-/* 文字进入动画 */
-@keyframes slideInFromBottom {
-  from {
-    opacity: 0;
-    transform: translateY(40px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+/* 数字索引滚动切换（向上滚动） */
+.counter-roll-enter-active,
+.counter-roll-leave-active {
+  transition:
+    transform 250ms ease,
+    opacity 250ms ease;
+}
+.counter-roll-enter-from {
+  transform: translateY(100%);
+  opacity: 0.6;
+}
+.counter-roll-leave-to {
+  transform: translateY(-100%);
+  opacity: 0.6;
 }
 
-/* 视差容器样式 */
-.parallax-container {
-  perspective: 1000px;
-  transform-style: preserve-3d;
+/* 数字索引 3D 翻转切换 */
+/* 容器透视（用于正方体翻转） */
+.cube-persp {
+  perspective: 900px;
 }
-
-.parallax-image {
-  will-change: transform;
+/* 正方体翻转：仅当前数字，沿 Y 轴旋转，带厚度感 */
+.cube-face {
   backface-visibility: hidden;
   transform-style: preserve-3d;
 }
-
-/* 平滑过渡效果 */
-.slide-enter-active {
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.cube-3d-enter-active,
+.cube-3d-leave-active {
+  transition:
+    transform 320ms ease,
+    opacity 320ms ease;
+}
+.cube-3d-enter-from {
+  transform: rotateY(90deg) translateZ(22px);
+  opacity: 0;
+  transform-origin: center;
+}
+.cube-3d-leave-to {
+  transform: rotateY(-90deg) translateZ(22px);
+  opacity: 0;
+  transform-origin: center;
 }
 
-.slide-leave-active {
-  transition: all 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* 确保图片和文字在不同时间进入 */
-.image-animate {
-  animation: slideInFromTop 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.text-animate {
-  animation: slideInFromBottom 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) 0.3s both;
-}
-
-/* 悬停效果 */
-button:hover {
-  transform: translateY(-2px) scale(1.05);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* 响应式优化 */
-@media (max-width: 1023px) {
-  .text-animate {
-    animation-delay: 0.2s;
-  }
-
-  .parallax-image {
-    transform: scale(1.02) !important;
-  }
-}
-
-/* 性能优化 */
-.parallax-image {
-  transform: translateZ(0);
-  -webkit-transform: translateZ(0);
-}
-
-/* 轮播指示器动画 */
-.absolute.bottom-6 button div {
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-/* 控制按钮动画 */
-.absolute.left-4 button,
-.absolute.right-4 button {
-  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.absolute.left-4 button:hover,
-.absolute.right-4 button:hover {
-  transform: translateY(-50%) scale(1.1);
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-}
+/* 其他样式主要使用 Tailwind 实现 */
 </style>

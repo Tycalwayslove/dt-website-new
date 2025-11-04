@@ -2,19 +2,24 @@
   <section class="container py-10 md:py-16 lg:py-20">
     <!-- 移动端布局：上方文字，下方卡片信息 -->
     <div class="lg:hidden flex flex-col">
-      <h2 class="text-4xl font-bold text-left color-black mb-5">喵呜AI招募</h2>
-      <p class="text-base leading-relaxed text-left color-black">
+      <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl font-bold text-left color-black mb-5">
+        喵呜AI招募
+      </h2>
+      <p v-fade-in-up="{ delay: 300 }" class="text-base leading-relaxed text-left color-black">
         让「答案」顾问式电商走进千家万户让
         喵鸣A成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
       </p>
-      <!-- 了解详情按钮 -->
-      <button class="bg-black text-white w-[60%] max-w-[200px] px-4 py-3 my-5 rounded-md">
+      <!-- 了解详情按钮(暂时隐藏) -->
+      <button
+        v-fade-in-up="{ delay: 300 }"
+        class="bg-black text-white w-[60%] max-w-[200px] px-4 py-3 my-5 rounded-md"
+      >
         了解详情
       </button>
       <!-- 一根3px #000的分割线 -->
-      <div class="w-full h-[3px] bg-black"></div>
+      <div v-fade-in-up="{ delay: 300 }" class="w-full h-[3px] bg-black"></div>
       <!-- 卡片信息 -->
-      <div class="flex flex-col gap-4 mt-10">
+      <div v-stagger="{ delay: 500 }" class="flex flex-col gap-4 mt-10">
         <div
           v-for="item in recruitmentList"
           :key="item.id"
@@ -27,7 +32,7 @@
             {{ item.title }}
           </h3>
           <div class="detail-header">
-            <span class="detail-button">查看详情 >>>></span>
+            <span class="detail-button" role="button" @click="goDetail(item)">查看详情 >>>></span>
           </div>
         </div>
       </div>
@@ -36,23 +41,29 @@
     <div class="hidden lg:flex flex-col gap-4">
       <!-- 文字区 -->
       <div class="flex flex-row gap-4 w-full flex-1 items-center">
-        <h2 class="text-4xl font-bold text-left color-black">喵呜AI招募</h2>
+        <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl font-bold text-left color-black">
+          喵呜AI招募
+        </h2>
         <div class="flex-1">
-          <p class="text-base leading-relaxed text-left color-black ml-10 max-w-[567px]">
+          <p
+            v-fade-in-left="{ delay: 300 }"
+            class="text-xl leading-relaxed text-left color-black ml-10 max-w-[567px]"
+          >
             让「答案」顾问式电商走进千家万户让
             喵鸣A成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
           </p>
         </div>
-        <!-- 了解详情按钮 -->
-        <button class="bg-black text-white w-[60%] max-w-[200px] px-4 py-3 rounded-md">
+        <!-- 了解详情按钮 (暂时隐藏) -->
+        <!-- <button class="bg-black text-white w-[60%] max-w-[200px] px-4 py-3 rounded-md">
           了解详情
-        </button>
+        </button> -->
       </div>
       <!-- 一根3px #000的分割线 -->
-      <div class="w-full h-[3px] bg-black"></div>
+      <div v-fade-in-up="{ delay: 300 }" class="w-full h-[3px] bg-black"></div>
       <!-- 卡片区 -->
       <div class="flex flex-row gap-4 mt-7">
         <div
+          v-fade-in-up="{ delay: 500 }"
           v-for="item in recruitmentList"
           :key="item.id"
           class="relative w-full aspect-[10/6] rounded-2xl overflow-hidden"
@@ -64,7 +75,7 @@
             {{ item.title }}
           </h3>
           <div class="detail-header">
-            <span class="detail-button">查看详情 >>>></span>
+            <span class="detail-button" role="button" @click="goDetail(item)">查看详情 >>>></span>
           </div>
         </div>
       </div>
@@ -74,12 +85,14 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // 招募信息接口
 interface RecruitmentItem {
   id: number
   title: string
   image: string
+  to: string
 }
 
 // 招募数据
@@ -88,18 +101,26 @@ const recruitmentList = ref<RecruitmentItem[]>([
     id: 1,
     title: '「品牌供应商招募」',
     image: '/src/assets/img/recruitment-01.png',
+    to: '/cooperation/suppliers',
   },
   {
     id: 2,
     title: '「喵呜AI卖手招募」',
     image: '/src/assets/img/recruitment-02.png',
+    to: '/cooperation/sellers',
   },
   {
     id: 3,
     title: '「商务合作」',
     image: '/src/assets/img/recruitment-03.png',
+    to: '/cooperation/partners',
   },
 ])
+
+const router = useRouter()
+const goDetail = (item: RecruitmentItem) => {
+  if (item.to) router.push(item.to)
+}
 </script>
 
 <style scoped>
@@ -127,6 +148,7 @@ const recruitmentList = ref<RecruitmentItem[]>([
   border-bottom-right-radius: 16px;
   color: #9bff2bff;
   text-decoration: underline;
+  cursor: pointer;
 }
 .detail-button::before {
   content: '';

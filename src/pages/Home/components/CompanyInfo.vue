@@ -24,82 +24,55 @@
           <div class="hidden lg:flex h-full">
             <!-- 左侧：公司信息 -->
             <div
-              class="flex flex-shrink-1 flex-grow flex-col justify-center py-20 max-w-[calc(100%-560px)]"
+              class="flex flex-shrink-1 flex-grow flex-col justify-center pt-20 pb-[96px] max-w-[calc(100%-560px)]"
             >
-              <div class="space-y-3 lg:space-y-4 pr-20">
+              <div v-stagger class="space-y-3 lg:space-y-4 pr-20">
                 <div class="relative overflow-hidden">
                   <h3
-                    v-if="needsScroll[index]"
                     :class="[
-                      'text-[56px] lg:text-[56px] font-bold transition-all duration-1000 ease-out whitespace-nowrap',
-                      { 'animate-fade-in-up': isVisible[index] },
-                      index % 2 === 0 ? 'text-black' : 'text-white',
-                      'animate-scroll-text',
-                    ]"
-                    :style="{
-                      animationDelay: `${index * 0.2}s`,
-                      animationDuration: '10s',
-                      '--text-content': `'${company.title} '`,
-                    }"
-                    :ref="(el) => setTitleRef(el, index)"
-                  >
-                    {{ company.title }}&nbsp;&nbsp;{{ company.title }}
-                  </h3>
-                  <h3
-                    v-else
-                    :class="[
-                      'text-[56px] lg:text-[56px] font-bold transition-all duration-1000 ease-out truncate',
-                      { 'animate-fade-in-up': isVisible[index] },
+                      'text-[56px] lg:text-[56px] font-bold truncate',
                       index % 2 === 0 ? 'text-black' : 'text-white',
                     ]"
-                    :style="{
-                      animationDelay: `${index * 0.2}s`,
-                    }"
-                    :ref="(el) => setTitleRef(el, index)"
                   >
                     {{ company.title }}
                   </h3>
                 </div>
                 <p
                   :class="[
-                    'text-xl lg:text-xl leading-relaxed transition-all duration-1000 ease-out',
-                    { 'animate-fade-in-up': isVisible[index] },
+                    'text-xl lg:text-xl leading-relaxed',
                     index % 2 === 0 ? 'text-black' : 'text-white',
                   ]"
-                  :style="{
-                    animationDelay: `${index * 0.2 + 0.1}s`,
-                  }"
                 >
                   {{ company.desc }}
                 </p>
                 <p
                   :class="[
-                    'text-base lg:text-base leading-relaxed transition-all duration-1000 ease-out',
-                    { 'animate-fade-in-up': isVisible[index] },
+                    'text-base lg:text-base leading-relaxed',
                     index % 2 === 0 ? 'text-black' : 'text-white',
                   ]"
-                  :style="{
-                    animationDelay: `${index * 0.2 + 0.2}s`,
-                  }"
                 >
                   {{ company.content }}
                 </p>
+                <div v-if="company.button?.show">
+                  <button
+                    :class="[company.button?.class]"
+                    class="mt-4 px-20 py-4 text-sm font-medium"
+                    @click="goDetail(company)"
+                  >
+                    {{ company.button?.text }}
+                  </button>
+                </div>
               </div>
             </div>
 
             <!-- 右侧：公司图片 -->
-            <div class="flex-shrink-0 flex-grow-0 relative overflow-hidden py-20">
-              <div
-                class="w-[560px] h-[300px] transition-all duration-1200 ease-out"
-                :class="{ 'animate-fade-in': isVisible[index] }"
-                :style="{
-                  animationDelay: `${index * 0.2 + 0.3}s`,
-                }"
-              >
+            <div class="flex-shrink-0 flex-grow-0 relative overflow-hidden pt-20 pb-[96px]">
+              <div class="w-[560px] h-[300px]">
                 <img
+                  v-hover-zoom
                   :src="company.image"
                   :alt="company.title"
-                  class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+                  class="w-full h-full object-cover transition duration-300 ease-out transform hover:scale-105 filter hover:brightness-105 hover:saturate-105"
                 />
               </div>
             </div>
@@ -107,6 +80,7 @@
 
           <!-- 移动端布局：上方图片，下方信息 -->
           <div
+            v-stagger
             class="lg:hidden flex flex-col"
             :class="{ 'bg-white': index % 2 === 0, 'bg-black': index % 2 === 1 }"
           >
@@ -143,6 +117,15 @@
               >
                 {{ company.content }}
               </p>
+              <div v-if="company.button?.show" class="mt-4">
+                <button
+                  :class="[company.button?.class]"
+                  class="px-20 py-3 text-sm font-medium"
+                  @click="goDetail(company)"
+                >
+                  {{ company.button?.text }}
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -152,7 +135,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // 公司信息接口类型
 interface CompanyInfo {
@@ -160,6 +144,18 @@ interface CompanyInfo {
   desc: string
   content: string
   image: string
+  button?: {
+    show: boolean
+    text: string
+    class: string
+    to: string
+  }
+}
+
+const router = useRouter()
+const goDetail = (company: CompanyInfo) => {
+  const to = company.button?.to
+  if (to) router.push(to)
 }
 
 // Mock 数据
@@ -168,113 +164,35 @@ const companyList = ref<CompanyInfo[]>([
     title: '让喵呜AI成为可信赖的专业伙伴',
     desc: '#被理解｜高信任｜决策确定感',
     content:
-      '喵呜AI 对 用户 的价值与意义，从“搜喵呜AI 对 用户 的价值与意义，从“搜喵呜AI 对 用户 的价值与意义，从“搜喵呜AI 对 用户 的价值与意义，从“搜喵呜AI 对 用户 的价值与意义，从“搜喵呜AI 对 用户 的价值与意义，从“搜',
-    image: '/src/assets/img/here-01.jpg',
+      '喵呜AI 对 用户 的价值与意义，从“搜索商品”到“被理解的推荐”，让AI成为可信赖的专业伙伴：喵呜AI顾问带来“咨询式消费”体验，每次推荐有理由、有知识、有温度。让用户不仅能“更快买”而且“更笃定地买”，每个数字顾问都有专业人格和知识逻辑，让AI从冷冰冰的工具，变成“可信任的伙伴”；',
+    image: '/src/assets/img/here-01.png',
+    button: { show: false, text: '了解详情', class: 'btn-main-white', to: '/products' },
   },
   {
-    title: '专业团队协作',
-    desc: '汇聚行业精英，打造高效协作的专业团队',
+    title: '喵呜AI小程序 V2.0',
+    desc: '从「销售」到「专业顾问」的强化升级',
     content:
-      '团队成员来自不同领域，拥有丰富的项目经验。我们注重团队合作，倡导开放式沟通，让每个成员的才能得到充分发挥，共同推动项目成功。',
-    image: '/src/assets/img/here-02.jpg',
+      '这次的喵呜AI小程序 V2.0 从顾问人格化 / 产品分析可视化 / 品牌形象系统化 三点入手基于之前发布的 V1.0 进行核心理念的 强化 和 升级。它不只是改版，而是一次品牌的信任与升级，一次体验哲学的加强与重构！未来我们会继续基于「专业顾问」的核心理念持续优化和迭代产品。',
+    image: '/src/assets/img/here-02.png',
+    button: { show: true, text: '了解详情', class: 'btn-main-black', to: '/products/mini-program' },
   },
   {
-    title: '持续发展理念',
-    desc: '关注可持续发展和客户价值的长期创造',
+    title: '喵呜AI供应链',
+    desc: '#精准共识｜品牌人格化｜长期关系',
     content:
-      '我们相信可持续发展的力量。在追求商业成功的同时，我们积极承担社会责任，关注环境保护，致力于为社会发展贡献我们的力量。',
-    image: '/src/assets/img/here-03.jpg',
+      '传统电商中，品牌花钱买曝光，但买不到信任。顾问式电商中，品牌通过AI顾问建立长期认知与情感绑定。喵呜AI不只是帮你卖货，而是帮你建立「被理解的品牌人格」，在这里，你的品牌不再是广告的一句口号，而是一个能被AI讲述、能被用户信任的知识体系。“我们帮你建立被理解的品牌人格，让品牌成为知识生态的一部分，而不是流量的一部分。”',
+    image: '/src/assets/img/here-03.png',
+    button: {
+      show: true,
+      text: '了解详情',
+      class: 'btn-main-white',
+      to: '/products/supplier-console',
+    },
   },
 ])
-
-// 用于触发动画的可见性状态
-const isVisible = ref<boolean[]>([])
-const needsScroll = ref<boolean[]>([])
-const titleRefs = ref<(HTMLElement | null)[]>([])
-
-// 设置标题引用
-const setTitleRef = (el: HTMLElement | null, index: number) => {
-  if (el) {
-    titleRefs.value[index] = el
-    checkIfNeedsScroll(el, index)
-  }
-}
-
-// 检测是否需要滚动
-const checkIfNeedsScroll = (element: HTMLElement, index: number) => {
-  if (element.scrollWidth > element.offsetWidth) {
-    needsScroll.value[index] = true
-  }
-}
-
-// 观察元素进入视图
-onMounted(() => {
-  // 初始化可见性数组
-  isVisible.value = new Array(companyList.value.length).fill(false)
-  needsScroll.value = new Array(companyList.value.length).fill(false)
-
-  // 使用 Intersection Observer 来触发动画
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const index = parseInt(entry.target.getAttribute('data-index') || '0')
-          isVisible.value[index] = true
-        }
-      })
-    },
-    { threshold: 0.1 }
-  )
-
-  // 观察所有公司卡片
-  setTimeout(() => {
-    const cards = document.querySelectorAll('[data-index]')
-    cards.forEach((card) => observer.observe(card))
-  }, 100)
-})
 </script>
 
 <style scoped>
-/* 淡入向上动画 */
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.8s ease-out forwards;
-}
-
-.animate-fade-in {
-  animation: fade-in 1s ease-out forwards;
-}
-
-/* 响应式优化 */
-@media (max-width: 1023px) {
-  .animate-fade-in-up,
-  .animate-fade-in {
-    animation: none;
-    opacity: 1;
-  }
-}
-
 .custom-top-radius::before {
   content: '';
   position: absolute;
@@ -287,21 +205,5 @@ onMounted(() => {
   border-top-left-radius: 16px;
   border-top-right-radius: 16px;
   z-index: 100;
-}
-
-/* 文字滚动动画 */
-@keyframes scrollText {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-.animate-scroll-text {
-  display: inline-block;
-  animation: scrollText 10s linear infinite;
-  width: max-content;
 }
 </style>

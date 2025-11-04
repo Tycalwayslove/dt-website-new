@@ -4,9 +4,11 @@
     <div class="container mx-auto px-20 lg:px-20 py-20 hidden lg:block">
       <div class="space-y-40">
         <!-- 1. 顶部：左文右图 -->
-        <section class="grid grid-cols-2 gap-16 items-center">
+        <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div>
-            <h1 class="text-[56px] font-extrabold tracking-tight mb-[30px]">喵呜AI 小程序</h1>
+            <h1 class="text-[56px] font-extrabold tracking-tight mb-[30px] text-black">
+              喵呜AI 小程序
+            </h1>
             <div class="w-[120px] h-[3px] bg-black mb-[30px]"></div>
 
             <p class="text-black text-xl leading-relaxed mb-8">
@@ -14,29 +16,69 @@
               三点入手基于之前发布的 V1.0 进行核心理念的 强化 和
               升级。它不只是改版，而是一次品牌的信任与升级，一次体验哲学的加强与重构!未来我们会继续基于「专业顾问，的核心理念持续优化和迭代产品。
             </p>
-            <button
-              class="inline-flex items-center px-20 h-12 rounded-2xl bg-white border-2 border-black text-black font-base hover:bg-miaowu-green hover:border-miaowu-green hover:text-white transition-colors duration-200"
+            <div
+              class="relative inline-block"
+              ref="qrTriggerDesktop"
+              @mouseenter="onEnter"
+              @mouseleave="onLeave"
             >
-              扫码体验
-            </button>
+              <button
+                class="apply-btn btn-main-white"
+                @click="showCode = !showCode"
+                aria-haspopup="true"
+                :aria-expanded="showCode"
+              >
+                扫码体验
+              </button>
+              <Transition name="fade-down">
+                <div
+                  v-show="showCode"
+                  class="absolute top-full left-0 mt-2 bg-white border border-black shadow-lg rounded-xl p-3 z-10"
+                  role="tooltip"
+                  aria-live="polite"
+                >
+                  <img
+                    :src="miniProgramCode"
+                    alt="小程序二维码"
+                    width="160"
+                    height="160"
+                    class="object-contain"
+                    loading="lazy"
+                  />
+                  <p class="text-xs text-gray-600 mt-2">扫码即可体验喵呜AI小程序</p>
+                </div>
+              </Transition>
+            </div>
           </div>
           <div class="flex item-center">
             <!-- 图片展示（等比缩放 800x546） -->
             <div class="w-full" style="aspect-ratio: 800 / 546">
-              <img :src="img01" alt="喵呜AI 小程序概览" class="rounded-2xl w-full h-full object-cover" />
+              <img
+                v-hover-zoom
+                :src="img01"
+                alt="喵呜AI 小程序概览"
+                class="rounded-2xl w-full h-full object-cover"
+              />
             </div>
           </div>
         </section>
 
         <!-- 2. 左图右文：专业顾问 -->
-        <section class="grid grid-cols-2 gap-16 items-center">
+        <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div class="flex item-center">
             <div class="w-full" style="aspect-ratio: 560 / 300">
-              <img :src="img02" alt="专业顾问模块" class="rounded-2xl w-full h-full object-cover" />
+              <img
+                v-hover-zoom
+                :src="img02"
+                alt="专业顾问模块"
+                class="rounded-2xl w-full h-full object-cover"
+              />
             </div>
           </div>
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5">喵呜AI 专业顾问</h2>
+            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+              喵呜AI 专业顾问
+            </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
               从「销售」到「专业顾问」的强化升级
             </p>
@@ -47,9 +89,11 @@
         </section>
 
         <!-- 3. 左文右图：人格化展示 -->
-        <section class="grid grid-cols-2 gap-16 items-center">
+        <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5">数字顾问的「人格化展示」</h2>
+            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+              数字顾问的「人格化展示」
+            </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
               #专业领域简要说明|#可视知识呈现【#多入口引导与「顾问」直接展开对话
             </p>
@@ -61,20 +105,32 @@
           </div>
           <div class="flex justify-end item-center">
             <div class="w-full" style="aspect-ratio: 560 / 300">
-              <img :src="img03" alt="人格化展示" class="rounded-2xl w-full h-full object-cover" />
+              <img
+                v-hover-zoom
+                :src="img03"
+                alt="人格化展示"
+                class="rounded-2xl w-full h-full object-cover"
+              />
             </div>
           </div>
         </section>
 
         <!-- 4. 左图右文：服务逻辑 -->
-        <section class="grid grid-cols-2 gap-16 items-center">
+        <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div class="flex item-center">
             <div class="w-full" style="aspect-ratio: 560 / 300">
-              <img :src="img04" alt="服务逻辑" class="rounded-2xl w-full h-full object-cover" />
+              <img
+                v-hover-zoom
+                :src="img04"
+                alt="服务逻辑"
+                class="rounded-2xl w-full h-full object-cover"
+              />
             </div>
           </div>
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5">顾问式电商服务逻辑</h2>
+            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+              顾问式电商服务逻辑
+            </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
               #认知设计|#行为引导|#信任教育
             </p>
@@ -85,9 +141,11 @@
         </section>
 
         <!-- 5. 左文右图：技术与体验融合 -->
-        <section class="grid grid-cols-2 gap-16 items-center">
+        <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5">AI技术x体验的智能融合</h2>
+            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+              AI技术x体验的智能融合
+            </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
               AI知识图谱+用户画像系统+智能推荐引擎
             </p>
@@ -98,7 +156,12 @@
           </div>
           <div class="flex justify-end item-center">
             <div class="w-full" style="aspect-ratio: 560 / 300">
-              <img :src="img05" alt="技术与体验融合" class="rounded-2xl w-full h-full object-cover" />
+              <img
+                v-hover-zoom
+                :src="img05"
+                alt="技术与体验融合"
+                class="rounded-2xl w-full h-full object-cover"
+              />
             </div>
           </div>
         </section>
@@ -109,66 +172,105 @@
     <div class="lg:hidden">
       <div class="container mx-auto px-4 py-10 space-y-12">
         <!-- 1. 喵呜AI 小程序：图上文下 -->
-        <section class="space-y-4">
+        <section v-stagger="{ delay: 300 }" class="space-y-4">
           <div class="w-full" style="aspect-ratio: 800 / 546">
-            <img :src="img01" alt="喵呜AI 小程序概览" class="w-full h-full rounded-2xl object-cover" />
+            <img
+              :src="img01"
+              alt="喵呜AI 小程序概览"
+              class="w-full h-full rounded-2xl object-cover"
+            />
           </div>
-          <h1 class="text-2xl font-extrabold">喵呜AI 小程序</h1>
+          <h1 class="text-2xl font-extrabold text-black">喵呜AI 小程序</h1>
           <p class="text-black text-sm leading-relaxed">
-            这次的喵呜AI小程序 V2.0 从顾问人格化/产品分析可视化/品牌形象系统化三点入手，基于之前发布的 V1.0 进行核心理念的强化和升级。它不只是改版，而是一次品牌的信任与升级，一次体验哲学的加强与重构！未来我们会继续基于「专业顾问」的核心理念持续优化和迭代产品。
+            这次的喵呜AI小程序 V2.0
+            从顾问人格化/产品分析可视化/品牌形象系统化三点入手，基于之前发布的 V1.0
+            进行核心理念的强化和升级。它不只是改版，而是一次品牌的信任与升级，一次体验哲学的加强与重构！未来我们会继续基于「专业顾问」的核心理念持续优化和迭代产品。
           </p>
-          <button class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-white transition-colors">
-            扫码体验
-          </button>
+          <div
+            class="relative inline-block"
+            @mouseenter="showCode = true"
+            @mouseleave="showCode = false"
+          >
+            <button
+              class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-white transition-colors"
+              @click="showCode = !showCode"
+              aria-haspopup="true"
+              :aria-expanded="showCode"
+            >
+              扫码体验
+            </button>
+            <div
+              v-show="showCode"
+              class="absolute top-full left-0 mt-2 bg-white border border-black shadow-lg rounded-xl p-3 z-10"
+            >
+              <img
+                :src="miniProgramCode"
+                alt="小程序二维码"
+                width="64"
+                height="64"
+                class="object-contain"
+                loading="lazy"
+              />
+              <p class="text-xs text-gray-600 mt-2">扫码即可体验喵呜AI小程序</p>
+            </div>
+          </div>
         </section>
 
         <!-- 2. 专业顾问：图上文下 -->
-        <section class="space-y-4">
+        <section v-stagger="{ delay: 500 }" class="space-y-4">
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img02" alt="专业顾问模块" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold">喵呜AI 专业顾问</h2>
-          <p class="text-black text-base leading-relaxed font-medium">从「销售」到「专业顾问」的强化升级</p>
+          <h2 class="text-xl font-bold text-black">喵呜AI 专业顾问</h2>
+          <p class="text-black text-base leading-relaxed font-medium">
+            从「销售」到「专业顾问」的强化升级
+          </p>
           <p class="text-black text-sm leading-relaxed">
             从「特征、意图、专业建议」构成推荐体系，基于真实用户行为数据训练的顾问模型，为用户提供高可信度的选购建议与商品解析，减少决策成本，提升购物体验。
           </p>
         </section>
 
         <!-- 3. 人格化展示：图上文下 -->
-        <section class="space-y-4">
+        <section v-stagger="{ delay: 300 }" class="space-y-4">
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img03" alt="人格化展示" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold">数字顾问的「人格化展示」</h2>
+          <h2 class="text-xl font-bold text-black">数字顾问的「人格化展示」</h2>
           <p class="text-black text-base leading-relaxed font-medium">
             #专业领域简要说明 | #可视知识呈现 | #多入口引导与「顾问」直接对话
           </p>
           <p class="text-black text-sm leading-relaxed">
-            首屏的数字人形象展示其擅长的专业领域，并通过调动相关领域大模型以动态呈现其 AI 知识库结构，让用户感知：这个顾问“懂我”。
+            首屏的数字人形象展示其擅长的专业领域，并通过调动相关领域大模型以动态呈现其 AI
+            知识库结构，让用户感知：这个顾问“懂我”。
           </p>
         </section>
 
         <!-- 4. 服务逻辑：图上文下 -->
-        <section class="space-y-4">
+        <section v-stagger="{ delay: 300 }" class="space-y-4">
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img04" alt="服务逻辑" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold">顾问式电商服务逻辑</h2>
-          <p class="text-black text-base leading-relaxed font-medium">#认知设计 | #行为引导 | #信任教育</p>
+          <h2 class="text-xl font-bold text-black">顾问式电商服务逻辑</h2>
+          <p class="text-black text-base leading-relaxed font-medium">
+            #认知设计 | #行为引导 | #信任教育
+          </p>
           <p class="text-black text-sm leading-relaxed">
             用极简图文讲述复杂逻辑，通过逐步引导让用户自然完成认知路径，从“看不懂”到“想尝试”，提升理解效率与参与度。
           </p>
         </section>
 
         <!-- 5. 技术与体验融合：图上文下 -->
-        <section class="space-y-4">
+        <section v-stagger="{ delay: 300 }" class="space-y-4">
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img05" alt="技术与体验融合" class="w-full h-full rounded-2xl object-cover" />
           </div>
           <h2 class="text-xl font-bold">AI技术 × 体验的智能融合</h2>
-          <p class="text-black text-base leading-relaxed font-medium">AI知识图谱 · 用户画像系统 · 智能推荐引擎</p>
+          <p class="text-black text-base leading-relaxed font-medium">
+            AI知识图谱 · 用户画像系统 · 智能推荐引擎
+          </p>
           <p class="text-black text-sm leading-relaxed">
-            我们在底层引入多项能力，实现顾问与用户之间的「语义共振」。V2.0 标志着顾问式电商从理念走向现实，从工具走向伙伴。
+            我们在底层引入多项能力，实现顾问与用户之间的「语义共振」。V2.0
+            标志着顾问式电商从理念走向现实，从工具走向伙伴。
           </p>
         </section>
       </div>
@@ -177,9 +279,115 @@
 </template>
 
 <script setup lang="ts">
+import miniProgramCode from '@/assets/img/banner/mini-program-code.png'
 import img01 from '@/assets/img/product-miniprogram-01.png'
 import img02 from '@/assets/img/product-miniprogram-02.png'
 import img03 from '@/assets/img/product-miniprogram-03.png'
 import img04 from '@/assets/img/product-miniprogram-04.png'
 import img05 from '@/assets/img/product-miniprogram-05.png'
+import { onMounted, onUnmounted, ref } from 'vue'
+
+const showCode = ref(false)
+const qrTriggerDesktop = ref<HTMLElement | null>(null)
+let hideTimer: number | null = null
+
+const onEnter = () => {
+  if (hideTimer) {
+    clearTimeout(hideTimer)
+    hideTimer = null
+  }
+  showCode.value = true
+}
+
+const onLeave = () => {
+  hideTimer = window.setTimeout(() => {
+    showCode.value = false
+  }, 120)
+}
+
+const handleClickOutside = (e: MouseEvent) => {
+  const el = qrTriggerDesktop.value
+  if (!el) return
+  if (!el.contains(e.target as Node)) {
+    showCode.value = false
+  }
+}
+
+const handleKeydown = (e: KeyboardEvent) => {
+  if (e.key === 'Escape') showCode.value = false
+}
+
+onMounted(() => {
+  document.addEventListener('click', handleClickOutside)
+  document.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside)
+  document.removeEventListener('keydown', handleKeydown)
+})
 </script>
+
+<style scoped>
+.qr-popper {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #000;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+  border-radius: 12px;
+  padding: 12px;
+  z-index: 10;
+}
+
+.qr-popper-right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 12px;
+}
+
+.qr-popper-arrow {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: #fff;
+  border-left: 1px solid #000;
+  border-top: 1px solid #000;
+  transform: rotate(45deg);
+}
+
+.qr-popper-arrow.left {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.fade-scale-right-enter-active,
+.fade-scale-right-leave-active {
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+.fade-scale-right-enter-from,
+.fade-scale-right-leave-to {
+  opacity: 0;
+  transform: translateY(-50%) scale(0.95);
+}
+.fade-scale-right-enter-to,
+.fade-scale-right-leave-from {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+.fade-down-enter-active,
+.fade-down-leave-active {
+  transition: opacity 0.12s ease;
+}
+.fade-down-enter-from,
+.fade-down-leave-to {
+  opacity: 0;
+}
+.fade-down-enter-to,
+.fade-down-leave-from {
+  opacity: 1;
+}
+</style>
