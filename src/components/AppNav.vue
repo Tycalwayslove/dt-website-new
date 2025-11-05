@@ -147,13 +147,15 @@
       </ul>
 
       <!-- 右侧：登录和下载按钮 -->
-      <div class="flex items-center gap-3 ml-auto">
+      <div class="flex items-center gap-[10px] ml-auto h-full flex-row">
         <!-- PC端用户头像/登录按钮 -->
-        <div class="hidden lg:block relative">
+        <div
+          class="hidden lg:flex flex-row items-center justify-center relative w-20 h-full bg-[#ffffff1a]"
+        >
           <!-- 未登录状态：显示登录按钮 -->
           <button
             v-if="!auth.isLoggedIn"
-            class="flex items-center justify-center border border-white/30 text-white w-12 h-12 rounded-full hover:border-miaowu-green hover:text-miaowu-green transition-all duration-200"
+            class="flex items-center justify-center border border-white/30 text-white w-10 h-10 rounded-full hover:border-miaowu-green hover:text-miaowu-green transition-all duration-200"
             @click="ui.openLoginDialog()"
           >
             登录
@@ -168,7 +170,7 @@
           >
             <!-- 用户头像按钮 -->
             <button
-              class="flex items-center justify-center w-12 h-12 rounded-full overflow-hidden border border-white/30 hover:border-miaowu-green hover:scale-105 transition-all duration-300 group avatar-glow"
+              class="flex items-center justify-center w-10 h-10 rounded-full overflow-hidden border border-white/30 hover:border-miaowu-green hover:scale-105 transition-all duration-300 group avatar-glow"
             >
               <div class="relative w-full h-full">
                 <img
@@ -187,30 +189,6 @@
                       .toUpperCase()
                   }}
                 </div>
-                <!-- 头像悬停时的遮罩效果 -->
-                <div
-                  class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center"
-                >
-                  <svg
-                    class="w-4 h-4 text-white"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                    />
-                  </svg>
-                </div>
               </div>
             </button>
 
@@ -225,11 +203,11 @@
             >
               <div
                 v-if="userDropdownOpen"
-                class="absolute top-full right-0 z-50 mt-2 min-w-[200px] bg-gray-900 shadow-2xl rounded-lg overflow-hidden border border-gray-800"
+                class="absolute top-full left-1/2 -translate-x-1/2 z-50 mt-2 min-w-[200px] bg-gray-900 shadow-2xl rounded-lg overflow-hidden border border-gray-800 transform"
               >
                 <!-- 用户信息区域 -->
-                <div class="px-4 py-3 border-b border-gray-700">
-                  <div class="flex items-center space-x-3">
+                <div class="px-7 pt-5 flex-col">
+                  <div class="flex items-center space-x-3 border-b border-[#ffffff33] py-5">
                     <div
                       class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0 ring-2 ring-miaowu-green/20 hover:ring-miaowu-green/40 transition-all duration-300 avatar-fade-in"
                     >
@@ -259,13 +237,19 @@
                       </p>
                     </div>
                   </div>
+                  <div
+                    class="flex items-center justify-center space-x-3 border-b border-[#ffffff33] py-5 text-miaowu-green cursor-pointer text-center"
+                    @click="onMobileClickSupplierConsole"
+                  >
+                    供应商后台 >
+                  </div>
                 </div>
 
                 <!-- 退出登录按钮 -->
-                <div class="px-4 py-2">
+                <div class="px-7 py-5">
                   <button
                     @click="handleLogout"
-                    class="w-full text-left px-3 py-2 text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-md transition-colors duration-200"
+                    class="w-full h-10 text-center px-3 line-height-10 rounded-xl text-black bg-white hover:text-red-300 hover:bg-red-900/20 transition-colors duration-200"
                   >
                     退出登录
                   </button>
@@ -276,7 +260,7 @@
         </div>
 
         <!-- 移动端用户头像/登录按钮 -->
-        <div class="lg:hidden">
+        <div class="lg:hidden bg-[#ffffff1a]">
           <!-- 未登录状态：显示登录按钮 -->
           <button
             v-if="!auth.isLoggedIn"
@@ -308,30 +292,6 @@
                     .charAt(0)
                     .toUpperCase()
                 }}
-              </div>
-              <!-- 头像点击时的遮罩效果 -->
-              <div
-                class="absolute inset-0 bg-black/20 opacity-0 group-active:opacity-100 transition-opacity duration-200 flex items-center justify-center"
-              >
-                <svg
-                  class="w-4 h-4 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                  />
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                  />
-                </svg>
               </div>
             </div>
           </button>
@@ -518,7 +478,7 @@
           <div class="px-6 py-6">
             <!-- 用户头像和基本信息 -->
             <div
-              class="flex items-center space-x-4 mb-6 animate-fade-in-up"
+              class="flex items-center space-x-4 pb-6 mb-6 animate-fade-in-up border-b border-[#ffffff33]"
               style="animation-delay: 100ms"
             >
               <div
@@ -553,21 +513,21 @@
                 </p>
               </div>
             </div>
+            <!-- 供应商平台入口 -->
+            <div
+              class="flex items-center justify-center space-x-4 pb-6 mb-6 animate-fade-in-up border-b border-[#ffffff33] text-miaowu-green"
+              style="animation-delay: 200ms"
+              @click="onClickSupplierConsole"
+            >
+              供应商后台 >
+            </div>
 
             <!-- 退出登录按钮 -->
-            <div class="mt-6 animate-fade-in-up" style="animation-delay: 200ms">
+            <div class="mt-6 animate-fade-in-up" style="animation-delay: 300ms">
               <button
                 @click="handleLogout"
                 class="w-full flex items-center justify-center px-4 py-3 bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors duration-200"
               >
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
-                  />
-                </svg>
                 退出登录
               </button>
             </div>
@@ -581,8 +541,9 @@
 <script setup lang="ts">
 import iconDownload from '@/assets/img/download.png'
 import logoLight from '@/assets/img/logo-light.png'
-import { useAuthStore } from '@/stores/auth'
-import { useUiStore } from '@/stores/ui'
+import { useAuthStore } from '@/stores/auth.js'
+import { useUiStore } from '@/stores/ui.js'
+import { useMallRedirect } from '@/utils/mallNavigation.js'
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
@@ -607,6 +568,16 @@ const route = useRoute()
 const router = useRouter()
 const ui = useUiStore()
 const auth = useAuthStore()
+const { redirectToMall } = useMallRedirect()
+
+const onClickSupplierConsole = () => {
+  redirectToMall()
+}
+
+const onMobileClickSupplierConsole = () => {
+  toggleMobileUserPanel()
+  redirectToMall()
+}
 
 // 检测TopAdv是否显示
 const isTopAdvVisible = ref(false)
@@ -799,7 +770,6 @@ const navItems: NavItem[] = [
       { to: '/products/mini-program', label: '喵呜AI 小程序' },
       { to: '/products/app', label: '喵呜AI App' },
       { to: '/products/supplier-console', label: '供应商管理后台' },
-      { to: '/products/mall', label: '喵呜商城' },
     ],
   },
   {

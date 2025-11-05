@@ -52,7 +52,7 @@
             <!-- 右侧文字区域：渐显+轻微横向滑入，分段延迟 -->
             <div class="w-full flex flex-col justify-center">
               <h2
-                class="text-[56px] font-bold text-black leading-tight"
+                class="text-[56px] text-black leading-tight font-wendao"
                 :class="[
                   shouldAnimateContent
                     ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
@@ -96,7 +96,7 @@
                 <router-link
                   v-if="item.ctaText"
                   :to="item.ctaLink || '#'"
-                  class="inline-flex items-center px-20 py-3 rounded-md bg-black text-white hover:bg-black/80 transition-colors"
+                  class="inline-flex items-center px-20 py-3 rounded-md bg-black text-white hover:bg-miaowu-green hover:text-black transition-colors duration-200"
                   :class="[
                     shouldAnimateContent
                       ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
@@ -140,7 +140,7 @@
             <!-- 文字在下：渐显+轻微横向滑入，分段延迟 -->
             <div class="mt-5">
               <h2
-                class="text-2xl md:text-3xl font-bold text-black leading-tight"
+                class="text-2xl md:text-3xl text-black leading-tight font-wendao"
                 :class="[
                   shouldAnimateContent
                     ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
@@ -184,7 +184,7 @@
                 <router-link
                   v-if="item.ctaText"
                   :to="item.ctaLink || '#'"
-                  class="inline-flex items-center px-20 py-3 rounded-md bg-black text-white hover:bg-black/80 transition-colors"
+                  class="inline-flex items-center px-20 py-3 rounded-md bg-black text-white hover:bg-miaowu-green hover:text-black transition-colors"
                   :class="[
                     shouldAnimateContent
                       ? 'motion-safe:transition-all motion-safe:duration-300 motion-safe:ease-out'
@@ -274,14 +274,14 @@
               <transition name="cube-3d" mode="out-in">
                 <span
                   :key="formattedCurrent"
-                  class="block text-black text-[40px] tracking-widest select-none font-medium cube-face"
+                  class="block text-black text-[40px] tracking-widest select-none cube-face font-anton"
                 >
                   {{ formattedCurrent }}
                 </span>
               </transition>
             </div>
             <!-- 总数：静态显示，不参与翻转动画 -->
-            <span class="text-black text-[40px] tracking-widest select-none font-medium"
+            <span class="text-black text-[40px] tracking-widest select-none font-anton"
               >/{{ formattedTotal }}</span
             >
           </div>
@@ -315,24 +315,24 @@ const banners = ref<BannerItem[]>([
   {
     id: 1,
     imageBase: 'banner1',
-    title: '让每一次推荐，都值得信任',
-    desc: '喵呜AI，不止是工具，是懂用户需求的顾问，是懂你想法的伙伴。在这里，科技不再冰冷，销售不再打扰，每一次连接，都源于理解，成于信任。',
+    title: '每一次推荐，都值得信任',
+    desc: '喵呜AI，不止是工具，是懂用户需求的顾问，是懂你想法的伙伴。在这里每一次链接，都源于理解，成于信任。',
     ctaText: '了解我们',
     ctaLink: '/about/company',
   },
   {
     id: 2,
     imageBase: 'banner2',
-    title: '你的专属AI顾问，现在就出发',
-    desc: '一个人，也可以是一支团队。喵呜AI，为你配备懂行业、懂用户、懂沟通的智能体，让个体价值被放大，让真诚推荐被看见。新电商，从被理解开始。',
+    title: '成为AI顾问，即刻出发',
+    desc: '一个人，也可以是一支团队。喵呜AI让个体价值被放大，让专业被看见。新电商，新战场。',
     ctaText: '下载App',
     ctaLink: 'products/app',
   },
   {
     id: 3,
     imageBase: 'banner3',
-    title: '好产品，值得被真正理解地推荐',
-    desc: '加入喵呜AI，让你的品牌走进千万用户的私人顾问。我们不只卖货，更帮品牌讲好故事，让每一单都是被理解的选择。招商进行中，等你来共建AI新电商。',
+    title: '好产品就是好答案',
+    desc: '入驻喵呜AI，让你的产品走进千万用户的生活。我们不只帮你卖货，让每一单都是用户笃定的选择。优质供应商火热招募中。',
     ctaText: '加入我们',
     ctaLink: '/cooperation/suppliers',
   },

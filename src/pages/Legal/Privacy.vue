@@ -1,7 +1,7 @@
 <template>
   <section v-fade-in-up="{ delay: 500 }" class="container bg-white py-12">
     <header class="mb-8 text-center flex flex-col items-center justify-center space-y-[30px]">
-      <h1 class="text-[56px] font-bold text-black">隐私协议</h1>
+      <h1 class="text-[56px] font-wendao text-black">隐私协议</h1>
       <div class="w-[100px] h-[3px] bg-black"></div>
       <div>
         <p class="text-gray-600 mt-2">更新日期：2025 年 10 月 30 日</p>

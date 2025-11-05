@@ -4,6 +4,10 @@ module.exports = {
   content: ['./index.html', './src/**/*.{vue,ts,tsx,js,jsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        anton: ['"Anton-Regular"', 'sans-serif'],
+        wendao: ['"WenDaoChaoHei-2"', 'sans-serif'],
+      },
       screens: {
         xs: '360px', // 超小屏手机
         sm: '640px',

@@ -19,7 +19,7 @@
               <!-- 文案区域（垂直居中，与左侧有间距） -->
               <div v-fade-in-up="{ delay: 500 }" class="flex-1 flex flex-col justify-center ml-24 mr-20 space-y-5">
                 <!-- 三行文案 -->
-                <h2 class="text-3xl font-semibold text-white">优质供应商招募</h2>
+                <h2 class="text-3xl font-wendao text-white">优质供应商招募</h2>
                 <p class="text-xl text-white mt-3">喵呜 AI / Me&U AI 是喵呜宇宙旗下集 科技+创意 双领先的 AI 顾问式电商品牌</p>
                 <p class="text-base text-white mt-2">
                   如您想加入我们：到司洽谈请预约，有任何问题请发邮件给我们。
@@ -39,7 +39,7 @@
         </section>
         <!-- 招募文案 -->
          <section v-fade-in-up="{ delay: 1000 }" class="w-full position space-y-8 flex flex-col items-center">
-          <h2 class="text-[56px] font-semibold text-black text-center">优质供应商，就等你来</h2>
+          <h2 class="text-[56px] font-wendao text-black text-center">优质供应商，就等你来</h2>
           <p class="text-xl text-center text-black max-w-[1316px] m-auto leading-[28px]">喵呜宇宙成立于2023年3月，是一家专注于AI智能体研发与营销创新应用的前沿科技公司。我们在2025年10月份，供应链开放招募中，喵呜期待优质的供应商以及品牌供应商都能加入我们，把「答案」-最合适的商品交到用户手中。</p>
           <!-- 了解详情按钮 -->
            <button
@@ -61,7 +61,7 @@
 
       <!-- 文案区域：置于背景图下方，间距适中 -->
       <div class="mt-6 space-y-4 text-center">
-        <h2 class="text-2xl font-semibold text-black">优质供应商招募</h2>
+        <h2 class="text-2xl font-wendao text-black">优质供应商招募</h2>
         <p class="text-base text-gray-700">喵呜 AI / Me&U AI 是喵呜宇宙旗下<br></br>集 科技+创意 双领先的 AI 顾问式电商品牌</p>
         <p class="text-sm text-gray-600">
           如您想加入我们：到司洽谈请预约，<br></br>有任何问题请发邮件给我们。
@@ -81,7 +81,7 @@
       </div>
         <!-- 招募文案 -->
          <section class="w-full position space-y-4 flex flex-col items-center">
-          <h2 class="text-2xl font-semibold text-black text-left">优质供应商，就等你来</h2>
+          <h2 class="text-2xl font-wendao text-black text-left">优质供应商，就等你来</h2>
           <p class="text-base text-left text-black">喵呜宇宙成立于2023年3月，是一家专注于AI智能体研发与营销创新应用的前沿科技公司。我们在2025年10月份，供应链开放招募中，喵呜期待优质的供应商以及品牌供应商都能加入我们，把「答案」-最合适的商品交到用户手中。</p>
          <!-- 了解详情按钮 -->
            <button
@@ -104,10 +104,12 @@ import bg from '@/assets/img/contact-bg.png'
 import emailImg from '@/assets/img/contact-email.png'
 import locationImg from '@/assets/img/contact-location.png'
 import MiaowuSelectedBrandPartners from '@/components/MiaowuSelectedBrandPartners.vue'
+import { requireLoginOrPrompt } from '@/utils/authGuard.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const goToRecruitment = () => {
+  if (!requireLoginOrPrompt()) return
   router.push('/products/supplier-console')
 }
 

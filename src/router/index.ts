@@ -36,12 +36,7 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/Products/SupplierConsole.vue'),
         meta: { title: '供应商管理后台' },
       },
-      {
-        path: 'mall',
-        name: 'ProductMall',
-        component: () => import('@/pages/Products/Mall.vue'),
-        meta: { title: '喵呜商城' },
-      },
+      
     ],
   },
 

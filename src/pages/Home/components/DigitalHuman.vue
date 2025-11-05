@@ -3,7 +3,7 @@
     <!-- 标题 -->
     <h2
       v-fade-in-up="{ delay: 300 }"
-      class="text-[28px] lg:text-[56px] font-bold text-center color-black mb-5"
+      class="text-[28px] lg:text-[56px] text-center color-black mb-5 font-wendao"
     >
       喵呜AI顾问式电商
     </h2>

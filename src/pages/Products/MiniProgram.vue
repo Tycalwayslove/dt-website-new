@@ -6,7 +6,7 @@
         <!-- 1. 顶部：左文右图 -->
         <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div>
-            <h1 class="text-[56px] font-extrabold tracking-tight mb-[30px] text-black">
+            <h1 class="text-[56px] tracking-tight mb-[30px] text-black font-wendao">
               喵呜AI 小程序
             </h1>
             <div class="w-[120px] h-[3px] bg-black mb-[30px]"></div>
@@ -76,9 +76,7 @@
             </div>
           </div>
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
-              喵呜AI 专业顾问
-            </h2>
+            <h2 class="text-[56px] font-wendao tracking-tight mb-5 text-black">喵呜AI 专业顾问</h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
               从「销售」到「专业顾问」的强化升级
             </p>
@@ -91,7 +89,7 @@
         <!-- 3. 左文右图：人格化展示 -->
         <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+            <h2 class="text-[56px] font-wendao tracking-tight mb-5 text-black">
               数字顾问的「人格化展示」
             </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
@@ -128,7 +126,7 @@
             </div>
           </div>
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+            <h2 class="text-[56px] font-wendao tracking-tight mb-5 text-black">
               顾问式电商服务逻辑
             </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
@@ -143,7 +141,7 @@
         <!-- 5. 左文右图：技术与体验融合 -->
         <section v-stagger="{ delay: 300 }" class="grid grid-cols-2 gap-16 items-center">
           <div>
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-5 text-black">
+            <h2 class="text-[56px] font-wendao tracking-tight mb-5 text-black">
               AI技术x体验的智能融合
             </h2>
             <p class="text-black text-xl leading-relaxed mb-5 font-medium">
@@ -180,7 +178,7 @@
               class="w-full h-full rounded-2xl object-cover"
             />
           </div>
-          <h1 class="text-2xl font-extrabold text-black">喵呜AI 小程序</h1>
+          <h1 class="text-2xl font-wendao text-black">喵呜AI 小程序</h1>
           <p class="text-black text-sm leading-relaxed">
             这次的喵呜AI小程序 V2.0
             从顾问人格化/产品分析可视化/品牌形象系统化三点入手，基于之前发布的 V1.0
@@ -221,7 +219,7 @@
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img02" alt="专业顾问模块" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold text-black">喵呜AI 专业顾问</h2>
+          <h2 class="text-xl font-wendao text-black">喵呜AI 专业顾问</h2>
           <p class="text-black text-base leading-relaxed font-medium">
             从「销售」到「专业顾问」的强化升级
           </p>
@@ -235,7 +233,7 @@
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img03" alt="人格化展示" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold text-black">数字顾问的「人格化展示」</h2>
+          <h2 class="text-xl font-wendao text-black">数字顾问的「人格化展示」</h2>
           <p class="text-black text-base leading-relaxed font-medium">
             #专业领域简要说明 | #可视知识呈现 | #多入口引导与「顾问」直接对话
           </p>
@@ -250,7 +248,7 @@
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img04" alt="服务逻辑" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold text-black">顾问式电商服务逻辑</h2>
+          <h2 class="text-xl font-wendao text-black">顾问式电商服务逻辑</h2>
           <p class="text-black text-base leading-relaxed font-medium">
             #认知设计 | #行为引导 | #信任教育
           </p>
@@ -264,7 +262,7 @@
           <div class="w-full" style="aspect-ratio: 560 / 300">
             <img :src="img05" alt="技术与体验融合" class="w-full h-full rounded-2xl object-cover" />
           </div>
-          <h2 class="text-xl font-bold">AI技术 × 体验的智能融合</h2>
+          <h2 class="text-xl font-wendao text-black">AI技术 × 体验的智能融合</h2>
           <p class="text-black text-base leading-relaxed font-medium">
             AI知识图谱 · 用户画像系统 · 智能推荐引擎
           </p>

@@ -8,7 +8,7 @@
     <div class="container mx-auto px-20 lg:px-20 py-20 hidden lg:block">
       <!-- 顶部：标题与分割线 -->
       <div v-fade-in-up="{ delay: 300 }" class="relative">
-        <h1 class="text-[56px] font-bold text-white mb-3">帮助中心</h1>
+        <h1 class="text-[56px] font-wendao text-white mb-3">帮助中心</h1>
       </div>
       <div v-fade-in-up="{ delay: 400 }" class="w-full h-px bg-white h-[3px]"></div>
 
@@ -367,7 +367,7 @@
                         <path d="M15 3h6v6" />
                         <path d="M10 14L21 3" />
                       </svg>
-                      使用指南完整版本（飞书文档）
+                      供应商入驻完整版本（飞书文档）
                     </div>
                     <p class="mt-1">
                       该链接用于查看更详细的操作说明与商家入驻要求，便于你快速完成入驻与上线。
@@ -821,9 +821,9 @@
                 <path d="M15 3h6v6" />
                 <path d="M10 14L21 3" />
               </svg>
-              使用指南完整版本（飞书文档）
+              供应商入驻完整版本（飞书文档）
             </div>
-            <p class="mt-1">链接包含更详细的操作说明与入驻要求，便于快速上线。</p>
+            <p class="mt-1">链接包含更详细的操作说明与入驻要求，便于快速入驻。</p>
           </div>
           <a
             href="https://v05ctaei9gn.feishu.cn/wiki/ECXswio4vi9ja2kN0AUcMISDnqd"

@@ -1,7 +1,7 @@
 <template>
   <section v-fade-in-up="{ delay: 500 }" class="container bg-white py-12">
     <header class="mb-8 text-center flex flex-col items-center justify-center space-y-[30px]">
-      <h1 class="text-[56px] font-bold text-black">服务条款</h1>
+      <h1 class="text-[56px] font-wendao text-black">服务条款</h1>
       <div class="w-[100px] h-[3px] bg-black"></div>
       <div>
         <p class="text-gray-600 mt-2">更新日期：2024 年 12 月 13 日</p>

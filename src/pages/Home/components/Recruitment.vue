@@ -2,7 +2,7 @@
   <section class="container py-10 md:py-16 lg:py-20">
     <!-- 移动端布局：上方文字，下方卡片信息 -->
     <div class="lg:hidden flex flex-col">
-      <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl font-bold text-left color-black mb-5">
+      <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl text-left color-black mb-5 font-wendao">
         喵呜AI招募
       </h2>
       <p v-fade-in-up="{ delay: 300 }" class="text-base leading-relaxed text-left color-black">
@@ -41,7 +41,7 @@
     <div class="hidden lg:flex flex-col gap-4">
       <!-- 文字区 -->
       <div class="flex flex-row gap-4 w-full flex-1 items-center">
-        <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl font-bold text-left color-black">
+        <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl text-left color-black font-wendao">
           喵呜AI招募
         </h2>
         <div class="flex-1">

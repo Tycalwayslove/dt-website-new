@@ -5,7 +5,7 @@
       <div class="">
         <section class="flex space-x-10 items-center">
           <!-- 标题 -->
-          <h2 class="text-[56px] font-medium text-black flex-shrink-0">供应商管理后台</h2>
+          <h2 class="text-[56px] font-wendao text-black flex-shrink-0">供应商管理后台</h2>
           <!-- 描述 -->
           <p class="text-black">
             让「答案」顾问式电商走进千家万户|让
@@ -66,7 +66,7 @@
               </div>
             </div>
             <div class="detail-header">
-              <div class="detail-button">
+              <div class="detail-button" @click="toMall">
                 <img class="w-5 h-5 mr-2" :src="img6" alt="" />
                 上传管理商品
               </div>
@@ -79,7 +79,7 @@
     <div v-fade-in-up="{ delay: 500 }" class="block lg:hidden px-6 pt-10">
       <!-- 标题、描述、分割线各占一行，间距适中 -->
       <section class="space-y-4">
-        <h2 class="text-2xl font-medium text-black">供应商管理后台</h2>
+        <h2 class="text-2xl font-wendao text-black">供应商管理后台</h2>
         <p class="text-sm text-black leading-7">
           让「答案」顾问式电商走进千家万户|让
           喵呜AI成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
@@ -140,7 +140,7 @@
             </div>
           </div>
           <div class="detail-header-mobile">
-            <div class="detail-button-mobile">
+            <div class="detail-button-mobile" @click="toMall">
               <img class="w-5 h-5 mr-2" :src="img6" alt="" />
               上传管理商品
             </div>
@@ -159,6 +159,14 @@ import img3 from '@/assets/img/supplier-console-03.png'
 import img4 from '@/assets/img/supplier-console-04.png'
 import img5 from '@/assets/img/supplier-console-05.png'
 import img6 from '@/assets/img/supplier-console-06.png'
+import { requireLoginOrPrompt } from '@/utils/authGuard.js'
+import { useMallRedirect } from '@/utils/mallNavigation.js'
+
+const { redirectToMall } = useMallRedirect()
+const toMall = async () => {
+  if (!requireLoginOrPrompt()) return
+  await redirectToMall()
+}
 </script>
 
 <style scoped>

@@ -1,5 +1,4 @@
-import { useAuthStore } from '@/stores/auth'
-import { useUiStore } from '@/stores/ui'
+import { useAuthStore } from '@/stores/auth.js'
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
 
 // 在开发模式下我们走 Vite 代理，使用 /api；在构建后的生产/测试模式下，使用环境的完整域名
@@ -39,9 +38,7 @@ instance.interceptors.response.use(
       else if (status === 401) {
         message = '未授权或登录已过期（401）'
         const auth = useAuthStore()
-        const ui = useUiStore()
         auth.clear()
-        ui.openReloginPrompt()
       } else if (status === 400) message = '请求参数有误（400）'
     } else if (error.code === 'ECONNABORTED') {
       message = '请求超时，请检查网络后重试'

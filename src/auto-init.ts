@@ -1,6 +1,6 @@
-import { useAuthStore } from '@/stores/auth'
-import { useThemeStore } from '@/stores/theme'
-import { useUiStore } from '@/stores/ui'
+import { useAuthStore } from '@/stores/auth.js'
+import { useThemeStore } from '@/stores/theme.js'
+import { useUiStore } from '@/stores/ui.js'
 
 export function bootstrap() {
   const store = useThemeStore()
@@ -8,5 +8,5 @@ export function bootstrap() {
   const auth = useAuthStore()
   auth.init()
   const ui = useUiStore()
-  if (!auth.token) ui.openReloginPrompt()
+  // 不主动弹登录框；若本地存在 token，auth.init 中已触发刷新用户信息
 }

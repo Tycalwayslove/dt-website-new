@@ -15,7 +15,7 @@
               <!-- 文案区域（垂直居中，与左侧有间距） -->
               <div v-fade-in-up="{ delay: 500 }" class="flex-1 flex flex-col justify-center ml-24 mr-20 space-y-5">
                 <!-- 三行文案 -->
-                <h2 class="text-3xl font-semibold text-white">喵呜AI卖手招募</h2>
+                <h2 class="text-3xl font-wendao text-white">喵呜AI卖手招募</h2>
                 <p class="text-xl text-white mt-3">喵呜 AI / Me&U AI 是喵呜宇宙旗下集 科技+创意 双领先的 AI 顾问式电商品牌</p>
                 <p class="text-base text-white mt-2">
                   如您想加入我们：到司洽谈请预约，有任何问题请发邮件给我们。
@@ -35,7 +35,7 @@
         </section>
         <!-- 招募文案 -->
         <section v-fade-in-up="{ delay: 1000 }" class="w-full position space-y-8 flex flex-col items-center">
-          <h2 class="text-[56px] font-semibold text-black text-center">谁适合做卖手</h2>
+          <h2 class="text-[56px] font-wendao text-black text-center">谁适合做卖手</h2>
           <p class="text-xl text-center text-black max-w-[1316px] m-auto leading-[28px]">
             每一个人都可以拥有一个自己的数字分身，能拥有属于自己的喵呜AI智能体伙伴。24小时为您的客户提供顾问式服务，把您的知识/流量/资源…全部变现。携手喵呜宇宙，一起进入AI时代的全新篇章。</p>
           <!-- 了解详情按钮 -->
@@ -60,7 +60,7 @@
 
       <!-- 文案区域：置于背景图下方，间距适中 -->
       <div class="mt-6 space-y-4 text-center">
-        <h2 class="text-2xl font-semibold text-black">喵呜AI卖手招募</h2>
+        <h2 class="text-2xl font-wendao text-black">喵呜AI卖手招募</h2>
         <p class="text-base text-gray-700">喵呜 AI / Me&U AI 是喵呜宇宙旗下<br></br>集 科技+创意 双领先的 AI 顾问式电商品牌</p>
         <p class="text-sm text-gray-600">
           如您想加入我们：到司洽谈请预约，<br></br>有任何问题请发邮件给我们。
@@ -80,7 +80,7 @@
       </div>
       <!-- 招募文案 -->
       <section class="w-full position space-y-4 flex flex-col items-center">
-        <h2 class="text-2xl font-semibold text-black text-left">谁适合做卖手</h2>
+        <h2 class="text-2xl font-wendao text-black text-left">谁适合做卖手</h2>
         <p class="text-base text-left text-black">
           每一个人都可以拥有一个自己的数字分身，能拥有属于自己的喵呜AI智能体伙伴。24小时为您的客户提供顾问式服务，把您的知识/流量/资源…全部变现。携手喵呜宇宙，一起进入AI时代的全新篇章。</p>
         <!-- 了解详情按钮 -->

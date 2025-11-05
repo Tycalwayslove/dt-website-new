@@ -30,7 +30,7 @@
                 <div class="relative overflow-hidden">
                   <h3
                     :class="[
-                      'text-[56px] lg:text-[56px] font-bold truncate',
+                      'text-[56px] lg:text-[56px] truncate font-wendao',
                       index % 2 === 0 ? 'text-black' : 'text-white',
                     ]"
                   >
@@ -95,7 +95,7 @@
             <div :class="index === companyList.length - 1 ? 'pb-10' : 'pb-14'">
               <h3
                 :class="[
-                  'text-[28px] xs:text-[28px] sm:text-3xl md:text-4xl font-bold',
+                  'text-[28px] xs:text-[28px] sm:text-3xl md:text-4xl font-wendao',
                   index % 2 === 1 ? 'text-white' : 'text-black',
                 ]"
               >

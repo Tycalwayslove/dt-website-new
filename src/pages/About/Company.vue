@@ -6,7 +6,7 @@
         <!-- 1. 顶部：左文右图:关于喵呜AI-->
         <section  class="grid grid-cols-2 gap-16 items-center">
           <div v-fade-in-up="{ delay: 500 }">
-            <h1 class="text-[56px] font-extrabold tracking-tight mb-[30px] text-black">关于喵呜AI</h1>
+            <h1 class="text-[56px] font-wendao tracking-tight mb-[30px] text-black">关于喵呜AI</h1>
             <!-- 分割线 -->
             <div class="w-[120px] h-[3px] bg-black mb-[30px]"></div>
 
@@ -75,7 +75,7 @@
           </div>
           <!-- 简介 -->
           <div v-fade-in-up="{ delay: 1100 }">
-            <h2 class="text-[56px] font-extrabold tracking-tight mb-[30px] text-black">喵呜AI创始团队</h2>
+            <h2 class="text-[56px] font-wendao tracking-tight mb-[30px] text-black">喵呜AI创始团队</h2>
             <p class="text-black text-xl leading-normal mb-6">
               喵鸣宇宙(深圳)人工智能有限公司的创始人团队，来自国内最早一批虚拟数字人研发与应用的核心团队。他们深耕于AI算法、虚拟形象生成、智能交互、以及数字人商业化落地等领域，拥有丰富的行业经验与技术积累。
             </p>
@@ -97,7 +97,7 @@
           }">
             <!-- 内容：文案（左对齐） -->
             <div v-fade-in-up="{ delay: 500 }" class="text-center flex flex-col justify-center items-center">
-              <h2 class="text-[56px] font-extrabold tracking-tight mb-[30px]">2025年10月喵呜供应链开放入驻</h2>
+              <h2 class="text-[56px] font-wendao tracking-tight mb-[30px]">2025年10月喵呜供应链开放入驻</h2>
               <p class=" text-xl leading-normal mb-[30px]">
                 用顾问给品牌背书：数字顾问的“专业推荐”相当于一个人格化的广告位，比算法推送更有说服力。知识共建机制：品牌可向平台提供专业内容（产品原理、产品规格、认证证书、使用建议等），被吸收入顾问AI知识库，形成品牌的“知识资产”；品牌知识进入AI知识库，长期可复用。用户洞察回流机制：AI顾问与用户互动的数据，反哺品牌决策，让品牌真正了解“为什么用户买/不买”。用户数据回流助力产品与内容优化。
               </p>
@@ -145,7 +145,7 @@
           </div>
           <!-- 文字 -->
           <div v-fade-in-up="{ delay: 800 }">
-            <h1 class="text-3xl font-extrabold tracking-tight mb-4">关于喵呜AI</h1>
+            <h1 class="text-3xl font-wendao tracking-tight mb-4">关于喵呜AI</h1>
             <div class="w-[80px] h-[3px] bg-black mb-4"></div>
             <p class="text-black text-base font-medium leading-relaxed mb-3">喵呜宇宙（深圳）人工智能有限公司</p>
             <p class="text-black text-base leading-relaxed mb-3">
@@ -165,7 +165,7 @@
         <section class="space-y-8">
           <!-- 简介 -->
           <div v-fade-in-up="{ delay: 500 }">
-            <h2 class="text-3xl font-extrabold tracking-tight mb-4">喵呜AI创始团队</h2>
+            <h2 class="text-3xl font-wendao tracking-tight mb-4">喵呜AI创始团队</h2>
             <p class="text-black text-base leading-relaxed mb-3">
               喵鸣宇宙(深圳)人工智能有限公司的创始人团队，来自国内最早一批虚拟数字人研发与应用的核心团队。他们深耕于AI算法、虚拟形象生成、智能交互、以及数字人商业化落地等领域，拥有丰富的行业经验与技术积累。
             </p>
@@ -218,7 +218,7 @@
           }">
             <!-- 内容：居中 -->
             <div v-fade-in-up="{ delay: 500 }" class="text-center flex flex-col justify-center items-center">
-              <h2 class="text-3xl font-extrabold tracking-tight mb-4">2025年10月喵呜供应链开放入驻</h2>
+              <h2 class="text-3xl font-wendao tracking-tight mb-4">2025年10月喵呜供应链开放入驻</h2>
               <p class="text-base leading-relaxed mb-4">
                 用顾问给品牌背书：数字顾问的“专业推荐”相当于一个人格化的广告位，比算法推送更有说服力。知识共建机制：品牌可向平台提供专业内容（产品原理、产品规格、认证证书、使用建议等），被吸收入顾问AI知识库，形成品牌的“知识资产”；品牌知识进入AI知识库，长期可复用。用户洞察回流机制：AI顾问与用户互动的数据，反哺品牌决策，让品牌真正了解“为什么用户买/不买”。用户数据回流助力产品与内容优化。
               </p>
@@ -264,10 +264,12 @@ import person1 from '@/assets/img/company-person-01.png'
 import person2 from '@/assets/img/company-person-02.png'
 import person3 from '@/assets/img/company-person-03.png'
 import bg from '@/assets/img/contact-bg.png'
+import { requireLoginOrPrompt } from '@/utils/authGuard.js'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const goToSupplierConsole = () => {
+  if (!requireLoginOrPrompt()) return
   router.push('/products/supplier-console')
 }
 </script>

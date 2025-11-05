@@ -1,3 +1,25 @@
+/* 字体引入 */
+@font-face {
+  font-family: 'Anton-Regular';
+  src: url('../fonts/Anton-Regular.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'WenDaoChaoHei-2';
+  src: url('../fonts/WenDaoChaoHei-2.ttf') format('truetype');
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 便捷工具类：直接使用自定义字体 */
+.font-anton {
+  font-family: 'Anton-Regular', sans-serif;
+}
+.font-wendao {
+  font-family: 'WenDaoChaoHei-2', sans-serif;
+}
+
 /* 基础排版与滚动行为 */
 html,
 body,

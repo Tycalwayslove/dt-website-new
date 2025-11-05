@@ -1,20 +1,5 @@
 import { httpGet, httpPost } from './http.js'
-
-// 通用 API 响应结构
-export interface ApiResponse<T = any> {
-  status: 'ok' | 'error'
-  message?: string
-  data: T
-  code?: number
-}
-
-// 错误响应结构
-export interface ApiError {
-  status: 'error'
-  message: string
-  code: number
-  data?: null
-}
+import type { ApiResponse } from './types.js'
 
 // AES 密钥响应数据结构
 export interface AesKeyData {

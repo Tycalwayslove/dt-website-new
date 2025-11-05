@@ -172,7 +172,6 @@ const products: Array<{ label: string; to: string }> = [
   { label: '喵呜AI 小程序', to: '/products/mini-program' },
   { label: '喵呜AI App', to: '/products/app' },
   { label: '供应商管理后台', to: '/products/supplier-console' },
-  { label: '喵呜商城', to: '/products/mall' },
 ]
 
 const cooperations: Array<{ label: string; to: string }> = [

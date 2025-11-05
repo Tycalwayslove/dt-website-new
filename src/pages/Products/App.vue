@@ -28,7 +28,7 @@
               <!-- 右侧：文案区域（垂直居中，与左侧有间距） -->
               <div v-stagger="{delay:500}" class="flex-1 flex flex-col justify-center ml-10 mr-20 space-y-5">
                 <!-- 三行文案 -->
-                <h2 class="text-3xl font-semibold text-white drop-shadow-md">喵呜App</h2>
+                <h2 class="text-3xl font-wendao text-white drop-shadow-md">喵呜App</h2>
                 <p class="text-xl text-white/90 mt-3 drop-shadow-md">AI 智能体，就用喵呜AI。</p>
                 <p class="text-base text-white/80 mt-2 drop-shadow-md">
                   打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵鸣AI智能体，您
@@ -65,7 +65,7 @@
         <!-- 下载app展示 -->
         <section class="w-full relative">
           <div v-fade-in-up="{ delay: 500 }" class="space-y-5 text-center color-black">
-            <h3 class="font-medium text-[56px] text-black">下载app展示</h3>
+            <h3 class="font-wendao text-[56px] text-black">下载app展示</h3>
             <p class="text-xl text-black">
               5分钟快速生成另一个你,聊天对话客服解答产品推荐，统统帮你搞定;<br />
               用AI连接世界，人人都可拥有自己的AI智能体,AI助手24小时智能对话交流，帮你介绍产品，解答客户疑问
@@ -168,7 +168,7 @@
 
       <!-- 文案区域：置于背景图下方，间距适中 -->
       <div v-fade-in-up="{ delay: 500 }" class="mt-6 space-y-4 text-center">
-        <h2 class="text-2xl font-semibold text-black">喵呜App</h2>
+        <h2 class="text-2xl font-wendao text-black">喵呜App</h2>
         <p class="text-base text-gray-700">AI 智能体，就用喵呜AI。</p>
         <p class="text-sm text-gray-600">
           打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵鸣AI智能体，您
@@ -202,7 +202,7 @@
       <!-- 下载app展示（移动端）：文本居中，卡片竖排 -->
       <div v-fade-in-up="{ delay: 500 }" class="mt-10">
         <div class="text-center space-y-3">
-          <h3 class="text-2xl font-semibold text-black">下载app展示</h3>
+          <h3 class="text-2xl font-wendao text-black">下载app展示</h3>
           <p class="text-sm text-gray-700 leading-8">
             5分钟快速生成另一个你,<br></br>聊天对话客服解答产品推荐，统统帮你搞定;<br />
             用AI连接世界，人人都可拥有自己的AI智能体,<br></br>AI助手24小时智能对话交流，<br></br>帮你介绍产品，解答客户疑问
