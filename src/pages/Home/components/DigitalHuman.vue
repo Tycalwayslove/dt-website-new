@@ -64,15 +64,14 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-const human01 = img('human-01.png')
-const human02 = img('human-02.png')
-const human03 = img('human-03.png')
-const human04 = img('human-04.png')
-const human05 = img('human-05.png')
-const human06 = img('human-06.png')
-const human07 = img('human-07.png')
-const human08 = img('human-08.png')
+import human01 from '@/assets/img/human-01.png'
+import human02 from '@/assets/img/human-02.png'
+import human03 from '@/assets/img/human-03.png'
+import human04 from '@/assets/img/human-04.png'
+import human05 from '@/assets/img/human-05.png'
+import human06 from '@/assets/img/human-06.png'
+import human07 from '@/assets/img/human-07.png'
+import human08 from '@/assets/img/human-08.png'
 import { onMounted, onUnmounted, ref } from 'vue'
 
 // 卡片数据接口

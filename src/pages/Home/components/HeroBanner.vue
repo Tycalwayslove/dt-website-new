@@ -292,7 +292,15 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
+import banner1B2x from '@/assets/img/banner/banner1-b@2x.png'
+import banner1P2x from '@/assets/img/banner/banner1-p@2x.png'
+import banner1Pc2x from '@/assets/img/banner/banner1-pc@2x.png'
+import banner2B2x from '@/assets/img/banner/banner2-b@2x.png'
+import banner2P2x from '@/assets/img/banner/banner2-p@2x.png'
+import banner2Pc2x from '@/assets/img/banner/banner2-pc@2x.png'
+import banner3B2x from '@/assets/img/banner/banner3-b@2x.png'
+import banner3P2x from '@/assets/img/banner/banner3-p@2x.png'
+import banner3Pc2x from '@/assets/img/banner/banner3-pc@2x.png'
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 
 // 轮播项结构
@@ -361,22 +369,22 @@ const imgSuffix = computed<'b' | 'p' | 'pc'>(() => {
   return 'b' // < lg
 })
 
-// 图片映射（通过 OSS URL 构建）
+// 图片映射（本地模块化导入）
 const bannerImages: Record<string, { b: string; p: string; pc: string }> = {
   banner1: {
-    b: img('banner/banner1-b@2x.png'),
-    p: img('banner/banner1-p@2x.png'),
-    pc: img('banner/banner1-pc@2x.png'),
+    b: banner1B2x,
+    p: banner1P2x,
+    pc: banner1Pc2x,
   },
   banner2: {
-    b: img('banner/banner2-b@2x.png'),
-    p: img('banner/banner2-p@2x.png'),
-    pc: img('banner/banner2-pc@2x.png'),
+    b: banner2B2x,
+    p: banner2P2x,
+    pc: banner2Pc2x,
   },
   banner3: {
-    b: img('banner/banner3-b@2x.png'),
-    p: img('banner/banner3-p@2x.png'),
-    pc: img('banner/banner3-pc@2x.png'),
+    b: banner3B2x,
+    p: banner3P2x,
+    pc: banner3Pc2x,
   },
 }
 

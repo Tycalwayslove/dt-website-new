@@ -1,14 +1,36 @@
 import vue from '@vitejs/plugin-vue'
 import { fileURLToPath, URL } from 'node:url'
+import fs from 'node:fs'
+import path from 'node:path'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
-  const API_BASE = env.VITE_API_BASE_URL || 'http://localhost:3000'
-  const PUBLIC_BASE = env.VITE_PUBLIC_BASE_URL || '/'
   const isTest = mode === 'test'
   const isProd = mode === 'production'
+  const API_BASE = env.VITE_API_BASE_URL || 'http://localhost:3000'
+  // Resolve public base from env or scripts/oss.config.json
+  let PUBLIC_BASE = env.VITE_PUBLIC_BASE_URL || '/'
+  if (!env.VITE_PUBLIC_BASE_URL) {
+    try {
+      const cfgPath = path.join(process.cwd(), 'scripts', 'oss.config.json')
+      if (fs.existsSync(cfgPath)) {
+        const raw = fs.readFileSync(cfgPath, 'utf-8')
+        const cfg = JSON.parse(raw) as {
+          bucket: string
+          region: string // e.g. oss-cn-guangzhou
+          testPrefix: string
+          prodPrefix: string
+        }
+        const endpoint = `${cfg.bucket}.${cfg.region}.aliyuncs.com`
+        const prefix = isTest ? cfg.testPrefix : cfg.prodPrefix
+        PUBLIC_BASE = `https://${endpoint}/${prefix}`
+      }
+    } catch (e) {
+      // Keep default '/'
+    }
+  }
   return {
     base: PUBLIC_BASE,
     plugins: [vue(), tsconfigPaths()],
@@ -43,6 +65,20 @@ export default defineConfig(({ mode }) => {
       chunkSizeWarningLimit: 900,
       rollupOptions: {
         output: {
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          chunkFileNames: 'assets/js/[name]-[hash].js',
+          assetFileNames: (assetInfo) => {
+            const name = assetInfo.name || ''
+            const ext = name.split('.').pop()?.toLowerCase() || ''
+            if (ext === 'css') return 'assets/css/[name]-[hash][extname]'
+            if (['png', 'jpg', 'jpeg', 'gif', 'webp', 'svg'].includes(ext)) {
+              return 'assets/img/[name]-[hash][extname]'
+            }
+            if (['woff', 'woff2', 'ttf', 'otf', 'eot'].includes(ext)) {
+              return 'assets/fonts/[name]-[hash][extname]'
+            }
+            return 'assets/static/[name]-[hash][extname]'
+          },
           manualChunks: {
             vendor: ['vue', 'vue-router', 'pinia'],
             ui: ['element-plus'],

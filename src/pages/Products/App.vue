@@ -285,18 +285,17 @@
 </template>
 
 <script setup lang="ts">
-// 页面：喵呜AI App（统一使用 OSS 图片）
-import { img } from '@/utils/assets.js'
-const img01 = img('product-app-01.png')
-const img02 = img('product-app-02.png')
-const img03 = img('product-app-03.png')
-const img04 = img('product-app-04.png')
-const img05 = img('product-app-05.png')
-const icon01 = img('product-app-icon-01.png')
-const icon02 = img('product-app-icon-02.png')
-const icon03 = img('product-app-icon-03.png')
-const icon04 = img('product-app-icon-04.png')
-const icon05 = img('product-app-icon-05.png')
+// 页面：喵呜AI App（静态资源模块化导入）
+import img01 from '@/assets/img/product-app-01.png'
+import img02 from '@/assets/img/product-app-02.png'
+import img03 from '@/assets/img/product-app-03.png'
+import img04 from '@/assets/img/product-app-04.png'
+import img05 from '@/assets/img/product-app-05.png'
+import icon01 from '@/assets/img/product-app-icon-01.png'
+import icon02 from '@/assets/img/product-app-icon-02.png'
+import icon03 from '@/assets/img/product-app-icon-03.png'
+import icon04 from '@/assets/img/product-app-icon-04.png'
+import icon05 from '@/assets/img/product-app-icon-05.png'
 import { onMounted, ref } from 'vue'
 
 // 移动端机型检测：ios / android / unknown

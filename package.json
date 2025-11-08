@@ -21,8 +21,8 @@
     "format": "prettier --write .",
     "deploy": "node scripts/deploy.mjs",
     "deploy:clean": "node scripts/deploy.mjs --clean",
-    "upload:oss:test": "node scripts/oss-upload.mjs --env=test",
-    "upload:oss:prod": "node scripts/oss-upload.mjs --env=prod",
+    "upload:oss:test": "node scripts/oss-upload.mjs --env=test --only-assets",
+    "upload:oss:prod": "node scripts/oss-upload.mjs --env=prod --only-assets",
     "deploy:oss:test": "pnpm build:test && pnpm upload:oss:test",
     "deploy:oss:prod": "pnpm build:prod && pnpm upload:oss:prod"
   },

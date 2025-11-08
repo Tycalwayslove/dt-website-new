@@ -557,7 +557,8 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
+import logoUrl from '@/assets/img/logo-light.png'
+import iconDownloadUrl from '@/assets/img/download.png'
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
 import { useMallRedirect } from '@/utils/mallNavigation.js'
@@ -566,8 +567,6 @@ import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 // Logo URL
-const logoUrl = img('logo-light.png')
-const iconDownloadUrl = img('download.png')
 
 // 定义导航项类型
 interface NavItem {

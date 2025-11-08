@@ -36,7 +36,6 @@ const routes: RouteRecordRaw[] = [
         component: () => import('@/pages/Products/SupplierConsole.vue'),
         meta: { title: '供应商管理后台' },
       },
-      
     ],
   },
 
@@ -141,7 +140,7 @@ router.beforeEach(() => {
 
 router.afterEach((to) => {
   if (to.meta?.title) {
-    document.title = String(to.meta.title) + ' - 公司官网'
+    document.title = String(to.meta.title) + ' - 喵呜AI - 顾问式电商平台'
   }
   NProgress.done()
 })

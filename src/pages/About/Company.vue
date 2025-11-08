@@ -255,16 +255,14 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-
-const img1 = img('company-img-01.png')
-const companyImg02 = img('company-img-02.png')
-const companyImg03 = img('company-img-03.png')
-const companyImg04 = img('company-img-04.png')
-const person1 = img('company-person-01.png')
-const person2 = img('company-person-02.png')
-const person3 = img('company-person-03.png')
-const bg = img('contact-bg.png')
+import img1 from '@/assets/img/company-img-01.png'
+import companyImg02 from '@/assets/img/company-img-02.png'
+import companyImg03 from '@/assets/img/company-img-03.png'
+import companyImg04 from '@/assets/img/company-img-04.png'
+import person1 from '@/assets/img/company-person-01.png'
+import person2 from '@/assets/img/company-person-02.png'
+import person3 from '@/assets/img/company-person-03.png'
+import bg from '@/assets/img/contact-bg.png'
 import { requireLoginOrPrompt } from '@/utils/authGuard.js'
 import { useRouter } from 'vue-router'
 

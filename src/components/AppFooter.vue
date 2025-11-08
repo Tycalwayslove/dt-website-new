@@ -177,8 +177,7 @@
 
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
-import { img } from '@/utils/assets.js'
-const logoDark = img('logo-dark.png')
+import logoDark from '@/assets/img/logo-dark.png'
 const year = new Date().getFullYear()
 
 const products: Array<{ label: string; to: string }> = [

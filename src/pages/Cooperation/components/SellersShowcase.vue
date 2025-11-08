@@ -15,15 +15,20 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { img } from '@/utils/assets.js'
+import sellers01 from '@/assets/img/sellers/sellers-01.png'
+import sellers02 from '@/assets/img/sellers/sellers-02.png'
+import sellers03 from '@/assets/img/sellers/sellers-03.png'
+import sellers04 from '@/assets/img/sellers/sellers-04.png'
+import sellers05 from '@/assets/img/sellers/sellers-05.png'
+import sellers06 from '@/assets/img/sellers/sellers-06.png'
 
 const images = [
-  img('sellers/sellers-01.png'),
-  img('sellers/sellers-02.png'),
-  img('sellers/sellers-03.png'),
-  img('sellers/sellers-04.png'),
-  img('sellers/sellers-05.png'),
-  img('sellers/sellers-06.png'),
+  sellers01,
+  sellers02,
+  sellers03,
+  sellers04,
+  sellers05,
+  sellers06,
 ]
 // 为实现无缝循环，重复一遍列表
 const loopImages = computed(() => [...images, ...images])

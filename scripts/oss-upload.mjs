@@ -91,6 +91,7 @@ async function main() {
   const opt = parseArgs()
   const env = opt.env === 'test' ? 'test' : (opt.env === 'prod' || opt.env === 'production' ? 'production' : 'production')
   const clean = !!opt.clean
+  const onlyAssets = !!(opt.onlyAssets || opt['only-assets'])
 
   const configPath = path.join(root, 'scripts', 'oss.config.json')
   const cfg = readJson(configPath)
@@ -117,8 +118,15 @@ async function main() {
   console.log(`[oss] 目标 Bucket: ${cfg.bucket}, 区域: ${cfg.region}, 前缀: ${prefix}`)
   if (clean) await ensureCleanPrefix(client, prefix)
 
-  const files = walk(localDir)
-  console.log(`[oss] 开始上传 ${files.length} 个文件到 ${prefix}`)
+  const filesAll = walk(localDir)
+  const assetsDir = path.join(localDir, 'assets')
+  let files = onlyAssets ? filesAll.filter((f) => f.startsWith(assetsDir)) : filesAll
+  // 始终包含站点根部图标（即使仅上传 assets），避免 favicon 丢失
+  if (onlyAssets) {
+    const favicon = path.join(localDir, 'favicon.ico')
+    if (isFile(favicon)) files.push(favicon)
+  }
+  console.log(`[oss] 开始上传 ${files.length} 个文件到 ${prefix}${onlyAssets ? '（仅 assets）' : ''}`)
   for (const full of files) {
     const rel = toPosix(path.relative(localDir, full))
     const remoteKey = `${prefix}${rel}`

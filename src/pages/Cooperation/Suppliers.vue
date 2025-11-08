@@ -100,9 +100,8 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-const bg = img('contact-bg.png')
-const locationImg = img('contact-location.png')
+import bg from '@/assets/img/contact-bg.png'
+import locationImg from '@/assets/img/contact-location.png'
 import MiaowuSelectedBrandPartners from '@/components/MiaowuSelectedBrandPartners.vue'
 import { requireLoginOrPrompt } from '@/utils/authGuard.js'
 import { useRouter } from 'vue-router'

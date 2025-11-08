@@ -17,7 +17,7 @@
       <div class="relative" @click.stop>
         <!-- 移动端背景图片容器 -->
         <div class="lg:hidden relative" style="width: 758px; max-width: 90vw">
-<img
+          <img
             :src="loginBgMobile"
             alt="登录背景"
             class="w-full h-auto object-contain"
@@ -111,7 +111,7 @@
                           <img :src="loginIconPhone" alt="手机" class="w-8 h-8" />
                         </div>
                         <p class="text-sm text-yellow-700 font-medium mb-1">请在手机上确认登录</p>
-                        <p class="text-xs text-yellow-600">查看您的喵呜APP</p>
+                        <p class="text-xs text-yellow-600">查看您的喵呜App</p>
                       </div>
                       <!-- 加载状态 -->
                       <div
@@ -173,7 +173,7 @@
                         >打开「
                         <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
                           <span class="text-black hover-underline underline lg:no-underline"
-                            >喵呜APP</span
+                            >喵呜App</span
                           >
                         </span>
                         」我的右上角扫码</span
@@ -302,7 +302,7 @@
                     请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
                     <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
                       <span class="text-black hover-underline underline lg:no-underline"
-                        >喵呜APP</span
+                        >喵呜App</span
                       >
                     </span>
                     」注册后登录。
@@ -315,7 +315,7 @@
 
         <!-- PC端背景图片容器 -->
         <div class="hidden lg:block relative" style="width: 514px">
-  <img
+          <img
             :src="loginBgPc"
             alt="登录背景"
             class="w-full h-auto object-contain"
@@ -409,7 +409,7 @@
                           <img :src="loginIconPhone" alt="手机" class="w-8 h-8" />
                         </div>
                         <p class="text-sm text-yellow-700 font-medium mb-1">请在手机上确认登录</p>
-                        <p class="text-xs text-yellow-600">查看您的喵呜APP</p>
+                        <p class="text-xs text-yellow-600">查看您的喵呜App</p>
                       </div>
                       <!-- 加载状态 -->
                       <div
@@ -482,7 +482,7 @@
                           @click="navigateToApp"
                         >
                           <span class="text-black hover-underline underline lg:no-underline"
-                            >喵呜APP</span
+                            >喵呜App</span
                           >
                         </span>
                         」扫描上方二维码</span
@@ -611,7 +611,7 @@
                     请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
                     <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
                       <span class="text-black hover-underline underline lg:no-underline"
-                        >喵呜APP</span
+                        >喵呜App</span
                       >
                     </span>
                     」注册后登录。
@@ -627,13 +627,12 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-const loginIconNoSee = img('login-icon-no-see.png')
-const loginIconPassword = img('login-icon-password.png')
-const loginIconPhone = img('login-icon-phone.png')
-const loginIconSee = img('login-icon-see.png')
-const loginBgMobile = img('login-bg-mobile.png')
-const loginBgPc = img('login-bg-pc.png')
+import loginBgMobile from '@/assets/img/login-bg-mobile.png'
+import loginBgPc from '@/assets/img/login-bg-pc.png'
+import loginIconNoSee from '@/assets/img/login-icon-no-see.png'
+import loginIconPassword from '@/assets/img/login-icon-password.png'
+import loginIconPhone from '@/assets/img/login-icon-phone.png'
+import loginIconSee from '@/assets/img/login-icon-see.png'
 import * as CryptoJS from 'crypto-js'
 import { ElMessage } from 'element-plus'
 import * as QRCode from 'qrcode'

@@ -93,9 +93,12 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
+// 移除 img() 助手，改用静态模块导入
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import rec01 from '@/assets/img/recruitment-01.png'
+import rec02 from '@/assets/img/recruitment-02.png'
+import rec03 from '@/assets/img/recruitment-03.png'
 
 // 招募信息接口
 interface RecruitmentItem {
@@ -110,19 +113,19 @@ const recruitmentList = ref<RecruitmentItem[]>([
   {
     id: 1,
     title: '「品牌供应商招募」',
-    image: img('recruitment-01.png'),
+    image: rec01,
     to: '/cooperation/suppliers',
   },
   {
     id: 2,
     title: '「喵呜AI卖手招募」',
-    image: img('recruitment-02.png'),
+    image: rec02,
     to: '/cooperation/sellers',
   },
   {
     id: 3,
     title: '「商务合作」',
-    image: img('recruitment-03.png'),
+    image: rec03,
     to: '/cooperation/partners',
   },
 ])
@@ -176,3 +179,6 @@ const goDetail = (item: RecruitmentItem) => {
   left: -16px;
 }
 </style>
+import rec01 from '@/assets/img/recruitment-01.png'
+import rec02 from '@/assets/img/recruitment-02.png'
+import rec03 from '@/assets/img/recruitment-03.png'

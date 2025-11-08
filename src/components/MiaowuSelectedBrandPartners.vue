@@ -36,8 +36,7 @@
 
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue'
-import { img } from '@/utils/assets.js'
-const brandPartners = img('brand-partners.png')
+import brandPartners from '@/assets/img/brand-partners.png'
 
 // 基准高度为 160px，移动端缩放，PC 端原始；间距参考 AI 合作伙伴组件
 const baseHeight = 160

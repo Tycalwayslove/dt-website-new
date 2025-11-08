@@ -47,11 +47,9 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-import { img } from '@/utils/assets.js'
-
-const topAdvMobile = img('top-adv-mobile.png')
-const topAdvLg = img('top-adv-lg.png')
-const topAdv3xl = img('top-adv-3xl.png')
+import topAdvMobile from '@/assets/img/top-adv-mobile.png'
+import topAdvLg from '@/assets/img/top-adv-lg.png'
+import topAdv3xl from '@/assets/img/top-adv-3xl.png'
 import { useRouter } from 'vue-router'
 
 // 初始状态为未关闭，每次刷新都会显示

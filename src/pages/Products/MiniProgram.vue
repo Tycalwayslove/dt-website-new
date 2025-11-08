@@ -277,13 +277,12 @@
 <script setup lang="ts">
 import { apiGenerateWechatScheme } from '@/api/index.js'
 import { apiGetWechatJsSdkConfig } from '@/api/wechat.js'
-import { img } from '@/utils/assets.js'
-const miniProgramCode = img('mini-program-code.png')
-const img01 = img('product-miniprogram-01.png')
-const img02 = img('product-miniprogram-02.png')
-const img03 = img('product-miniprogram-03.png')
-const img04 = img('product-miniprogram-04.png')
-const img05 = img('product-miniprogram-05.png')
+import miniProgramCode from '@/assets/img/mini-program-code.png'
+import img01 from '@/assets/img/product-miniprogram-01.png'
+import img02 from '@/assets/img/product-miniprogram-02.png'
+import img03 from '@/assets/img/product-miniprogram-03.png'
+import img04 from '@/assets/img/product-miniprogram-04.png'
+import img05 from '@/assets/img/product-miniprogram-05.png'
 import {
   buildWechatSchemeParams,
   isWeChatBrowser,

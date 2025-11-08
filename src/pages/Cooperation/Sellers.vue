@@ -100,9 +100,8 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-const bg = img('contact-bg.png')
-const locationImg = img('contact-location.png')
+import bg from '@/assets/img/contact-bg.png'
+import locationImg from '@/assets/img/contact-location.png'
 import { useRouter } from 'vue-router';
 import SellersShowcase from './components/SellersShowcase.vue';
 

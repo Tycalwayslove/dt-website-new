@@ -160,14 +160,13 @@
 </template>
 
 <script setup lang="ts">
-// 页面：供应商管理后台（统一使用 OSS 图片）
-import { img } from '@/utils/assets.js'
-const img1 = img('supplier-console-01.png')
-const img2 = img('supplier-console-02.png')
-const img3 = img('supplier-console-03.png')
-const img4 = img('supplier-console-04.png')
-const img5 = img('supplier-console-05.png')
-const img6 = img('supplier-console-06.png')
+// 页面：供应商管理后台（本地静态资源模块化导入）
+import img1 from '@/assets/img/supplier-console-01.png'
+import img2 from '@/assets/img/supplier-console-02.png'
+import img3 from '@/assets/img/supplier-console-03.png'
+import img4 from '@/assets/img/supplier-console-04.png'
+import img5 from '@/assets/img/supplier-console-05.png'
+import img6 from '@/assets/img/supplier-console-06.png'
 import { requireLoginOrPrompt } from '@/utils/authGuard.js'
 import { useMallRedirect } from '@/utils/mallNavigation.js'
 

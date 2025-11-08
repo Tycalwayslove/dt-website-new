@@ -30,11 +30,10 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-const partner01 = img('partner-01.png')
-const partner02 = img('partner-02.png')
-const partner03 = img('partner-03.png')
-const partner04 = img('partner-04.png')
+import partner01 from '@/assets/img/partner-01.png'
+import partner02 from '@/assets/img/partner-02.png'
+import partner03 from '@/assets/img/partner-03.png'
+import partner04 from '@/assets/img/partner-04.png'
 import { computed, onMounted, onUnmounted, ref } from 'vue'
 
 // 添加各自宽高，方便后续调整与适配

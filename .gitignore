@@ -7,3 +7,4 @@ dist/
 dist-test
 dist-test/
 nginx
+.DS_Store

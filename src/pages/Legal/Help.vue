@@ -969,22 +969,20 @@
 </template>
 
 <script setup lang="ts">
-import { img } from '@/utils/assets.js'
-// 统一使用 OSS URL 构建图片地址
-const helpBg = img('help-bg.png')
-const imgHelpWechat = img('help-wechat.png')
-const imgGuide1 = img('help/img_guide_1.png')
-const imgGuide2 = img('help/img_guide_2.png')
-const imgGuide3 = img('help/img_guide_3.png')
-const imgGuide4 = img('help/img_guide_4.png')
-const imgGuide5 = img('help/img_guide_5.png')
-const imgGuide6 = img('help/img_guide_6.png')
-const imgGuide7 = img('help/img_guide_7.png')
-const imgGuide8 = img('help/img_guide_8.png')
-const imgGuide9 = img('help/img_guide_9.png')
-const imgGuide10 = img('help/img_guide_10.png')
-const imgHelpTitle = img('help/img_help_title.png')
-const imgShopCategory = img('img_shop_category.png')
+import helpBg from '@/assets/img/help-bg.png'
+import imgHelpWechat from '@/assets/img/help-wechat.png'
+import imgGuide1 from '@/assets/img/help/img_guide_1.png'
+import imgGuide2 from '@/assets/img/help/img_guide_2.png'
+import imgGuide3 from '@/assets/img/help/img_guide_3.png'
+import imgGuide4 from '@/assets/img/help/img_guide_4.png'
+import imgGuide5 from '@/assets/img/help/img_guide_5.png'
+import imgGuide6 from '@/assets/img/help/img_guide_6.png'
+import imgGuide7 from '@/assets/img/help/img_guide_7.png'
+import imgGuide8 from '@/assets/img/help/img_guide_8.png'
+import imgGuide9 from '@/assets/img/help/img_guide_9.png'
+import imgGuide10 from '@/assets/img/help/img_guide_10.png'
+import imgHelpTitle from '@/assets/img/help/img_help_title.png'
+import imgShopCategory from '@/assets/img/img_shop_category.png'
 import {
   ComponentPublicInstance,
   computed,
