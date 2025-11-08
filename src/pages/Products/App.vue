@@ -31,7 +31,7 @@
                 <h2 class="text-3xl font-wendao text-white drop-shadow-md">喵呜App</h2>
                 <p class="text-xl text-white/90 mt-3 drop-shadow-md">AI 智能体，就用喵呜AI。</p>
                 <p class="text-base text-white/80 mt-2 drop-shadow-md">
-                  打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵鸣AI智能体，您
+                  打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵呜AI智能体，您
                   的高效销售方式只需一张照片，5分钟即可生成您的专属A1智能体，有货没货都能赚，省时省力，一键解锁私欲财富密码
                 </p>
 
@@ -110,10 +110,10 @@
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="前往 App Store 下载喵呜AI"
-                  class="text-xl text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
+                  class="hover-underline-group text-xl text-black mx-auto"
                   title="前往 App Store 下载"
                 >
-                  前往 App Store 下载 →
+                  <span class="hover-underline">前往 App Store 下载 >>>></span>
                 </a>
               </div>
 
@@ -125,7 +125,7 @@
                   <img
                     :src="img05"
                     alt="安卓下载二维码"
-                    class="w-[150px] max-w-[150px] min-w-[100px] h-[150px] max-h-[150px] min-h-[100px] rounded-lg object-cover"
+                    class="w-[120px] h-[150px] rounded-lg object-cover"
                   />
                 </div>
                 <h4 class="text-lg font-semibold text-black mt-10 mb-2 text-4xl text-black">
@@ -137,20 +137,20 @@
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="前往 OPPO 应用市场下载喵呜"
-                    class="text-xl text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
+                    class="hover-underline-group text-xl text-black"
                     title="OPPO 应用市场下载"
                   >
-                    OPPO应用市场下载 →
+                    <span class="hover-underline">OPPO应用市场下载 >>>></span>
                   </a>
                   <a
                     href="https://wap.pp.cn/app_BycxLcx5eUze/"
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label="前往 PP 助手下载喵呜"
-                    class="text-xl text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
+                    class="hover-underline-group text-xl text-black"
                     title="PP 助手下载"
                   >
-                    PP助手下载 →
+                    <span class="hover-underline">PP助手下载 >>>></span>
                   </a>
                 </div>
               </div>
@@ -171,7 +171,7 @@
         <h2 class="text-2xl font-wendao text-black">喵呜App</h2>
         <p class="text-base text-gray-700">AI 智能体，就用喵呜AI。</p>
         <p class="text-sm text-gray-600">
-          打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵鸣AI智能体，您
+          打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵呜AI智能体，您
           的高效销售方式只需一张照片，5分钟即可生成您的专属A1智能体，有货没货都能赚，省时省力，一键解锁私欲财富密码
         </p>
         <!-- 图标横向排列：居中，适配小屏尺寸 -->
@@ -252,7 +252,7 @@
             class="bg-white/95 rounded-2xl border border-black px-4 py-6 w-full sm:max-w-[460px] mx-auto text-center"
           >
             <div class="flex justify-center">
-              <img :src="img05" alt="安卓 下载图标" class="w-20 h-20 rounded-lg object-cover" />
+              <img :src="img05" alt="安卓 下载图标" class="w-20 h-30 rounded-lg object-cover" />
             </div>
             <h4 class="text-lg font-semibold text-black mt-6 mb-2">安卓下载</h4>
             <div class="flex flex-col items-center space-y-2">
@@ -261,20 +261,20 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="前往 OPPO 应用市场下载喵呜"
-                class="text-sm text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
+                class="text-sm text-black underline underline-offset-4"
                 title="OPPO 应用市场下载"
               >
-                OPPO应用市场下载 →
+                OPPO应用市场下载 >>>>
               </a>
               <a
                 href="https://wap.pp.cn/app_BycxLcx5eUze/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="前往 PP 助手下载喵呜"
-                class="text-sm text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
+                class="text-sm text-black underline underline-offset-4 "
                 title="PP 助手下载"
               >
-                PP助手下载 →
+                PP助手下载 >>>>
               </a>
             </div>
           </div>
@@ -285,17 +285,18 @@
 </template>
 
 <script setup lang="ts">
-// 页面：喵呜AI App
-import img01 from '@/assets/img/product-app-01.png'
-import img02 from '@/assets/img/product-app-02.png'
-import img03 from '@/assets/img/product-app-03.png'
-import img04 from '@/assets/img/product-app-04.png'
-import img05 from '@/assets/img/product-app-05.png'
-import icon01 from '@/assets/img/product-app-icon-01.png'
-import icon02 from '@/assets/img/product-app-icon-02.png'
-import icon03 from '@/assets/img/product-app-icon-03.png'
-import icon04 from '@/assets/img/product-app-icon-04.png'
-import icon05 from '@/assets/img/product-app-icon-05.png'
+// 页面：喵呜AI App（统一使用 OSS 图片）
+import { img } from '@/utils/assets.js'
+const img01 = img('product-app-01.png')
+const img02 = img('product-app-02.png')
+const img03 = img('product-app-03.png')
+const img04 = img('product-app-04.png')
+const img05 = img('product-app-05.png')
+const icon01 = img('product-app-icon-01.png')
+const icon02 = img('product-app-icon-02.png')
+const icon03 = img('product-app-icon-03.png')
+const icon04 = img('product-app-icon-04.png')
+const icon05 = img('product-app-icon-05.png')
 import { onMounted, ref } from 'vue'
 
 // 移动端机型检测：ios / android / unknown

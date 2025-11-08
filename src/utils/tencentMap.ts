@@ -52,8 +52,7 @@ const loadTMapScript = (key: string) => {
 const searchPOI = async (key: string, address: string, city?: string) => {
   const boundary = city ? `region(${encodeURIComponent(city)},0)` : 'nearby(22.53318,113.93042,10000)'
   const url = `https://apis.map.qq.com/ws/place/v1/search?keyword=${encodeURIComponent(address)}&boundary=${boundary}&key=${key}`
-  const resp = await fetch(url)
-  const data = await resp.json()
+  const data = await jsonp(url)
   if (data && data.status === 0 && Array.isArray(data.data) && data.data.length > 0) {
     const best = data.data.find((d: any) => /科兴科学园/i.test(`${d.title} ${d.address || ''}`)) || data.data[0]
     return best
@@ -64,8 +63,7 @@ const searchPOI = async (key: string, address: string, city?: string) => {
 const geocode = async (key: string, address: string, city?: string) => {
   const url = `https://apis.map.qq.com/ws/geocoder/v1/?address=${encodeURIComponent(address)}&key=${key}` +
     (city ? `&region=${encodeURIComponent(city)}` : '')
-  const resp = await fetch(url)
-  const data = await resp.json()
+  const data = await jsonp(url)
   if (data && data.status === 0 && data.result?.location) {
     return data.result
   }
@@ -126,4 +124,40 @@ export async function initTencentMap(options: InitMapOptions): Promise<InitMapRe
   })
 
   return { map, marker, infoWindow, location: { lat, lng } }
+}
+
+// JSONP 工具：给 URL 追加 output=jsonp&callback，并通过 script 标签拿结果以绕过 CORS
+function jsonp(url: string, timeout = 10000): Promise<any> {
+  return new Promise((resolve, reject) => {
+    const cbName = `__qqmap_cb_${Date.now()}_${Math.random().toString(36).slice(2)}`
+    const sep = url.includes('?') ? '&' : '?'
+    const src = `${url}${sep}output=jsonp&callback=${cbName}`
+
+    let timer: any
+    const cleanup = () => {
+      try { delete (window as any)[cbName] } catch {}
+      const script = document.getElementById(cbName)
+      if (script && script.parentNode) script.parentNode.removeChild(script)
+      if (timer) clearTimeout(timer)
+    }
+
+    ;(window as any)[cbName] = (data: any) => {
+      cleanup()
+      resolve(data)
+    }
+
+    const script = document.createElement('script')
+    script.id = cbName
+    script.src = src
+    script.onerror = () => {
+      cleanup()
+      reject(new Error('JSONP 请求失败'))
+    }
+    document.body.appendChild(script)
+
+    timer = setTimeout(() => {
+      cleanup()
+      reject(new Error('JSONP 请求超时'))
+    }, timeout)
+  })
 }

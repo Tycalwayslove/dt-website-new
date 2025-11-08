@@ -6,9 +6,11 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const API_BASE = env.VITE_API_BASE_URL || 'http://localhost:3000'
+  const PUBLIC_BASE = env.VITE_PUBLIC_BASE_URL || '/'
   const isTest = mode === 'test'
   const isProd = mode === 'production'
   return {
+    base: PUBLIC_BASE,
     plugins: [vue(), tsconfigPaths()],
     resolve: {
       alias: {
@@ -18,11 +20,16 @@ export default defineConfig(({ mode }) => {
     server: {
       port: 5173,
       open: true,
+      host: true,
       proxy: {
         '/api': {
           target: API_BASE,
           changeOrigin: true,
           rewrite: (path) => path.replace(/^\/api/, ''),
+        },
+        '/manage': {
+          target: API_BASE + '/manage',
+          changeOrigin: true,
         },
       },
     },

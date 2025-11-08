@@ -2,12 +2,18 @@
   <section class="container py-10 md:py-16 lg:py-20">
     <!-- 移动端布局：上方文字，下方卡片信息 -->
     <div class="lg:hidden flex flex-col">
-      <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl text-left color-black mb-5 font-wendao">
+      <h2
+        v-fade-in-up="{ delay: 300 }"
+        class="text-4xl text-left color-black mb-5 font-wendao text-black"
+      >
         喵呜AI招募
       </h2>
-      <p v-fade-in-up="{ delay: 300 }" class="text-base leading-relaxed text-left color-black">
+      <p
+        v-fade-in-up="{ delay: 300 }"
+        class="text-base leading-relaxed text-left color-black text-black"
+      >
         让「答案」顾问式电商走进千家万户让
-        喵鸣A成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
+        喵呜A成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
       </p>
       <!-- 了解详情按钮(暂时隐藏) -->
       <button
@@ -41,16 +47,19 @@
     <div class="hidden lg:flex flex-col gap-4">
       <!-- 文字区 -->
       <div class="flex flex-row gap-4 w-full flex-1 items-center">
-        <h2 v-fade-in-up="{ delay: 300 }" class="text-4xl text-left color-black font-wendao">
+        <h2
+          v-fade-in-up="{ delay: 300 }"
+          class="text-4xl text-left color-black font-wendao text-black"
+        >
           喵呜AI招募
         </h2>
         <div class="flex-1">
           <p
             v-fade-in-left="{ delay: 300 }"
-            class="text-xl leading-relaxed text-left color-black ml-10 max-w-[567px]"
+            class="text-xl leading-relaxed text-left color-black ml-10 max-w-[567px] text-black"
           >
             让「答案」顾问式电商走进千家万户让
-            喵鸣A成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
+            喵呜A成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
           </p>
         </div>
         <!-- 了解详情按钮 (暂时隐藏) -->
@@ -84,6 +93,7 @@
 </template>
 
 <script setup lang="ts">
+import { img } from '@/utils/assets.js'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -100,19 +110,19 @@ const recruitmentList = ref<RecruitmentItem[]>([
   {
     id: 1,
     title: '「品牌供应商招募」',
-    image: '/src/assets/img/recruitment-01.png',
+    image: img('recruitment-01.png'),
     to: '/cooperation/suppliers',
   },
   {
     id: 2,
     title: '「喵呜AI卖手招募」',
-    image: '/src/assets/img/recruitment-02.png',
+    image: img('recruitment-02.png'),
     to: '/cooperation/sellers',
   },
   {
     id: 3,
     title: '「商务合作」',
-    image: '/src/assets/img/recruitment-03.png',
+    image: img('recruitment-03.png'),
     to: '/cooperation/partners',
   },
 ])
@@ -149,6 +159,9 @@ const goDetail = (item: RecruitmentItem) => {
   color: #9bff2bff;
   text-decoration: underline;
   cursor: pointer;
+}
+.detail-button:hover {
+  color: #ffffff;
 }
 .detail-button::before {
   content: '';

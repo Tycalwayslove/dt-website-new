@@ -1,0 +1,8 @@
+{
+  "bucket": "your-oss-bucket-name",
+  "region": "oss-cn-guangzhou",
+  "accessKeyId": "YOUR_ACCESS_KEY_ID",
+  "accessKeySecret": "YOUR_ACCESS_KEY_SECRET",
+  "testPrefix": "website-test/",
+  "prodPrefix": "website-prod/"
+}

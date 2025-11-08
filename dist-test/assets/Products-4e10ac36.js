@@ -1,2 +1,0 @@
-import{_ as e}from"./index-98a1ee2b.js";import{al as r,z as t,I as c}from"./vendor-976643fc.js";import"./ui-3423648c.js";const n={};function s(_,a){const o=r("RouterView");return t(),c(o)}const i=e(n,[["render",s]]);export{i as default};
-//# sourceMappingURL=Products-4e10ac36.js.map

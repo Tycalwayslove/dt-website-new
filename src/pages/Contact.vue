@@ -81,13 +81,14 @@
 </template>
 
 <script setup lang="ts">
-import bg from '@/assets/img/contact-bg.png'
-import emailImg from '@/assets/img/contact-email.png'
-import locationImg from '@/assets/img/contact-location.png'
+import { img } from '@/utils/assets.js'
+const bg = img('contact-bg.png')
+const emailImg = img('contact-email.png')
+const locationImg = img('contact-location.png')
 import { initTencentMap } from '@/utils/tencentMap'
 import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 
-const COMPANY_ADDRESS = '深圳市南山区粤海街道科兴科学园A1-10'
+const COMPANY_ADDRESS = '深圳市南山区粤海街道科兴科学园A1-1003'
 
 const mapContainerRef = ref<HTMLDivElement | null>(null)
 const mobileMapContainerRef = ref<HTMLDivElement | null>(null)

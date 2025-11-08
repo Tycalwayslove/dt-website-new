@@ -3,14 +3,14 @@
     <!-- 标题 -->
     <h2
       v-fade-in-up="{ delay: 300 }"
-      class="text-[28px] lg:text-[56px] text-center color-black mb-5 font-wendao"
+      class="text-[28px] lg:text-[56px] text-center color-black mb-5 font-wendao text-black"
     >
       喵呜AI顾问式电商
     </h2>
     <!-- 描述 -->
     <p
       v-fade-in-up="{ delay: 300 }"
-      class="text-sm lg:text-base leading-relaxed text-center color-black px-[10px] lg:px-[230px]"
+      class="text-sm lg:text-base leading-relaxed text-center color-black px-[10px] lg:px-[230px] text-black"
     >
       "我们不是在找推广者，而是在共创新一代顾问职业。"未来每一个数字人，都是一个微型品牌。你不只是卖货，而是在塑造你的知识影响力。喵呜A的定制顾问数字人不仅仅是你24在线服务用户的工具，而是一种"新型身份"--一个被AI放大的、可复制的"顾问人格体"。每个数字人背后都是一个真实的内容创造者、知识服务者或AI运营者。
     </p>
@@ -26,7 +26,7 @@
           }"
         >
           <div
-            v-fade-in-up="{ delay: 500 }"
+            v-fade-in-up="{ delay: 300 }"
             v-for="(card, index) in column.cards"
             :key="card.id"
             :class="['waterfall-card', { 'last-card': index === column.cards.length - 1 }]"
@@ -37,22 +37,22 @@
               <!-- 内容 -->
               <div class="pt-1">
                 <h3
-                  class="text-sm sm:text-sm md:text-base lg:text-4xl font-bold text-black mb-1 sm:mb-1 lg:mb-3 truncate"
+                  class="text-sm sm:text-sm md:text-base lg:text-2xl font-bold text-black mb-1 sm:mb-1 lg:mb-3 truncate"
                 >
                   {{ card.name }}
                 </h3>
                 <p
-                  class="text-xs sm:text-xs md:text-sm lg:text-xl text-gray-600 leading-relaxed line-clamp-2"
+                  class="text-base sm:text-xs md:text-sm lg:text-base text-gray-600 leading-relaxed line-clamp-2"
                 >
                   {{ card.description }}
                 </p>
               </div>
               <!-- 图片（卡片悬停：轻微3D+图片放大与聚焦） -->
-              <div class="w-full aspect-[1/1] overflow-hidden mt-3 lg:mt-8 rounded-xl">
+              <div class="w-full overflow-hidden mt-3 lg:mt-8 rounded-xl">
                 <img
                   :src="card.avatar"
                   :alt="card.name"
-                  class="w-full h-full object-cover transition duration-300 ease-out transform group-hover:scale-110 filter group-hover:brightness-105 group-hover:saturate-105"
+                  class="w-full h-auto object-contain transition duration-300"
                 />
               </div>
             </div>
@@ -64,6 +64,15 @@
 </template>
 
 <script setup lang="ts">
+import { img } from '@/utils/assets.js'
+const human01 = img('human-01.png')
+const human02 = img('human-02.png')
+const human03 = img('human-03.png')
+const human04 = img('human-04.png')
+const human05 = img('human-05.png')
+const human06 = img('human-06.png')
+const human07 = img('human-07.png')
+const human08 = img('human-08.png')
 import { onMounted, onUnmounted, ref } from 'vue'
 
 // 卡片数据接口
@@ -85,63 +94,51 @@ interface Column {
 const cards = ref<Card[]>([
   {
     id: 1,
-    name: '张顾问',
-    description: '专业电商顾问，10年行业经验，擅长数据分析与运营策略',
-    avatar: '/src/assets/img/human-01.png',
+    name: '生活好物优选官',
+    description: '帮你挑选刚需好物，低价也能实用又省心零食饮料达人。',
+    avatar: human01,
   },
   {
     id: 2,
-    name: '李老师',
-    description: 'AI技术专家，专注于数字人定制服务',
-    avatar: '/src/assets/img/human-02.png',
+    name: '零食饮料达人',
+    description: '挖遍美味宝藏，精准戳中你的舌尖偏好。',
+    avatar: human02,
   },
   {
     id: 3,
-    name: '王经理',
-    description: '品牌运营顾问，帮助打造个人IP影响力',
-    avatar: '/src/assets/img/human-03.png',
+    name: '酒水选购顾问',
+    description: '适配场景预算口味，量身定制专属选酒方案。',
+    avatar: human03,
   },
   {
     id: 4,
-    name: '刘顾问',
-    description: '内容创作专家，擅长文案策划与内容营销',
-    avatar: '/src/assets/img/human-04.png',
+    name: '茗语 AI 助手',
+    description: '聊茶文化教冲泡，做你身边的专属茶艺师。',
+    avatar: human04,
   },
   {
     id: 5,
-    name: '陈老师',
-    description: '数据分析师，提供专业的数据洞察服务',
-    avatar: '/src/assets/img/human-05.png',
+    name: '米面粮油选购顾问',
+    description: '严选优质米面粮油，守护你的日常膳食健康。',
+    avatar: human05,
   },
   {
     id: 6,
-    name: '赵经理',
-    description: '用户体验专家，优化用户旅程设计',
-    avatar: '/src/assets/img/human-06.png',
+    name: '美妆护肤顾问',
+    description: '懂你的肤质需求，定制温和有效的护肤方案',
+    avatar: human06,
   },
   {
     id: 7,
-    name: '孙顾问',
-    description: '市场策略专家，制定精准的市场定位',
-    avatar: '/src/assets/img/human-07.png',
+    name: '生鲜水果',
+    description: '懂品种知时令合偏好，严选当季鲜美水果。',
+    avatar: human07,
   },
   {
     id: 8,
-    name: '周老师',
-    description: '品牌设计顾问，打造独特的视觉形象',
-    avatar: '/src/assets/img/human-08.png',
-  },
-  {
-    id: 9,
-    name: '吴经理',
-    description: '社媒运营专家，擅长多平台内容分发',
-    avatar: '/src/assets/img/human-01.png',
-  },
-  {
-    id: 10,
-    name: '郑顾问',
-    description: '电商咨询顾问，提供一站式解决方案',
-    avatar: '/src/assets/img/human-02.png',
+    name: '滋补保健顾问',
+    description: '适配你的体质和生活习惯，帮你搞定科学进补方案',
+    avatar: human08,
   },
 ])
 

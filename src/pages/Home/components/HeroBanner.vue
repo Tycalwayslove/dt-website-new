@@ -24,7 +24,7 @@
           class="w-full flex-shrink-0"
         >
           <!-- PC端：左图右文（lg 及以上）-->
-          <div class="hidden lg:grid items-center lg:[grid-template-columns:auto_1fr] gap-8">
+          <div class="hidden lg:grid items-center lg:[grid-template-columns:auto_1fr] gap-20">
             <!-- 左侧图片（按断点和视口计算尺寸与比例），入场动效 + 渐变遮罩 + 浅阴影 -->
             <div class="w-full flex justify-center">
               <div
@@ -40,12 +40,12 @@
                 <img
                   :src="getImageSrc(item)"
                   :alt="item.title"
-                  class="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500"
+                  class="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500 rounded-2xl"
                   loading="eager"
                 />
                 <!-- 微妙渐变遮罩，底部略暗以提升层次 -->
                 <div
-                  class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-black/0 to-black/0"
+                  class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-black/0 to-black/0 rounded-2xl"
                 ></div>
               </div>
             </div>
@@ -129,12 +129,12 @@
               <img
                 :src="getImageSrc(item)"
                 :alt="item.title"
-                class="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500"
+                class="w-full h-full object-cover motion-safe:transition-transform motion-safe:duration-500 rounded-2xl"
                 loading="eager"
               />
               <!-- 微妙渐变遮罩，底部略暗以提升层次 -->
               <div
-                class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-black/0 to-black/0"
+                class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/10 via-black/0 to-black/0 rounded-2xl"
               ></div>
             </div>
             <!-- 文字在下：渐显+轻微横向滑入，分段延迟 -->
@@ -245,40 +245,37 @@
         </svg>
       </button>
 
-      <!-- 指示器：底部居中（条形样式，轻量化无蒙层），按真实索引高亮；移动端隐藏 -->
-      <div class="hidden lg:block absolute bottom-4 left-1/2 -translate-x-1/2">
+      <!-- 指示器与数字索引：右下角并排显示；圆点指示器在左，数字索引在右；移动端隐藏 -->
+      <div class="hidden lg:flex absolute bottom-1 right-1 items-center gap-4">
+        <!-- 圆点指示器（黑/灰）：当前为黑点，其余为灰点 -->
         <div class="pointer-events-auto flex items-center justify-center gap-2">
           <button
             v-for="(item, i) in banners"
-            :key="item.id + '-bar'"
+            :key="item.id + '-dot'"
             type="button"
-            class="transition-all duration-200 h-1 lg:h-1.5 rounded-full ring-1"
+            class="w-1.5 h-1.5 lg:w-2 lg:h-2 rounded-full transition-colors duration-200 ring-1"
             :class="
               i + 1 === currentRealIndex
-                ? 'w-10 lg:w-12 bg-miaowu-green ring-miaowu-green/60 shadow'
-                : 'w-5 lg:w-6 bg-white/70 hover:bg-white/90 ring-white/50'
+                ? 'bg-black ring-black/40'
+                : 'bg-gray-400 hover:bg-gray-500 ring-black/10'
             "
             @click="goTo(i)"
             :aria-label="`切换到第 ${i + 1} 张`"
             :aria-current="i + 1 === currentRealIndex ? 'true' : 'false'"
           />
         </div>
-      </div>
 
-      <!-- 数字索引指示器：右下角，显示 01/03；仅当前数字 正方体翻转（cube），总数静态；移动端隐藏 -->
-      <div class="hidden lg:flex absolute bottom-1 right-1 items-center justify-end">
+        <!-- 数字索引指示器：显示 01/03；仅当前数字 正方体翻转（cube），总数静态 -->
         <div class="relative inline-block px-2 py-1">
           <div class="flex items-baseline gap-1 leading-none">
             <!-- 当前数字：正方体翻转切换（沿 Y 轴旋转） -->
-            <div class="h-[44px] overflow-hidden cube-persp">
-              <transition name="cube-3d" mode="out-in">
-                <span
-                  :key="formattedCurrent"
-                  class="block text-black text-[40px] tracking-widest select-none cube-face font-anton"
-                >
-                  {{ formattedCurrent }}
-                </span>
-              </transition>
+            <div class="h-[44px] overflow-hidden">
+              <span
+                :key="formattedCurrent"
+                class="block text-black text-[40px] tracking-widest select-none font-anton"
+              >
+                {{ formattedCurrent }}
+              </span>
             </div>
             <!-- 总数：静态显示，不参与翻转动画 -->
             <span class="text-black text-[40px] tracking-widest select-none font-anton"
@@ -295,6 +292,7 @@
 </template>
 
 <script setup lang="ts">
+import { img } from '@/utils/assets.js'
 import { computed, nextTick, onMounted, onUnmounted, ref } from 'vue'
 
 // 轮播项结构
@@ -363,9 +361,29 @@ const imgSuffix = computed<'b' | 'p' | 'pc'>(() => {
   return 'b' // < lg
 })
 
-// 生成图片路径（使用与项目一致的 /src 资产引用方式）
+// 图片映射（通过 OSS URL 构建）
+const bannerImages: Record<string, { b: string; p: string; pc: string }> = {
+  banner1: {
+    b: img('banner/banner1-b@2x.png'),
+    p: img('banner/banner1-p@2x.png'),
+    pc: img('banner/banner1-pc@2x.png'),
+  },
+  banner2: {
+    b: img('banner/banner2-b@2x.png'),
+    p: img('banner/banner2-p@2x.png'),
+    pc: img('banner/banner2-pc@2x.png'),
+  },
+  banner3: {
+    b: img('banner/banner3-b@2x.png'),
+    p: img('banner/banner3-p@2x.png'),
+    pc: img('banner/banner3-pc@2x.png'),
+  },
+}
+
+// 根据断点返回对应的已导入图片地址
 function getImageSrc(item: BannerItem): string {
-  return `/src/assets/img/banner/${item.imageBase}-${imgSuffix.value}@2x.png`
+  const map = bannerImages[item.imageBase]
+  return map ? map[imgSuffix.value] : ''
 }
 
 // 轮播逻辑（无缝无限）：首尾克隆

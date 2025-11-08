@@ -13,4 +13,25 @@
   .btn-main-black {
     @apply inline-flex items-center justify-center rounded-[8px] bg-miaowu-green text-black transition-colors duration-200 hover:bg-white hover:text-black;
   }
+
+  /* 链接文字下划线动画（可复用） */
+  .hover-underline-group {
+    @apply inline-flex;
+  }
+  .hover-underline {
+    position: relative;
+  }
+  .hover-underline::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: currentColor;
+    transition: width 300ms;
+  }
+  .hover-underline-group:hover .hover-underline::after {
+    width: 100%;
+  }
 }

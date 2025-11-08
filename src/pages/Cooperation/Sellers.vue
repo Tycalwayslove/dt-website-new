@@ -18,17 +18,17 @@
                 <h2 class="text-3xl font-wendao text-white">喵呜AI卖手招募</h2>
                 <p class="text-xl text-white mt-3">喵呜 AI / Me&U AI 是喵呜宇宙旗下集 科技+创意 双领先的 AI 顾问式电商品牌</p>
                 <p class="text-base text-white mt-2">
-                  如您想加入我们：到司洽谈请预约，有任何问题请发邮件给我们。
+                  如您想加入我们：请预约到司洽谈。
                 </p>
                 <!-- 地址（图标+地址） -->
                 <p class="text-base text-white mt-2 flex items-center">
                   <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-                  深圳市南山区粤海街道科兴科学园A1-10
+                  深圳市南山区粤海街道科兴科学园A1-1003
                 </p>
-                <p class="text-base text-white mt-2 flex items-center">
+                <!-- <p class="text-base text-white mt-2 flex items-center">
                   <img :src="emailImg" alt="地址图标" class="w-[18px] h-[13px] mr-2" />
                   service@meupop.com
-                </p>
+                </p> -->
               </div>
             </div>
           </div>
@@ -40,7 +40,7 @@
             每一个人都可以拥有一个自己的数字分身，能拥有属于自己的喵呜AI智能体伙伴。24小时为您的客户提供顾问式服务，把您的知识/流量/资源…全部变现。携手喵呜宇宙，一起进入AI时代的全新篇章。</p>
           <!-- 了解详情按钮 -->
           <button
-            class="w-[200px] h-[48px] text-center bg-black text-white hover:bg-miaowu-green hover:text-black rounded-xl drop-shadow-md flex items-center justify-center"
+            class="w-[200px] h-[48px] text-center bg-black text-white hover:bg-miaowu-green hover:text-black rounded-xl flex items-center justify-center duration-200"
             @click="goToApp" aria-label="跳转到喵呜AI App 页面">
             开启分身
           </button>
@@ -63,18 +63,18 @@
         <h2 class="text-2xl font-wendao text-black">喵呜AI卖手招募</h2>
         <p class="text-base text-gray-700">喵呜 AI / Me&U AI 是喵呜宇宙旗下<br></br>集 科技+创意 双领先的 AI 顾问式电商品牌</p>
         <p class="text-sm text-gray-600">
-          如您想加入我们：到司洽谈请预约，<br></br>有任何问题请发邮件给我们。
+          如您想加入我们：请预约到司洽谈。
         </p>
         <!-- 地址（图标+地址） -->
         <div class="w-full p-4 bg-black flex flex-col items-left justify-start">
           <p class="text-base text-white mt-2 flex items-left text-left">
             <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-            深圳市南山区粤海街道科兴科学园A1-10
+            深圳市南山区粤海街道科兴科学园A1-1003
           </p>
-          <p class="text-base text-white mt-2 flex items-center">
+          <!-- <p class="text-base text-white mt-2 flex items-center">
             <img :src="emailImg" alt="地址图标" class="w-[18px] h-[13px] mr-2" />
             service@meupop.com
-          </p>
+          </p> -->
         </div>
 
       </div>
@@ -85,7 +85,7 @@
           每一个人都可以拥有一个自己的数字分身，能拥有属于自己的喵呜AI智能体伙伴。24小时为您的客户提供顾问式服务，把您的知识/流量/资源…全部变现。携手喵呜宇宙，一起进入AI时代的全新篇章。</p>
         <!-- 了解详情按钮 -->
         <button
-          class="w-[200px] h-[48px] text-center bg-black text-white hover:bg-miaowu-green hover:text-black rounded-xl drop-shadow-md flex items-center justify-center"
+          class="w-[200px] h-[48px] text-center bg-black text-white hover:bg-miaowu-green hover:text-black rounded-xl duration-200 flex items-center justify-center"
           @click="goToApp" aria-label="跳转到喵呜AI App 页面">
           开启分身
         </button>
@@ -100,9 +100,9 @@
 </template>
 
 <script setup lang="ts">
-import bg from '@/assets/img/contact-bg.png';
-import emailImg from '@/assets/img/contact-email.png';
-import locationImg from '@/assets/img/contact-location.png';
+import { img } from '@/utils/assets.js'
+const bg = img('contact-bg.png')
+const locationImg = img('contact-location.png')
 import { useRouter } from 'vue-router';
 import SellersShowcase from './components/SellersShowcase.vue';
 

@@ -1,2 +1,9 @@
 node_modules/
 node_modules
+scripts/deploy.config.json
+scripts/oss.config.json
+dist
+dist/
+dist-test
+dist-test/
+nginx

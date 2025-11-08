@@ -184,33 +184,31 @@
             从顾问人格化/产品分析可视化/品牌形象系统化三点入手，基于之前发布的 V1.0
             进行核心理念的强化和升级。它不只是改版，而是一次品牌的信任与升级，一次体验哲学的加强与重构！未来我们会继续基于「专业顾问」的核心理念持续优化和迭代产品。
           </p>
-          <div
-            class="relative inline-block"
-            @mouseenter="showCode = true"
-            @mouseleave="showCode = false"
-          >
+          <div class="relative inline-block">
+            <!-- 微信内置浏览器：通过原生 DOM 注入 open tag，规避模板内 <script> 报错 -->
+            <div v-if="isWeChat && wechatAppId">
+              <!-- JSSDK 未加载或 open tag 尚未注入前的占位与回退按钮（仍可走 Scheme） -->
+              <button
+                v-show="!wxLaunchRendered"
+                class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-black transition-colors"
+                @click="handleMobileLaunch"
+                aria-haspopup="true"
+                :aria-expanded="showCode"
+              >
+                马上体验
+              </button>
+              <div ref="wxLaunchContainer"></div>
+            </div>
+            <!-- 非微信浏览器：点击跳转 URL Scheme；失败则展示二维码提示扫码 -->
             <button
-              class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-white transition-colors"
-              @click="showCode = !showCode"
+              v-else
+              class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-black transition-colors"
+              @click="handleMobileLaunch"
               aria-haspopup="true"
               :aria-expanded="showCode"
             >
-              扫码体验
+              马上体验
             </button>
-            <div
-              v-show="showCode"
-              class="absolute top-full left-0 mt-2 bg-white border border-black shadow-lg rounded-xl p-3 z-10"
-            >
-              <img
-                :src="miniProgramCode"
-                alt="小程序二维码"
-                width="64"
-                height="64"
-                class="object-contain"
-                loading="lazy"
-              />
-              <p class="text-xs text-gray-600 mt-2">扫码即可体验喵呜AI小程序</p>
-            </div>
           </div>
         </section>
 
@@ -277,17 +275,54 @@
 </template>
 
 <script setup lang="ts">
-import miniProgramCode from '@/assets/img/banner/mini-program-code.png'
-import img01 from '@/assets/img/product-miniprogram-01.png'
-import img02 from '@/assets/img/product-miniprogram-02.png'
-import img03 from '@/assets/img/product-miniprogram-03.png'
-import img04 from '@/assets/img/product-miniprogram-04.png'
-import img05 from '@/assets/img/product-miniprogram-05.png'
+import { apiGenerateWechatScheme } from '@/api/index.js'
+import { apiGetWechatJsSdkConfig } from '@/api/wechat.js'
+import { img } from '@/utils/assets.js'
+const miniProgramCode = img('mini-program-code.png')
+const img01 = img('product-miniprogram-01.png')
+const img02 = img('product-miniprogram-02.png')
+const img03 = img('product-miniprogram-03.png')
+const img04 = img('product-miniprogram-04.png')
+const img05 = img('product-miniprogram-05.png')
+import {
+  buildWechatSchemeParams,
+  isWeChatBrowser,
+  loadWechatJSSDK,
+  openMiniProgramByScheme,
+} from '@/utils/wechat.js'
 import { onMounted, onUnmounted, ref } from 'vue'
 
 const showCode = ref(false)
 const qrTriggerDesktop = ref<HTMLElement | null>(null)
 let hideTimer: number | null = null
+
+// 存储微信小程序 URL Scheme（后端生成）
+const miniProgramScheme = ref<string>('')
+// 环境：是否在微信浏览器中
+const isWeChat = ref<boolean>(false)
+// 小程序参数（通过工具函数从环境变量构建，避免直接使用 import.meta）
+const wechatAppId = ref<string>('')
+const wechatPath = ref<string>('')
+const wechatQuery = ref<string>('')
+// open tag 容器与事件句柄
+const wxLaunchContainer = ref<HTMLElement | null>(null)
+let wxLaunchEl: HTMLElement | null = null
+let tagLaunchHandler: ((e: Event) => void) | null = null
+let tagErrorHandler: ((e: Event) => void) | null = null
+const wxLaunchRendered = ref<boolean>(false)
+
+// 移动端点击行为（非微信浏览器）：优先 URL Scheme，失败则展示二维码
+function handleMobileLaunch() {
+  if (miniProgramScheme.value) {
+    const ok = openMiniProgramByScheme(miniProgramScheme.value)
+    if (!ok) {
+      showCode.value = true
+    }
+  } else {
+    // 若尚未拿到 scheme，临时展示二维码
+    showCode.value = true
+  }
+}
 
 const onEnter = () => {
   if (hideTimer) {
@@ -318,11 +353,127 @@ const handleKeydown = (e: KeyboardEvent) => {
 onMounted(() => {
   document.addEventListener('click', handleClickOutside)
   document.addEventListener('keydown', handleKeydown)
+  isWeChat.value = isWeChatBrowser()
+
+  // 从环境变量构建默认参数（在工具函数中读取 import.meta.env）
+  const cfg = buildWechatSchemeParams()
+  wechatAppId.value = cfg.appid || ''
+  wechatPath.value = cfg.jump_wxa?.path || ''
+  wechatQuery.value = cfg.jump_wxa?.query || ''
+
+  // 微信内置浏览器加载 JSSDK，并绑定 open tag 事件
+  if (isWeChat.value) {
+    loadWechatJSSDK()
+      .then(async () => {
+        try {
+          const pageUrl = window.location.href.split('#')[0]
+          const cfgResp = await apiGetWechatJsSdkConfig(pageUrl)
+          const cfg: any = cfgResp?.data || {}
+          const wxObj = (window as any).wx
+          if (!wxObj) throw new Error('wx not found after JSSDK load')
+          console.log('hhahha')
+          console.log(cfg)
+
+          wxObj.config({
+            debug: true,
+            appId: cfg.appId || wechatAppId.value,
+            timestamp: cfg.timestamp,
+            nonceStr: cfg.nonceStr,
+            signature: cfg.signature,
+            jsApiList: Array.isArray(cfg.jsApiList) ? cfg.jsApiList : [],
+            openTagList: Array.isArray(cfg.openTagList)
+              ? cfg.openTagList
+              : ['wx-open-launch-weapp'],
+          })
+
+          wxObj.ready(() => {
+            const container = wxLaunchContainer.value
+            if (!container) return
+            // 创建 open tag 元素
+            const openTag = document.createElement('wx-open-launch-weapp')
+            openTag.id = 'wx-launch-weapp'
+            openTag.style.display = 'inline-block'
+            if (wechatAppId.value) openTag.setAttribute('appid', wechatAppId.value)
+            if (wechatPath.value) openTag.setAttribute('path', wechatPath.value)
+            if (wechatQuery.value) openTag.setAttribute('query', wechatQuery.value)
+            // 注入模板按钮
+            const scriptTpl = document.createElement('script')
+            scriptTpl.type = 'text/wxtag-template'
+            scriptTpl.innerHTML = `
+<button class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-black transition-colors" aria-haspopup="true">马上体验</button>
+            `
+            openTag.appendChild(scriptTpl)
+            container.innerHTML = ''
+            container.appendChild(openTag)
+            wxLaunchEl = openTag
+            wxLaunchRendered.value = true
+            // 事件处理
+            tagLaunchHandler = () => {
+              console.log('[wechat] open tag launch success')
+            }
+            tagErrorHandler = (e: any) => {
+              console.warn('[wechat] open tag launch error:', e?.detail || e)
+              if (miniProgramScheme.value) {
+                openMiniProgramByScheme(miniProgramScheme.value)
+              } else {
+                // 保持按钮显示，无二维码回退
+              }
+            }
+            openTag.addEventListener('launch', tagLaunchHandler)
+            openTag.addEventListener('error', tagErrorHandler)
+          })
+
+          wxObj.error((err: any) => {
+            console.warn('[wechat] wx.config error:', err)
+            // 配置错误时保留占位按钮，仍可走 Scheme
+            wxLaunchRendered.value = false
+          })
+        } catch (err) {
+          console.warn('[wechat] get jsapi signature failed:', err)
+          // 无法配置时保留占位按钮
+          wxLaunchRendered.value = false
+        }
+      })
+      .catch((err) => {
+        console.warn('[wechat] load jssdk failed:', err)
+      })
+  }
+  // 生成永久有效的 URL Scheme（不带鉴权头）
+  apiGenerateWechatScheme(
+    buildWechatSchemeParams({
+      // 可在此覆盖 .env 的默认配置，例如临时指定路径或 query
+      // path: '/pages/index/index',
+      // query: 'from=web',
+    })
+  )
+    .then((resp) => {
+      const data: any = resp?.data
+      // 兼容不同字段名
+      const scheme =
+        typeof data === 'string' ? data : data?.openlink || data?.scheme || data?.url_scheme || ''
+      miniProgramScheme.value = scheme || ''
+      if (miniProgramScheme.value) {
+        console.log('[wechat] generated scheme:', miniProgramScheme.value)
+      }
+    })
+    .catch((err) => {
+      console.warn('[wechat] generate_scheme failed:', err?.message || err)
+    })
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', handleClickOutside)
   document.removeEventListener('keydown', handleKeydown)
+  // 事件清理（若存在）
+  if (wxLaunchEl) {
+    try {
+      if (tagLaunchHandler) wxLaunchEl.removeEventListener('launch', tagLaunchHandler)
+      if (tagErrorHandler) wxLaunchEl.removeEventListener('error', tagErrorHandler)
+    } catch {}
+    wxLaunchEl = null
+    tagLaunchHandler = null
+    tagErrorHandler = null
+  }
 })
 </script>
 

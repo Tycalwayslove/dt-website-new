@@ -40,6 +40,20 @@ a {
   outline-offset: 2px;
 }
 
+/* 全局移除按钮的默认焦点轮廓（outline） */
+button:focus,
+button:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
+/* 全局移除链接（a/RouterLink）的默认焦点轮廓 */
+a:focus,
+a:focus-visible {
+  outline: none;
+  outline-offset: 0;
+}
+
 /* 简单过渡 */
 .fade-enter-active,
 .fade-leave-active {

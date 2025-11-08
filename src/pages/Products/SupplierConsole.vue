@@ -43,7 +43,11 @@
                 aria-label="查询入驻规则（新开页）"
               >
                 <img class="w-5 h-5 mr-2" :src="img5" alt="" />
-                查询入驻规则
+                <div class="hover-underline-group flex items-center">
+                  <span class="hover-underline leading-[30px] inline-block">
+                    查询入驻规则
+                  </span>
+                </div>
               </a>
             </div>
           </div>
@@ -66,9 +70,13 @@
               </div>
             </div>
             <div class="detail-header">
-              <div class="detail-button" @click="toMall">
+              <div class="detail-button hover-underline cursor-pointer" @click="toMall">
                 <img class="w-5 h-5 mr-2" :src="img6" alt="" />
-                上传管理商品
+                  <div class="hover-underline-group flex items-center">
+                  <span class="hover-underline leading-[30px] inline-block">
+                    上传管理商品
+                  </span>
+                </div>
               </div>
             </div>
           </div>
@@ -152,13 +160,14 @@
 </template>
 
 <script setup lang="ts">
-// 页面：供应商管理后台
-import img1 from '@/assets/img/supplier-console-01.png'
-import img2 from '@/assets/img/supplier-console-02.png'
-import img3 from '@/assets/img/supplier-console-03.png'
-import img4 from '@/assets/img/supplier-console-04.png'
-import img5 from '@/assets/img/supplier-console-05.png'
-import img6 from '@/assets/img/supplier-console-06.png'
+// 页面：供应商管理后台（统一使用 OSS 图片）
+import { img } from '@/utils/assets.js'
+const img1 = img('supplier-console-01.png')
+const img2 = img('supplier-console-02.png')
+const img3 = img('supplier-console-03.png')
+const img4 = img('supplier-console-04.png')
+const img5 = img('supplier-console-05.png')
+const img6 = img('supplier-console-06.png')
 import { requireLoginOrPrompt } from '@/utils/authGuard.js'
 import { useMallRedirect } from '@/utils/mallNavigation.js'
 
@@ -188,13 +197,11 @@ const toMall = async () => {
   line-height: 98px;
   text-align: center;
   font-size: 20px;
-  font-weight: 500;
   color: #fff;
   background: #9bff2b;
   border-top-left-radius: 16px;
   border-bottom-right-radius: 16px;
   color: #000;
-  text-decoration: underline;
 }
 .detail-button::before {
   content: '';

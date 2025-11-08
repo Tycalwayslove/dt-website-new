@@ -59,8 +59,8 @@
           <RouterLink
             v-if="!item.children"
             :to="item.to"
-            class="text-white hover:text-miaowu-green transition-colors duration-200 relative block px-6 h-full flex items-center"
-            :class="{ 'text-miaowu-green': isActive(item.to) }"
+            class="hover:text-miaowu-green transition-colors duration-200 relative block px-6 h-full flex items-center"
+            :class="isActive(item.to) ? 'text-miaowu-green' : 'text-white'"
           >
             {{ item.label }}
             <!-- 选中时的下划线 -->
@@ -150,7 +150,7 @@
       <div class="flex items-center gap-[10px] ml-auto h-full flex-row">
         <!-- PC端用户头像/登录按钮 -->
         <div
-          class="hidden lg:flex flex-row items-center justify-center relative w-20 h-full bg-[#ffffff1a]"
+          class="hidden lg:flex flex-row items-center justify-center relative w-20 h-full hover:bg-[#ffffff1a]"
         >
           <!-- 未登录状态：显示登录按钮 -->
           <button
@@ -260,11 +260,11 @@
         </div>
 
         <!-- 移动端用户头像/登录按钮 -->
-        <div class="lg:hidden bg-[#ffffff1a]">
+        <div class="lg:hidden">
           <!-- 未登录状态：显示登录按钮 -->
           <button
             v-if="!auth.isLoggedIn"
-            class="flex items-center justify-center border border-white/30 text-white w-12 h-12 rounded-full hover:border-miaowu-green hover:text-miaowu-green transition-all duration-200"
+            class="text-sm flex items-center justify-center border border-white/30 text-white w-12 h-12 rounded-full hover:border-miaowu-green hover:text-miaowu-green transition-all duration-200"
             @click="ui.openLoginDialog()"
           >
             登录
@@ -299,7 +299,7 @@
 
         <!-- PC端：完整下载按钮 -->
         <button
-          class="hidden lg:flex items-center justify-center gap-2 bg-miaowu-green text-black px-[36px] py-[12px] rounded-2xl text-base hover:bg-white hover:text-black transition-colors duration-200"
+          class="hidden lg:flex items-center justify-center gap-2 bg-miaowu-green text-black px-[36px] py-[12px] rounded-xl text-base hover:bg-white hover:text-black transition-colors duration-200"
           @click="goToApp"
         >
           <img :src="iconDownloadUrl" alt="下载喵呜App" class="w-6 h-6" />
@@ -308,7 +308,7 @@
 
         <!-- 移动端：仅图标按钮 -->
         <button
-          class="lg:hidden flex items-center justify-center bg-miaowu-green text-white p-3 rounded-2xl hover:bg-green-600 transition-colors duration-200"
+          class="lg:hidden flex items-center justify-center bg-miaowu-green text-white p-3 rounded-xl hover:bg-green-600 transition-colors duration-200"
           @click="goToApp"
         >
           <img :src="iconDownloadUrl" alt="下载" class="w-5 h-5" />
@@ -359,8 +359,8 @@
                 <RouterLink
                   v-if="!item.children"
                   :to="item.to"
-                  class="block py-5 text-lg font-medium text-white hover:text-miaowu-green transition-colors duration-200"
-                  :class="{ 'text-miaowu-green': isActive(item.to) }"
+                  class="block py-5 text-lg font-medium hover:text-miaowu-green transition-colors duration-200"
+                  :class="isActive(item.to) ? 'text-miaowu-green' : 'text-white'"
                   @click="open = false"
                 >
                   {{ item.label }}
@@ -370,7 +370,7 @@
                 <div v-else>
                   <button
                     class="w-full flex items-center justify-between py-5 text-lg font-medium text-white hover:text-miaowu-green transition-colors duration-200"
-                    :class="{ 'text-miaowu-green': isActiveParent(item) }"
+                    :class="[{ 'text-miaowu-green': isActiveParent(item) }]"
                     @click="toggleMobileSubmenu(item.to)"
                   >
                     <span>{{ item.label }}</span>
@@ -412,8 +412,8 @@
                       >
                         <RouterLink
                           :to="child.to"
-                          class="block py-4 pl-4 text-base text-white/70 hover:text-miaowu-green transition-colors duration-200"
-                          :class="{ 'text-miaowu-green': isActive(child.to) }"
+                          class="block py-4 pl-4 text-base hover:text-miaowu-green transition-colors duration-200"
+                          :class="isActive(child.to) ? 'text-miaowu-green' : 'text-white/70'"
                           @click="open = false"
                         >
                           {{ child.label }}
@@ -429,11 +429,29 @@
           <!-- 固定在底部的链接 -->
           <div class="flex-shrink-0 border-t border-white/10 px-6 py-4">
             <div class="flex items-center justify-center gap-x-3 text-xs text-miaowu-green">
-              <a href="#" class="hover:text-white transition-colors">帮助中心</a>
+              <RouterLink
+                to="/legal/help"
+                class="hover:text-white transition-colors"
+                @click="open = false"
+              >
+                帮助中心
+              </RouterLink>
               <span class="text-white/30">|</span>
-              <a href="#" class="hover:text-white transition-colors">隐私协议</a>
+              <RouterLink
+                to="/legal/privacy"
+                class="hover:text-white transition-colors"
+                @click="open = false"
+              >
+                隐私协议
+              </RouterLink>
               <span class="text-white/30">|</span>
-              <a href="#" class="hover:text-white transition-colors">服务条款</a>
+              <RouterLink
+                to="/legal/terms"
+                class="hover:text-white transition-colors"
+                @click="open = false"
+              >
+                服务条款
+              </RouterLink>
             </div>
           </div>
         </div>
@@ -539,8 +557,7 @@
 </template>
 
 <script setup lang="ts">
-import iconDownload from '@/assets/img/download.png'
-import logoLight from '@/assets/img/logo-light.png'
+import { img } from '@/utils/assets.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
 import { useMallRedirect } from '@/utils/mallNavigation.js'
@@ -549,8 +566,8 @@ import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 // Logo URL
-const logoUrl = logoLight
-const iconDownloadUrl = iconDownload
+const logoUrl = img('logo-light.png')
+const iconDownloadUrl = img('download.png')
 
 // 定义导航项类型
 interface NavItem {
@@ -649,6 +666,26 @@ onMounted(() => {
   })
 })
 
+// 锁定/解锁页面滚动（移动端菜单或用户面板打开时）
+const lockBodyScroll = () => {
+  document.body.style.overflow = 'hidden'
+  document.documentElement.style.overflow = 'hidden'
+}
+
+const unlockBodyScroll = () => {
+  document.body.style.overflow = ''
+  document.documentElement.style.overflow = ''
+}
+
+// 根据面板状态控制页面滚动
+watchEffect(() => {
+  if (open.value || mobileUserPanelOpen.value) {
+    lockBodyScroll()
+  } else {
+    unlockBodyScroll()
+  }
+})
+
 // 监听路由变化，关闭移动端菜单
 watchEffect(() => {
   route.path
@@ -663,17 +700,25 @@ watchEffect(() => {
   }
 })
 
-// 检查当前路由是否激活
+// 规范化路径：去掉尾部斜杠，保持根路径为 '/'
+const normalizePath = (p: string) => {
+  const trimmed = p.replace(/\/+$/, '')
+  return trimmed === '' ? '/' : trimmed
+}
+
+// 检查当前路由是否激活（更稳健的匹配，忽略尾部斜杠）
 const isActive = (path: string) => {
-  return route.path === path
+  return normalizePath(route.path) === normalizePath(path)
 }
 
 // 检查父级导航是否激活（子路由有一个激活即可）
 const isActiveParent = (item: NavItem) => {
   if (!item.children) return false
-  return item.children.some(
-    (child) => route.path === child.to || route.path.startsWith(child.to + '/')
-  )
+  const current = normalizePath(route.path)
+  return item.children.some((child) => {
+    const target = normalizePath(child.to)
+    return current === target || current.startsWith(target + '/')
+  })
 }
 
 // 切换移动端子菜单
@@ -753,6 +798,11 @@ const toggleMobileMenu = () => {
   open.value = !open.value
   // 关闭用户信息面板
   mobileUserPanelOpen.value = false
+  // 当打开移动端菜单时，自动展开当前页面对应的父级菜单，确保高亮项可见
+  if (open.value) {
+    const activeParent = navItems.find((item) => isActiveParent(item))
+    openMobileSubmenu.value = activeParent ? activeParent.to : null
+  }
 }
 
 // 跳转到喵呜AI App页面
@@ -786,7 +836,6 @@ const navItems: NavItem[] = [
     label: '关于我们',
     children: [
       { to: '/about/company', label: '关于喵呜AI' },
-      { to: '/about/careers', label: '加入我们' },
       { to: '/about/contact', label: '联系我们' },
     ],
   },

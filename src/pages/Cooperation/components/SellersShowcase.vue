@@ -15,15 +15,16 @@
 
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted } from 'vue'
-// 使用静态导入，避免 import.meta 造成的编译诊断问题
-import s1 from '@/assets/img/sellers/sellers-01.png'
-import s2 from '@/assets/img/sellers/sellers-02.png'
-import s3 from '@/assets/img/sellers/sellers-03.png'
-import s4 from '@/assets/img/sellers/sellers-04.png'
-import s5 from '@/assets/img/sellers/sellers-05.png'
-import s6 from '@/assets/img/sellers/sellers-06.png'
+import { img } from '@/utils/assets.js'
 
-const images = [s1, s2, s3, s4, s5, s6]
+const images = [
+  img('sellers/sellers-01.png'),
+  img('sellers/sellers-02.png'),
+  img('sellers/sellers-03.png'),
+  img('sellers/sellers-04.png'),
+  img('sellers/sellers-05.png'),
+  img('sellers/sellers-06.png'),
+]
 // 为实现无缝循环，重复一遍列表
 const loopImages = computed(() => [...images, ...images])
 const paused = ref(false)

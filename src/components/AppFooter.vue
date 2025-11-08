@@ -24,9 +24,9 @@
                   <li v-for="product in products" :key="product.to">
                     <RouterLink
                       :to="product.to"
-                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                      class="hover-underline-group text-black transition-colors duration-200"
                     >
-                      {{ product.label }}
+                      <span class="hover-underline">{{ product.label }}</span>
                     </RouterLink>
                   </li>
                 </ul>
@@ -39,9 +39,9 @@
                   <li v-for="cooperation in cooperations" :key="cooperation.to">
                     <RouterLink
                       :to="cooperation.to"
-                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                      class="hover-underline-group text-black transition-colors duration-200"
                     >
-                      {{ cooperation.label }}
+                      <span class="hover-underline">{{ cooperation.label }}</span>
                     </RouterLink>
                   </li>
                 </ul>
@@ -54,9 +54,9 @@
                   <li v-for="about in aboutUs" :key="about.to">
                     <RouterLink
                       :to="about.to"
-                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                      class="hover-underline-group text-black transition-colors duration-200"
                     >
-                      {{ about.label }}
+                      <span class="hover-underline">{{ about.label }}</span>
                     </RouterLink>
                   </li>
                 </ul>
@@ -69,9 +69,9 @@
                   <li v-for="service in services" :key="service.to">
                     <RouterLink
                       :to="service.to"
-                      class="text-gray-600 hover:text-miaowu-green transition-colors duration-200"
+                      class="hover-underline-group text-black transition-colors duration-200"
                     >
-                      {{ service.label }}
+                      <span class="hover-underline">{{ service.label }}</span>
                     </RouterLink>
                   </li>
                 </ul>
@@ -142,7 +142,19 @@
           <div class="text-left lg:text-left">
             <p class="text-black text-base">
               Copyright © {{ year }} Me&U AI. All Rights
-              Reserved｜喵呜宇宙（深圳）网络科技有限公司｜粤ICP备2023042737号-1
+              Reserved｜喵呜宇宙（深圳）网络科技有限公司｜
+              <a
+                href="https://beian.miit.gov.cn/#/Integrated/index"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-black underline"
+              >粤ICP备2023042737号-1</a>
+              <a
+                href="https://www.12377.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-black underline ml-2"
+              >12377中央网信办违法和不良信息举报中心</a>
               <!-- Copyright ©{{ year }} 喵呜宇宙（深圳）网络科技有限公司 粤 ICP 备 2023042737 号 - 1 -->
             </p>
           </div>
@@ -164,8 +176,9 @@
 </template>
 
 <script setup lang="ts">
-import logoDark from '../assets/img/logo-dark.png'
 import { RouterLink } from 'vue-router'
+import { img } from '@/utils/assets.js'
+const logoDark = img('logo-dark.png')
 const year = new Date().getFullYear()
 
 const products: Array<{ label: string; to: string }> = [
@@ -182,7 +195,6 @@ const cooperations: Array<{ label: string; to: string }> = [
 
 const aboutUs: Array<{ label: string; to: string }> = [
   { label: '关于喵呜AI', to: '/about/company' },
-  { label: '加入我们', to: '/about/careers' },
   { label: '联系我们', to: '/about/contact' },
 ]
 

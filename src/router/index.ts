@@ -82,12 +82,6 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '关于喵呜AI' },
       },
       {
-        path: 'careers',
-        name: 'AboutCareers',
-        component: () => import('@/pages/About/Careers.vue'),
-        meta: { title: '加入我们' },
-      },
-      {
         path: 'contact',
         name: 'AboutContact',
         component: () => import('@/pages/Contact.vue'),

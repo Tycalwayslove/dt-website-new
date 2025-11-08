@@ -67,12 +67,11 @@
 
             <!-- 右侧：公司图片 -->
             <div class="flex-shrink-0 flex-grow-0 relative overflow-hidden pt-20 pb-[96px]">
-              <div class="w-[560px] h-[300px]">
+              <div v-stagger class="w-[560px] h-[300px] rounded-2xl">
                 <img
-                  v-hover-zoom
                   :src="company.image"
                   :alt="company.title"
-                  class="w-full h-full object-cover transition duration-300 ease-out transform hover:scale-105 filter hover:brightness-105 hover:saturate-105"
+                  class="w-full h-full object-cover transition duration-300 rounded-2xl"
                 />
               </div>
             </div>
@@ -85,10 +84,12 @@
             :class="{ 'bg-white': index % 2 === 0, 'bg-black': index % 2 === 1 }"
           >
             <!-- 上方：公司图片 -->
-            <div
-              class="w-full h-[168px] sm:h-[200px] md:h-64 relative overflow-hidden my-10 rounded-t-3xl"
-            >
-              <img :src="company.image" :alt="company.title" class="w-full h-full object-cover" />
+            <div class="w-full h-[168px] sm:h-[200px] md:h-64 relative overflow-hidden my-10">
+              <img
+                :src="company.image"
+                :alt="company.title"
+                class="w-full h-full object-cover rounded-2xl"
+              />
             </div>
 
             <!-- 下方：公司信息 -->
@@ -135,6 +136,7 @@
 </template>
 
 <script setup lang="ts">
+import { img } from '@/utils/assets.js'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 
@@ -165,7 +167,7 @@ const companyList = ref<CompanyInfo[]>([
     desc: '#被理解｜高信任｜决策确定感',
     content:
       '喵呜AI 对 用户 的价值与意义，从“搜索商品”到“被理解的推荐”，让AI成为可信赖的专业伙伴：喵呜AI顾问带来“咨询式消费”体验，每次推荐有理由、有知识、有温度。让用户不仅能“更快买”而且“更笃定地买”，每个数字顾问都有专业人格和知识逻辑，让AI从冷冰冰的工具，变成“可信任的伙伴”；',
-    image: '/src/assets/img/here-01.png',
+    image: img('here-01.png'),
     button: { show: false, text: '了解详情', class: 'btn-main-white', to: '/products' },
   },
   {
@@ -173,7 +175,7 @@ const companyList = ref<CompanyInfo[]>([
     desc: '从「销售」到「专业顾问」的强化升级',
     content:
       '这次的喵呜AI小程序 V2.0 从顾问人格化 / 产品分析可视化 / 品牌形象系统化 三点入手基于之前发布的 V1.0 进行核心理念的 强化 和 升级。它不只是改版，而是一次品牌的信任与升级，一次体验哲学的加强与重构！未来我们会继续基于「专业顾问」的核心理念持续优化和迭代产品。',
-    image: '/src/assets/img/here-02.png',
+    image: img('here-02.png'),
     button: { show: true, text: '了解详情', class: 'btn-main-black', to: '/products/mini-program' },
   },
   {
@@ -181,7 +183,7 @@ const companyList = ref<CompanyInfo[]>([
     desc: '#精准共识｜品牌人格化｜长期关系',
     content:
       '传统电商中，品牌花钱买曝光，但买不到信任。顾问式电商中，品牌通过AI顾问建立长期认知与情感绑定。喵呜AI不只是帮你卖货，而是帮你建立「被理解的品牌人格」，在这里，你的品牌不再是广告的一句口号，而是一个能被AI讲述、能被用户信任的知识体系。“我们帮你建立被理解的品牌人格，让品牌成为知识生态的一部分，而不是流量的一部分。”',
-    image: '/src/assets/img/here-03.png',
+    image: img('here-03.png'),
     button: {
       show: true,
       text: '了解详情',

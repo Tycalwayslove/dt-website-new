@@ -17,8 +17,8 @@
       <div class="relative" @click.stop>
         <!-- 移动端背景图片容器 -->
         <div class="lg:hidden relative" style="width: 758px; max-width: 90vw">
-          <img
-            src="@/assets/img/login-bg-mobile.png"
+<img
+            :src="loginBgMobile"
             alt="登录背景"
             class="w-full h-auto object-contain"
             style="display: block"
@@ -37,7 +37,12 @@
                   @click="close"
                   class="hover:bg-gray-100 rounded-full transition-colors duration-200"
                 >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    class="w-5 h-5 text-black"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -54,14 +59,16 @@
                   <div
                     @click="loginTab = 'qrcode'"
                     class="text-center font-medium transition-colors duration-200 mr-12 cursor-pointer"
-                    :class="loginTab === 'qrcode' ? 'underline text-black' : 'text-gray-500'"
+                    :class="loginTab === 'qrcode' ? 'underline-green text-black' : 'text-gray-500'"
                   >
                     扫码登录
                   </div>
                   <div
                     @click="loginTab = 'password'"
                     class="text-center font-medium transition-colors duration-200 cursor-pointer"
-                    :class="loginTab === 'password' ? 'underline text-black' : 'text-gray-500'"
+                    :class="
+                      loginTab === 'password' ? 'underline-green text-black' : 'text-gray-500'
+                    "
                   >
                     账号登录
                   </div>
@@ -101,19 +108,7 @@
                         <div
                           class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3"
                         >
-                          <svg
-                            class="w-8 h-8 text-yellow-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                            />
-                          </svg>
+                          <img :src="loginIconPhone" alt="手机" class="w-8 h-8" />
                         </div>
                         <p class="text-sm text-yellow-700 font-medium mb-1">请在手机上确认登录</p>
                         <p class="text-xs text-yellow-600">查看您的喵呜APP</p>
@@ -174,7 +169,15 @@
 
                     <!-- 状态描述 - 只在非已扫码状态显示 -->
                     <div v-if="qrCodeStatus !== '2'" class="text-xs text-gray-500 text-center">
-                      <span v-if="qrCodeStatus === '1'">打开「喵呜APP」我的右上角扫码</span>
+                      <span v-if="qrCodeStatus === '1'"
+                        >打开「
+                        <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
+                          <span class="text-black hover-underline underline lg:no-underline"
+                            >喵呜APP</span
+                          >
+                        </span>
+                        」我的右上角扫码</span
+                      >
                       <span v-else-if="qrCodeStatus === '3'">正在为您登录...</span>
                       <span v-else-if="qrCodeStatus === '4'">二维码已失效，请点击下方按钮刷新</span>
                     </div>
@@ -195,14 +198,7 @@
                   <!-- 手机号输入框 -->
                   <div class="relative">
                     <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                        />
-                      </svg>
+                      <img :src="loginIconPhone" alt="手机号" class="w-[15px] h-[20px]" />
                     </div>
                     <input
                       v-model="loginForm.username"
@@ -243,14 +239,7 @@
                   <!-- 密码输入框 -->
                   <div class="relative">
                     <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                        />
-                      </svg>
+                      <img :src="loginIconPassword" alt="密码" class="w-[17px] h-[20px]" />
                     </div>
                     <input
                       v-model="loginForm.password"
@@ -284,40 +273,13 @@
                       @click="showPassword = !showPassword"
                       class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
                     >
-                      <svg
+                      <img
                         v-if="showPassword"
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                        />
-                      </svg>
-                      <svg
-                        v-else
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                        />
-                      </svg>
+                        :src="loginIconSee"
+                        alt="显示密码"
+                        class="w-[19px] h-[13px]"
+                      />
+                      <img v-else :src="loginIconNoSee" alt="隐藏密码" class="w-[19px] h-[13px]" />
                     </button>
                     <!-- 错误提示 -->
                     <div
@@ -331,13 +293,19 @@
                   <button
                     @click="onLogin"
                     :disabled="loggingIn"
-                    class="bg-black text-miaowu-green py-3 mx-[100px] rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="bg-black text-miaowu-green py-[10px] w-[200px] mx-auto rounded-lg font-medium hover:bg-miaowu-green hover:text-black transition-colors duration-200 disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     {{ loggingIn ? '登录中...' : '登录' }}
                   </button>
 
                   <p class="text-xs text-black text-center leading-relaxed">
-                    请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「喵呜APP」注册后登录。
+                    请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
+                    <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
+                      <span class="text-black hover-underline underline lg:no-underline"
+                        >喵呜APP</span
+                      >
+                    </span>
+                    」注册后登录。
                   </p>
                 </div>
               </div>
@@ -347,8 +315,8 @@
 
         <!-- PC端背景图片容器 -->
         <div class="hidden lg:block relative" style="width: 514px">
-          <img
-            src="@/assets/img/login-bg-pc.png"
+  <img
+            :src="loginBgPc"
             alt="登录背景"
             class="w-full h-auto object-contain"
             style="display: block"
@@ -367,7 +335,12 @@
                   @click="close"
                   class="hover:bg-gray-100 rounded-full transition-colors duration-200"
                 >
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    class="w-5 h-5 text-black"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -384,14 +357,16 @@
                   <div
                     @click="loginTab = 'qrcode'"
                     class="text-center font-medium transition-colors duration-200 mr-12 cursor-pointer"
-                    :class="loginTab === 'qrcode' ? 'underline text-black' : 'text-gray-500'"
+                    :class="loginTab === 'qrcode' ? 'underline-green text-black' : 'text-gray-500'"
                   >
                     扫码登录
                   </div>
                   <div
                     @click="loginTab = 'password'"
                     class="text-center font-medium transition-colors duration-200 cursor-pointer"
-                    :class="loginTab === 'password' ? 'underline text-black' : 'text-gray-500'"
+                    :class="
+                      loginTab === 'password' ? 'underline-green text-black' : 'text-gray-500'
+                    "
                   >
                     账号登录
                   </div>
@@ -431,19 +406,7 @@
                         <div
                           class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mb-3"
                         >
-                          <svg
-                            class="w-8 h-8 text-yellow-600"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
-                            />
-                          </svg>
+                          <img :src="loginIconPhone" alt="手机" class="w-8 h-8" />
                         </div>
                         <p class="text-sm text-yellow-700 font-medium mb-1">请在手机上确认登录</p>
                         <p class="text-xs text-yellow-600">查看您的喵呜APP</p>
@@ -511,8 +474,19 @@
                     </div>
 
                     <!-- 状态描述 -->
-                    <div class="text-xs text-gray-500 text-center">
-                      <span v-if="qrCodeStatus === '1'">请使用喵呜APP扫描上方二维码</span>
+                    <div class="text-base text-gray-500 text-center">
+                      <span v-if="qrCodeStatus === '1'"
+                        >请使用「
+                        <span
+                          class="text-gray-500 hover-underline-group cursor-pointer"
+                          @click="navigateToApp"
+                        >
+                          <span class="text-black hover-underline underline lg:no-underline"
+                            >喵呜APP</span
+                          >
+                        </span>
+                        」扫描上方二维码</span
+                      >
                       <span v-else-if="qrCodeStatus === '3'">正在为您登录...</span>
                       <span v-else-if="qrCodeStatus === '4'">二维码已失效，请点击下方按钮刷新</span>
                     </div>
@@ -533,14 +507,7 @@
                   <!-- 手机号输入框 -->
                   <div class="relative">
                     <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                        />
-                      </svg>
+                      <img :src="loginIconPhone" alt="手机号" class="w-[15px] h-[20px]" />
                     </div>
                     <input
                       v-model="loginForm.username"
@@ -581,14 +548,7 @@
                   <!-- 密码输入框 -->
                   <div class="relative">
                     <div class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">
-                      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
-                        />
-                      </svg>
+                      <img :src="loginIconPassword" alt="密码" class="w-[17px] h-[20px]" />
                     </div>
                     <input
                       v-model="loginForm.password"
@@ -622,40 +582,13 @@
                       @click="showPassword = !showPassword"
                       class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
                     >
-                      <svg
+                      <img
                         v-if="showPassword"
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-                        />
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
-                        />
-                      </svg>
-                      <svg
-                        v-else
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21"
-                        />
-                      </svg>
+                        :src="loginIconSee"
+                        alt="显示密码"
+                        class="w-[19px] h-[13px]"
+                      />
+                      <img v-else :src="loginIconNoSee" alt="隐藏密码" class="w-[19px] h-[13px]" />
                     </button>
                     <!-- 错误提示 -->
                     <div
@@ -669,13 +602,19 @@
                   <button
                     @click="onLogin"
                     :disabled="loggingIn"
-                    class="bg-black text-miaowu-green py-3 mx-[100px] rounded-lg font-medium hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                    class="bg-black text-miaowu-green py-3 mx-[100px] rounded-lg font-medium hover:bg-miaowu-green hover:text-black transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {{ loggingIn ? '登录中...' : '登录' }}
                   </button>
 
                   <p class="text-sm text-black text-center leading-relaxed">
-                    请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「喵呜APP」注册后登录。
+                    请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
+                    <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
+                      <span class="text-black hover-underline underline lg:no-underline"
+                        >喵呜APP</span
+                      >
+                    </span>
+                    」注册后登录。
                   </p>
                 </div>
               </div>
@@ -688,10 +627,18 @@
 </template>
 
 <script setup lang="ts">
+import { img } from '@/utils/assets.js'
+const loginIconNoSee = img('login-icon-no-see.png')
+const loginIconPassword = img('login-icon-password.png')
+const loginIconPhone = img('login-icon-phone.png')
+const loginIconSee = img('login-icon-see.png')
+const loginBgMobile = img('login-bg-mobile.png')
+const loginBgPc = img('login-bg-pc.png')
 import * as CryptoJS from 'crypto-js'
 import { ElMessage } from 'element-plus'
 import * as QRCode from 'qrcode'
 import { computed, onUnmounted, ref, watch } from 'vue'
+import { useRouter } from 'vue-router'
 import {
   apiGenerateQrCode,
   apiGetAesKey,
@@ -741,6 +688,13 @@ onUnmounted(() => {
 
 function close() {
   emit('update:modelValue', false)
+}
+
+const router = useRouter()
+
+function navigateToApp() {
+  close()
+  router.push('/products/app')
 }
 
 const loginTab = ref<'password' | 'qrcode'>('qrcode')
@@ -1029,7 +983,7 @@ async function onLogin() {
 </script>
 
 <style lang="scss" scoped>
-.underline {
+.underline-green {
   position: relative;
   text-decoration-color: rgba(155, 255, 43, 1);
   text-decoration-line: underline;

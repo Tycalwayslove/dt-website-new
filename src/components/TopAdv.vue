@@ -11,6 +11,7 @@
       v-if="!isClosed"
       data-top-adv
       class="top-adv-bg w-full relative overflow-hidden h-11 lg:h-[66px] cursor-pointer"
+      :style="{ '--adv-url': 'url(' + bgUrl + ')' }"
       role="button"
       aria-label="前往喵呜品牌供应商招聘"
       tabindex="0"
@@ -45,7 +46,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { img } from '@/utils/assets.js'
+
+const topAdvMobile = img('top-adv-mobile.png')
+const topAdvLg = img('top-adv-lg.png')
+const topAdv3xl = img('top-adv-3xl.png')
 import { useRouter } from 'vue-router'
 
 // 初始状态为未关闭，每次刷新都会显示
@@ -64,6 +70,24 @@ const goSuppliers = () => {
   isClosed.value = true
   router.push('/cooperation/suppliers')
 }
+
+// 根据屏幕宽度选择背景图（与 CSS 断点保持一致）
+const screenWidth = ref<number>(typeof window !== 'undefined' ? window.innerWidth : 0)
+const updateWidth = () => {
+  screenWidth.value = window.innerWidth
+}
+onMounted(() => {
+  updateWidth()
+  window.addEventListener('resize', updateWidth)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', updateWidth)
+})
+const bgUrl = computed(() => {
+  if (screenWidth.value >= 1920) return topAdv3xl
+  if (screenWidth.value >= 1024) return topAdvLg
+  return topAdvMobile
+})
 </script>
 
 <style scoped>
@@ -72,7 +96,7 @@ const goSuppliers = () => {
   /* 移动端：图片使用 contain，左右可能留白，使用主色 #0237d7 的左右渐变与底色融合 */
   background-color: #0237d7; /* 主色底，避免出现白底突兀 */
   background-image:
-    url('../assets/img/top-adv-mobile.png'),
+    var(--adv-url),
     linear-gradient(
       to right,
       rgba(2, 55, 215, 0.6),
@@ -91,7 +115,6 @@ const goSuppliers = () => {
 /* >= lg 使用大图 */
 @media (min-width: 1024px) {
   .top-adv-bg {
-    background-image: url('../assets/img/top-adv-lg.png');
     background-size: cover; /* 大屏填充容器以获得完整背景效果 */
     background-position: center;
   }
@@ -100,7 +123,6 @@ const goSuppliers = () => {
 /* >= 3xl 使用超大图 */
 @media (min-width: 1920px) {
   .top-adv-bg {
-    background-image: url('../assets/img/top-adv-3xl.png');
     background-size: cover;
   }
 }
