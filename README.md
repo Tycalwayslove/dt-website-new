@@ -103,21 +103,11 @@
 - 全局主题与 UI：`src/stores/ui.ts`、`src/stores/theme.ts`
 - 接口地址与代理：`.env*` 中 `VITE_API_BASE_URL` 与 `vite.config.ts` 的 `server.proxy`
 
-## Changelog
-
-- 2025-11-08
-  - 全面迁移图片为静态 `import`（`src/assets/img`），移除 `img()` 助手。
-  - 删除 `src/utils/assets.ts` 与冗余 `public/assets/img`，统一由 Vite 管理资源。
-  - 修复 `src/pages/Home/components/Recruitment.vue` 的图片引用与作用域错误。
-  - 更新 `index.html` 中 `favicon` 路径为 `%BASE_URL%favicon.ico`，兼容前缀部署。
-  - 优化 `scripts/oss-upload.mjs`：`--only-assets` 上传时自动包含构建根的 `favicon.ico`。
-  - 验证 `pnpm preview:test` 预览无报错，图片与路径在带前缀场景下正确加载。
-
-如需进一步自动化部署或添加更多根文件白名单（例如 `robots.txt`、`sitemap.xml`），可以在 `scripts/oss-upload.mjs` 中补充相应逻辑或提供指令需求。
-
 ## Recent Commits
 
 <!-- RECENT_COMMITS_START -->
+
+- 722bf76 2025-11-08 tycalwayslove docs(新增changelog，并且在readme中显示最新的10条commit): done
 - 22cb27e 2025-11-08 tycalwayslove docs(完善readme): done
 - ca1b870 2025-11-08 tycalwayslove chore: remove tracked .DS_Store
 - 634ee25 2025-11-08 tycalwayslove fix(构建的配置): done
