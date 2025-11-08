@@ -114,3 +114,16 @@
   - 验证 `pnpm preview:test` 预览无报错，图片与路径在带前缀场景下正确加载。
 
 如需进一步自动化部署或添加更多根文件白名单（例如 `robots.txt`、`sitemap.xml`），可以在 `scripts/oss-upload.mjs` 中补充相应逻辑或提供指令需求。
+
+## Recent Commits
+
+<!-- RECENT_COMMITS_START -->
+- 22cb27e 2025-11-08 tycalwayslove docs(完善readme): done
+- ca1b870 2025-11-08 tycalwayslove chore: remove tracked .DS_Store
+- 634ee25 2025-11-08 tycalwayslove fix(构建的配置): done
+- 561b749 2025-11-05 tycalwayslove feat(布局和局部细节优化): done
+- 70d175b 2025-11-04 tycalwayslove feat(静态页面基本完成): 目前所有页面展示都已经完成。后续将调整登录相关逻辑
+- 3cfd81a 2025-10-31 tycalwayslove feat(部分页面的提交): done
+- e1225a3 2025-10-24 tycalwayslove ci(初始化提交): done
+
+<!-- RECENT_COMMITS_END -->
