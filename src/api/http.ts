@@ -18,6 +18,25 @@ const instance: AxiosInstance = axios.create({
 })
 
 instance.interceptors.request.use((config) => {
+  // 在生产环境，将 /manage/wechat/* 相关接口改用测试环境域名
+  try {
+    const isProd = (import.meta as any).env?.PROD
+    const testBase = (import.meta as any).env?.VITE_TEST_API_BASE_URL
+    const url = config.url || ''
+    if (
+      isProd &&
+      testBase &&
+      typeof url === 'string' &&
+      (url.startsWith('/manage/wechat/generate_scheme') ||
+        url.startsWith('/manage/wechat/get_jsapi_ticket'))
+    ) {
+      const prefix = String(testBase).replace(/\/+$/, '')
+      config.url = `${prefix}${url}`
+    }
+  } catch (_) {
+    // 忽略环境变量读取异常
+  }
+
   const auth = useAuthStore()
   // header 必须添加version 版本号，低于1.5.1的版本是不加密版本，大于等于1.5.1的版本是加密版本
   const withAuth = (config as any).withAuth

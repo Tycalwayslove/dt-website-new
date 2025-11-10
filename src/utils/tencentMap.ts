@@ -50,18 +50,25 @@ const loadTMapScript = (key: string) => {
 }
 
 const searchPOI = async (key: string, address: string, city?: string) => {
-  const boundary = city ? `region(${encodeURIComponent(city)},0)` : 'nearby(22.53318,113.93042,10000)'
-  const url = `https://apis.map.qq.com/ws/place/v1/search?keyword=${encodeURIComponent(address)}&boundary=${boundary}&key=${key}`
+  const boundary = city
+    ? `region(${encodeURIComponent(city)},0)`
+    : 'nearby(22.53318,113.93042,10000)'
+  const url = `https://apis.map.qq.com/ws/place/v1/search?keyword=${encodeURIComponent(address)}&boundary=${boundary}&key=${key}&orderby=_distance`
   const data = await jsonp(url)
   if (data && data.status === 0 && Array.isArray(data.data) && data.data.length > 0) {
-    const best = data.data.find((d: any) => /科兴科学园/i.test(`${d.title} ${d.address || ''}`)) || data.data[0]
+    // 更严格的筛选：仅在包含“科兴”相关关键词时才选用 POI
+    const best =
+      data.data.find((d: any) =>
+        /(科兴科学园|科兴科技园|科兴)/i.test(`${d.title} ${d.address || ''}`)
+      ) || null
     return best
   }
   return null
 }
 
 const geocode = async (key: string, address: string, city?: string) => {
-  const url = `https://apis.map.qq.com/ws/geocoder/v1/?address=${encodeURIComponent(address)}&key=${key}` +
+  const url =
+    `https://apis.map.qq.com/ws/geocoder/v1/?address=${encodeURIComponent(address)}&key=${key}` +
     (city ? `&region=${encodeURIComponent(city)}` : '')
   const data = await jsonp(url)
   if (data && data.status === 0 && data.result?.location) {
@@ -89,6 +96,7 @@ export async function initTencentMap(options: InitMapOptions): Promise<InitMapRe
   let addressText = options.address
 
   const poi = await searchPOI(key, options.address, options.city)
+  console.log('POI Search Result:', poi)
   if (poi && poi.location) {
     lat = poi.location.lat
     lng = poi.location.lng
@@ -96,6 +104,7 @@ export async function initTencentMap(options: InitMapOptions): Promise<InitMapRe
     addressText = poi.address || addressText
   } else {
     const geo = await geocode(key, options.address, options.city)
+    console.log('Geocoder Result:', geo)
     if (geo?.location) {
       lat = geo.location.lat
       lng = geo.location.lng
@@ -103,6 +112,7 @@ export async function initTencentMap(options: InitMapOptions): Promise<InitMapRe
   }
 
   const loc = new TMap.LatLng(lat, lng)
+  console.log('Map Center:', loc)
   map.setCenter(loc)
 
   const marker = new TMap.MultiMarker({
@@ -111,11 +121,20 @@ export async function initTencentMap(options: InitMapOptions): Promise<InitMapRe
       company: new TMap.MarkerStyle({ width: 28, height: 42, anchor: { x: 14, y: 42 } }),
     },
     geometries: [
-      { id: 'company', styleId: 'company', position: loc, properties: { title, address: addressText } },
+      {
+        id: 'company',
+        styleId: 'company',
+        position: loc,
+        properties: { title, address: addressText },
+      },
     ],
   })
 
-  const infoWindow = new TMap.InfoWindow({ map, position: loc, content: `<div style=\"font-size:14px;\"><strong>${title}</strong><br/>${addressText}</div>` })
+  const infoWindow = new TMap.InfoWindow({
+    map,
+    position: loc,
+    content: `<div style=\"font-size:14px;\"><strong>${title}</strong><br/>${addressText}</div>`,
+  })
   infoWindow.close()
   marker.on('click', (evt: any) => {
     const pos = evt.geometry.position
@@ -135,7 +154,9 @@ function jsonp(url: string, timeout = 10000): Promise<any> {
 
     let timer: any
     const cleanup = () => {
-      try { delete (window as any)[cbName] } catch {}
+      try {
+        delete (window as any)[cbName]
+      } catch {}
       const script = document.getElementById(cbName)
       if (script && script.parentNode) script.parentNode.removeChild(script)
       if (timer) clearTimeout(timer)

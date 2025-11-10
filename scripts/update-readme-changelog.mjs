@@ -10,7 +10,7 @@ const END = '<!-- RECENT_COMMITS_END -->'
 
 function getRecentCommits(n = 10) {
   try {
-    const fmt = "%h | %ad | %an | %s"
+    const fmt = '%h | %ad | %an | %s'
     const cmd = `git log --date=short -n ${n} --pretty=format:'${fmt}'`
     const raw = execSync(cmd, { cwd: root, encoding: 'utf-8' })
     const lines = raw.split('\n').filter(Boolean)

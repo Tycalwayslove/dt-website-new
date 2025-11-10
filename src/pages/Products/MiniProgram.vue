@@ -31,9 +31,9 @@
                 扫码体验
               </button>
               <Transition name="fade-down">
+                <!-- v-show="showCode" -->
                 <div
-                  v-show="showCode"
-                  class="absolute top-full left-0 mt-2 bg-white border border-black shadow-lg rounded-xl p-3 z-10"
+                  class="absolute top-full left-0 mt-2 bg-white border border-black shadow-lg rounded-xl p-3 z-50"
                   role="tooltip"
                   aria-live="polite"
                 >

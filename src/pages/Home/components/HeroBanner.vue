@@ -337,8 +337,8 @@ const banners = ref<BannerItem[]>([
   {
     id: 3,
     imageBase: 'banner3',
-    title: '好产品就是好答案',
-    desc: '入驻喵呜AI，让你的产品走进千万用户的生活。我们不只帮你卖货，让每一单都是用户笃定的选择。优质供应商火热招募中。',
+    title: '好商品就是好答案',
+    desc: '入驻喵呜AI，让你的商品走进千万用户的生活。我们不只帮你卖货，让每一单都是用户笃定的选择。优质供应商火热招募中。',
     ctaText: '加入我们',
     ctaLink: '/cooperation/suppliers',
   },

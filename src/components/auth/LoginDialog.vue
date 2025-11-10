@@ -16,7 +16,7 @@
       <!-- 登录内容容器 -->
       <div class="relative" @click.stop>
         <!-- 移动端背景图片容器 -->
-        <div class="lg:hidden relative" style="width: 758px; max-width: 90vw">
+        <div class="lg:hidden relative" style="width: 758px; max-width: 100vw">
           <img
             :src="loginBgMobile"
             alt="登录背景"

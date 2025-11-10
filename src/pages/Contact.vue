@@ -13,14 +13,19 @@
       >
         <!-- 内容栅格：左地图 右公司信息；屏幕较小时扩大地图占比 -->
         <div
-          class="absolute inset-0 grid md:grid-cols-[6fr_3fr] lg:grid-cols-[3fr_2fr] xl:grid-cols-[1fr_1fr] gap-8 items-center p-20"
+          class="absolute inset-0 grid md:grid-cols-[6fr_3fr] lg:grid-cols-[3fr_2fr] xl:grid-cols-[1fr_1fr] gap-8 items-center p-20 box-border"
         >
           <!-- 左侧：地图显示区域 -->
           <div v-fade-in-up="{ delay: 500 }" class="h-full">
             <div
-              ref="mapContainerRef"
-              class="w-full h-full rounded-xl overflow-hidden border border-gray-200"
-            ></div>
+              class="w-full h-full max-h-[420px] rounded-xl overflow-hidden flex items-center justify-center"
+            >
+              <img
+                :src="companyLocation"
+                alt="公司位置"
+                class="h-full w-full max-h-[420px] object-cover select-none pointer-events-none xl:h-full xl:w-auto xl:object-contain xl:max-w-full xl:mx-auto"
+              />
+            </div>
           </div>
 
           <!-- 右侧：公司信息（四行文案） -->
@@ -35,7 +40,7 @@
             <!-- 第三行：地址（图标+地址） -->
             <p class="text-base mt-2 flex items-center">
               <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-              深圳市南山区粤海街道科兴科学园A1-10
+              深圳市南山区粤海街道科兴科学园A1-1003
             </p>
             <!-- 第四行：邮箱（图标+email） -->
             <p class="text-base mt-2 flex items-center">
@@ -59,7 +64,7 @@
             <div class="mt-2 space-y-2">
               <p class="text-base text-white flex items-center justify-center">
                 <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-                深圳市南山区粤海街道科兴科学园A1-10
+                深圳市南山区粤海街道科兴科学园A1-1003
               </p>
               <p class="text-base text-white flex items-center justify-center">
                 <img :src="emailImg" alt="邮箱图标" class="w-[18px] h-[13px] mr-2" />
@@ -72,7 +77,7 @@
 
       <!-- 移动端：地图显示容器 -->
       <div class="w-full h-[260px] rounded-2xl overflow-hidden border border-gray-200">
-        <div ref="mobileMapContainerRef" class="w-full h-full"></div>
+        <img :src="companyLocation" alt="公司位置" class="w-full h-full object-cover" />
       </div>
 
       <!-- 地址信息与邮箱已置于顶部背景图的中间文案中 -->
@@ -81,75 +86,8 @@
 </template>
 
 <script setup lang="ts">
+import companyLocation from '@/assets/img/company-location.jpeg'
 import bg from '@/assets/img/contact-bg.png'
 import emailImg from '@/assets/img/contact-email.png'
 import locationImg from '@/assets/img/contact-location.png'
-import { initTencentMap } from '@/utils/tencentMap'
-import { nextTick, onMounted, onUnmounted, ref } from 'vue'
-
-const COMPANY_ADDRESS = '深圳市南山区粤海街道科兴科学园A1-1003'
-
-const mapContainerRef = ref<HTMLDivElement | null>(null)
-const mobileMapContainerRef = ref<HTMLDivElement | null>(null)
-let map: any = null
-let marker: any = null
-let infoWindow: any = null
-let onResizeHandler: ((this: Window, ev: UIEvent) => any) | null = null
-
-onMounted(async () => {
-  try {
-    await nextTick()
-
-    const tryInit = async (containerRef: typeof mapContainerRef) => {
-      const el = containerRef.value
-      if (!el) return
-      const style = window.getComputedStyle(el)
-      const rect = el.getBoundingClientRect()
-      const visible =
-        style.display !== 'none' &&
-        style.visibility !== 'hidden' &&
-        rect.width > 0 &&
-        rect.height > 0
-      if (!visible) return
-      const res = await initTencentMap({
-        container: containerRef,
-        address: COMPANY_ADDRESS,
-        city: '深圳市',
-        zoom: 16,
-        markerTitle: '公司位置',
-      })
-      map = res.map
-      marker = res.marker
-      infoWindow = res.infoWindow
-    }
-
-    // 仅在容器可见且有尺寸时初始化，避免 far <= 0 错误
-    await tryInit(mapContainerRef)
-    await tryInit(mobileMapContainerRef)
-
-    const onResize = () => {
-      try {
-        // 调整当前已初始化地图的尺寸以匹配容器变化
-        if (map && typeof (map as any).resize === 'function') {
-          ;(map as any).resize()
-        }
-      } catch (_) {}
-    }
-    onResizeHandler = onResize
-    window.addEventListener('resize', onResizeHandler)
-    onResize()
-  } catch (e) {
-    console.error('Init map failed:', e)
-  }
-})
-
-onUnmounted(() => {
-  try {
-    if (infoWindow) infoWindow.close()
-  } catch (_) {}
-  infoWindow = null
-  try {
-    if (onResizeHandler) window.removeEventListener('resize', onResizeHandler)
-  } catch (_) {}
-})
 </script>

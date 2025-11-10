@@ -41,13 +41,13 @@
          <section v-fade-in-up="{ delay: 1000 }" class="w-full position space-y-8 flex flex-col items-center">
           <h2 class="text-[56px] font-wendao text-black text-center">优质供应商，就等你来</h2>
           <p class="text-xl text-center text-black max-w-[1316px] m-auto leading-[28px]">喵呜宇宙成立于2023年3月，是一家专注于AI智能体研发与营销创新应用的前沿科技公司。我们在2025年10月份，供应链开放招募中，喵呜期待优质的供应商以及品牌供应商都能加入我们，把「答案」-最合适的商品交到用户手中。</p>
-          <!-- 了解详情按钮 -->
+          <!-- 立即入驻按钮 -->
            <button
              class="w-[200px] h-[48px] text-center bg-black text-white hover:text-black hover:bg-miaowu-green rounded-xl drop-shadow-md flex items-center justify-center"
-             aria-label="跳转到喵呜品牌供应商招募页面"
+             aria-label="查看飞书商家入驻指南"
              @click="goToRecruitment"
            >
-             了解详情
+             立即入驻
            </button>
          </section>
       </div>
@@ -83,13 +83,13 @@
          <section class="w-full position space-y-4 flex flex-col items-center">
           <h2 class="text-2xl font-wendao text-black text-left">优质供应商，就等你来</h2>
           <p class="text-base text-left text-black">喵呜宇宙成立于2023年3月，是一家专注于AI智能体研发与营销创新应用的前沿科技公司。我们在2025年10月份，供应链开放招募中，喵呜期待优质的供应商以及品牌供应商都能加入我们，把「答案」-最合适的商品交到用户手中。</p>
-         <!-- 了解详情按钮 -->
+         <!-- 立即入驻按钮 -->
            <button
              class="w-[200px] h-[48px] text-center bg-black text-white hover:bg-miaowu-green hover:text-black rounded-xl drop-shadow-md flex items-center justify-center"
-             aria-label="跳转到喵呜品牌供应商管理后台页面"
+             aria-label="查看飞书商家入驻指南"
              @click="goToRecruitment"
            >
-             了解详情
+             立即入驻
            </button>
          </section>
          
@@ -103,13 +103,8 @@
 import bg from '@/assets/img/contact-bg.png'
 import locationImg from '@/assets/img/contact-location.png'
 import MiaowuSelectedBrandPartners from '@/components/MiaowuSelectedBrandPartners.vue'
-import { requireLoginOrPrompt } from '@/utils/authGuard.js'
-import { useRouter } from 'vue-router'
-
-const router = useRouter()
 const goToRecruitment = () => {
-  if (!requireLoginOrPrompt()) return
-  router.push('/products/supplier-console')
+  window.open('https://v05ctaei9gn.feishu.cn/wiki/ECXswio4vi9ja2kN0AUcMISDnqd', '_blank')
 }
 
 </script>
