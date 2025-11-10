@@ -3,8 +3,9 @@ node_modules
 scripts/deploy.config.json
 scripts/oss.config.json
 dist
-dist/
+dist/*
 dist-test
-dist-test/
+dist-test/*
 nginx
 .DS_Store
+dist-test/index.html
