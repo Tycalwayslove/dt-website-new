@@ -124,7 +124,10 @@ const routes: RouteRecordRaw[] = [
 ]
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  // 路由基准需要是站点在服务器上的路径前缀（通常为 '/')。
+  // 当 Vite 的 base 使用了绝对的 OSS/CDN 地址时，不能直接用 import.meta.env.BASE_URL，
+  // 否则浏览器地址会拼接成 <domain>/<absolute-url> 导致异常。
+  history: createWebHistory('/'),
   routes,
   scrollBehavior() {
     return { top: 0 }
