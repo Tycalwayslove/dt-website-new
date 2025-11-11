@@ -148,13 +148,15 @@
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-black underline"
-              >粤ICP备2023042737号-1</a>
+                >粤ICP备2023042737号-1</a
+              >
               <a
                 href="https://www.12377.cn/"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-black underline ml-2"
-              >12377中央网信办违法和不良信息举报中心</a>
+                >12377中央网信办违法和不良信息举报中心</a
+              >
               <!-- Copyright ©{{ year }} 喵呜宇宙（深圳）网络科技有限公司 粤 ICP 备 2023042737 号 - 1 -->
             </p>
           </div>
@@ -176,14 +178,14 @@
 </template>
 
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
 import logoDark from '@/assets/img/logo-dark.png'
+import { RouterLink } from 'vue-router'
 const year = new Date().getFullYear()
 
 const products: Array<{ label: string; to: string }> = [
-  { label: '喵呜AI 小程序', to: '/products/mini-program' },
-  { label: '喵呜AI App', to: '/products/app' },
   { label: '供应商管理后台', to: '/products/supplier-console' },
+  { label: '喵呜AI App', to: '/products/app' },
+  { label: '喵呜AI 小程序', to: '/products/mini-program' },
 ]
 
 const cooperations: Array<{ label: string; to: string }> = [

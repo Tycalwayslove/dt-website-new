@@ -820,13 +820,30 @@ function stopPolling() {
 async function handleQrLoginSuccess(data: any) {
   try {
     // 这里需要根据实际API响应结构来处理
-    // 假设返回的数据包含token信息
-    if (data.user_token) {
-      auth.setToken(data.user_token) // 实际应该从响应中获取token
-      ElMessage.success('登录成功')
-      // 登录成功后重置二维码数据
+    // 尝试获取并设置令牌
+    const token = data?.user_token || data?.access_token
+    if (token) {
+      auth.setToken(token)
+
+      // 获取用户信息，保持与密码登录流程一致
+      try {
+        const userInfoRes = await apiGetUserInfo()
+        if (userInfoRes && userInfoRes.status === 'ok') {
+          auth.setUserInfo(userInfoRes.data[0] as UserInfo)
+          ElMessage.success('登录成功')
+        } else {
+          ElMessage.warning('登录成功，但获取用户信息失败')
+        }
+      } catch (error) {
+        console.error('获取用户信息失败:', error)
+        ElMessage.warning('登录成功，但获取个人信息失败')
+      }
+
+      // 登录成功后重置二维码数据并关闭弹窗
       resetQrCodeData()
       close()
+    } else {
+      ElMessage.error('登录失败：未返回令牌')
     }
   } catch (error: any) {
     console.error('处理登录成功失败:', error)

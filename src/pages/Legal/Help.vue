@@ -95,13 +95,12 @@
               </div>
 
               <!-- 使用指南 -->
-              <div class="rounded-xl p-4 bg-white/10 border border-white/10">
+              <!-- <div class="rounded-xl p-4 bg-white/10 border border-white/10">
                 <button
                   class="w-full text-left px-1 py-1 font-semibold text-white/90 flex items-center gap-2"
                   :class="{ 'text-miaowu-green': selectedCategory === 'guide' }"
                   @click="selectCategory('guide')"
                 >
-                  <!-- 使用指南 icon -->
                   <svg
                     class="w-4 h-4 text-miaowu-green"
                     viewBox="0 0 24 24"
@@ -118,7 +117,7 @@
                   </svg>
                   <span>使用指南</span>
                 </button>
-              </div>
+              </div> -->
 
               <!-- 供应商入驻（同级栏目） -->
               <div class="rounded-xl p-4 bg-white/10 border border-white/10">
@@ -408,7 +407,7 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
                   <!-- 微信二维码 -->
                   <div class="rounded-xl bg-white/5 border border-white/10 p-4">
-                    <div class="font-medium text-white mb-2 flex items-center gap-2">
+                    <div class="font-medium text-white mb-2 flex items-center gap-2 mb-5">
                       <svg
                         class="w-5 h-5 text-miaowu-green"
                         viewBox="0 0 24 24"
@@ -425,50 +424,10 @@
                     <img
                       :src="imgHelpWechat"
                       alt="商务微信二维码"
-                      class="w-[240px] h-auto rounded-lg mx-auto"
+                      class="w-[375px] h-auto rounded-lg mx-auto"
                       loading="lazy"
                     />
-                    <p class="text-center text-white/60 text-sm mt-2">
-                      微信扫码或保存后通过微信添加
-                    </p>
-                  </div>
-
-                  <!-- 联系方式卡片 -->
-                  <div class="rounded-xl bg-white/5 border border-white/10 p-4">
-                    <div class="font-medium text-white mb-2 flex items-center gap-2">
-                      <svg
-                        class="w-5 h-5 text-miaowu-green"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
-                        <path d="M16 12a4 4 0 10-8 0 4 4 0 008 0z" />
-                        <path d="M2 20a10 10 0 0120 0" />
-                      </svg>
-                      商务联系人
-                    </div>
-                    <div class="space-y-2 text-white/85">
-                      <div class="flex items-center gap-2">
-                        <span class="text-white/60">姓名</span><span class="font-medium">李凯</span>
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-white/60">电话</span>
-                        <a href="tel:13770732882" class="font-medium hover:text-miaowu-green"
-                          >13770732882</a
-                        >
-                      </div>
-                      <div class="flex items-center gap-2">
-                        <span class="text-white/60">邮箱</span>
-                        <a
-                          href="mailto:363185744@qq.com"
-                          class="font-medium hover:text-miaowu-green"
-                          >363185744@qq.com</a
-                        >
-                      </div>
-                    </div>
+                    <p class="text-center text-white/60 text-sm mt-2">微信扫码添加</p>
                   </div>
                 </div>
               </div>
@@ -863,7 +822,7 @@
         </p>
         <div class="space-y-3">
           <div class="rounded-lg bg-white/5 border border-white/10 p-3">
-            <div class="font-medium text-white text-sm mb-2 flex items-center gap-2">
+            <div class="font-medium text-white text-sm mb-2 flex items-center gap-2 mb-5">
               <svg
                 class="w-4 h-4 text-miaowu-green"
                 viewBox="0 0 24 24"
@@ -880,44 +839,10 @@
             <img
               :src="imgHelpWechat"
               alt="商务微信二维码"
-              class="w-48 h-auto rounded-lg mx-auto"
+              class="w-full h-auto rounded-lg mx-auto"
               loading="lazy"
             />
-            <p class="text-center text-white/60 text-xs mt-2">微信扫码或保存后通过微信添加</p>
-          </div>
-          <div class="rounded-lg bg-white/5 border border-white/10 p-3">
-            <div class="font-medium text-white text-sm mb-2 flex items-center gap-2">
-              <svg
-                class="w-4 h-4 text-miaowu-green"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              >
-                <path d="M16 12a4 4 0 10-8 0 4 4 0 0 0 8 0z" />
-                <path d="M2 20a10 10 0 0120 0" />
-              </svg>
-              商务联系人
-            </div>
-            <div class="space-y-2 text-white/85 text-sm">
-              <div class="flex items-center gap-2">
-                <span class="text-white/60">姓名</span><span class="font-medium">李凯</span>
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-white/60">电话</span
-                ><a href="tel:13770732882" class="font-medium hover:text-miaowu-green"
-                  >13770732882</a
-                >
-              </div>
-              <div class="flex items-center gap-2">
-                <span class="text-white/60">邮箱</span
-                ><a href="mailto:363185744@qq.com" class="font-medium hover:text-miaowu-green"
-                  >363185744@qq.com</a
-                >
-              </div>
-            </div>
+            <p class="text-center text-white/60 text-xs mt-2">微信扫码添加</p>
           </div>
         </div>
       </div>
@@ -972,6 +897,7 @@
 import helpBg from '@/assets/img/help-bg.png'
 import imgHelpWechat from '@/assets/img/help-wechat.png'
 import imgGuide1 from '@/assets/img/help/img_guide_1.png'
+import imgGuide10 from '@/assets/img/help/img_guide_10.png'
 import imgGuide2 from '@/assets/img/help/img_guide_2.png'
 import imgGuide3 from '@/assets/img/help/img_guide_3.png'
 import imgGuide4 from '@/assets/img/help/img_guide_4.png'
@@ -980,7 +906,6 @@ import imgGuide6 from '@/assets/img/help/img_guide_6.png'
 import imgGuide7 from '@/assets/img/help/img_guide_7.png'
 import imgGuide8 from '@/assets/img/help/img_guide_8.png'
 import imgGuide9 from '@/assets/img/help/img_guide_9.png'
-import imgGuide10 from '@/assets/img/help/img_guide_10.png'
 import imgHelpTitle from '@/assets/img/help/img_help_title.png'
 import imgShopCategory from '@/assets/img/img_shop_category.png'
 import {

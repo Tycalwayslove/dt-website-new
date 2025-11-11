@@ -1,8 +1,8 @@
 // 使用相对路径并在 NodeNext 模式下带上 .js 扩展，确保类型解析正确
-import { ElMessage } from 'element-plus'
-import { ref } from 'vue'
 import { apiMallLogin, apiMallRegister } from '@/api/user.js'
 import { useAuthStore } from '@/stores/auth.js'
+import { ElMessage } from 'element-plus'
+import { ref } from 'vue'
 
 /**
  * 处理跳转供应商后台的组合式函数
@@ -23,6 +23,7 @@ export function useMallRedirect() {
       return { status: 'blocked', action: 'none', message: '请先登录' }
     }
     const { mall_state } = auth.currentUser
+    console.log(mall_state)
     try {
       switch (Number(mall_state)) {
         case 1: {

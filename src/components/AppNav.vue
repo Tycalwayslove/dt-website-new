@@ -557,8 +557,8 @@
 </template>
 
 <script setup lang="ts">
-import logoUrl from '@/assets/img/logo-light.png'
 import iconDownloadUrl from '@/assets/img/download.png'
+import logoUrl from '@/assets/img/logo-light.png'
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
 import { useMallRedirect } from '@/utils/mallNavigation.js'
@@ -816,9 +816,9 @@ const navItems: NavItem[] = [
     to: '/products',
     label: '喵呜业务',
     children: [
-      { to: '/products/mini-program', label: '喵呜AI 小程序' },
-      { to: '/products/app', label: '喵呜AI App' },
       { to: '/products/supplier-console', label: '供应商管理后台' },
+      { to: '/products/app', label: '喵呜AI App' },
+      { to: '/products/mini-program', label: '喵呜AI 小程序' },
     ],
   },
   {

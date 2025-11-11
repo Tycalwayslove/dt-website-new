@@ -31,8 +31,8 @@
                 扫码体验
               </button>
               <Transition name="fade-down">
-                <!-- v-show="showCode" -->
                 <div
+                  v-show="showCode"
                   class="absolute top-full left-0 mt-2 bg-white border border-black shadow-lg rounded-xl p-3 z-50"
                   role="tooltip"
                   aria-live="polite"
@@ -186,8 +186,8 @@
           </p>
           <div class="relative inline-block">
             <!-- 微信内置浏览器：通过原生 DOM 注入 open tag，规避模板内 <script> 报错 -->
-            <div v-if="isWeChat && wechatAppId">
-              <!-- JSSDK 未加载或 open tag 尚未注入前的占位与回退按钮（仍可走 Scheme） -->
+            <!-- JSSDK 未加载或 open tag 尚未注入前的占位与回退按钮（仍可走 Scheme） -->
+            <!-- <div v-if="isWeChat && wechatAppId">
               <button
                 v-show="!wxLaunchRendered"
                 class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-black transition-colors"
@@ -198,10 +198,10 @@
                 马上体验
               </button>
               <div ref="wxLaunchContainer"></div>
-            </div>
+            </div> -->
             <!-- 非微信浏览器：点击跳转 URL Scheme；失败则展示二维码提示扫码 -->
+            <!-- v-else -->
             <button
-              v-else
               class="inline-flex items-center px-5 h-10 rounded-xl bg-white border-2 border-black text-black font-medium hover:bg-miaowu-green hover:border-miaowu-green hover:text-black transition-colors"
               @click="handleMobileLaunch"
               aria-haspopup="true"
@@ -361,7 +361,9 @@ onMounted(() => {
   wechatQuery.value = cfg.jump_wxa?.query || ''
 
   // 微信内置浏览器加载 JSSDK，并绑定 open tag 事件
+  console.log(isWeChat.value)
   if (isWeChat.value) {
+    // 暂时不使用JSSDK，直接使用URL Scheme
     loadWechatJSSDK()
       .then(async () => {
         try {
@@ -374,7 +376,7 @@ onMounted(() => {
           console.log(cfg)
 
           wxObj.config({
-            debug: true,
+            debug: false,
             appId: cfg.appId || wechatAppId.value,
             timestamp: cfg.timestamp,
             nonceStr: cfg.nonceStr,
