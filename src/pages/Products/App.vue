@@ -31,8 +31,7 @@
                 <h2 class="text-3xl font-wendao text-white drop-shadow-md">喵呜App</h2>
                 <p class="text-xl text-white/90 mt-3 drop-shadow-md">AI 智能体，就用喵呜AI。</p>
                 <p class="text-base text-white/80 mt-2 drop-shadow-md">
-                  打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵呜AI智能体，您
-                  的高效销售方式只需一张照片，5分钟即可生成您的专属A1智能体，有货没货都能赚，省时省力，一键解锁私欲财富密码
+                 打造个人AI智能体，用AI技术创造销售新篇章！让你对用户的服务随时都在，让你成为品牌AI智能体；喵呜AI智能体，您的高效销售方式只需一张照片，5分钟即可生成您的专属AI智能体，有货没货都能赚，省时省力，一键解锁私域财富密码。
                 </p>
 
                 <!-- 图标横向排列：icon01 - icon05 -->
@@ -171,8 +170,7 @@
         <h2 class="text-2xl font-wendao text-black">喵呜App</h2>
         <p class="text-base text-gray-700">AI 智能体，就用喵呜AI。</p>
         <p class="text-sm text-gray-600">
-          打造个人AI智能体，用A!技术创造销售新篇章!让你对用户的服务随时都在，让你成为品牌AI智能体;喵呜AI智能体，您
-          的高效销售方式只需一张照片，5分钟即可生成您的专属A1智能体，有货没货都能赚，省时省力，一键解锁私欲财富密码
+         打造个人AI智能体，用AI技术创造销售新篇章！让你对用户的服务随时都在，让你成为品牌AI智能体；喵呜AI智能体，您的高效销售方式只需一张照片，5分钟即可生成您的专属AI智能体，有货没货都能赚，省时省力，一键解锁私域财富密码。
         </p>
         <!-- 图标横向排列：居中，适配小屏尺寸 -->
         <div class="mt-4 flex justify-center gap-6 bg-black/95 p-4 rounded-2xl">
@@ -204,8 +202,8 @@
         <div class="text-center space-y-3">
           <h3 class="text-2xl font-wendao text-black">下载app展示</h3>
           <p class="text-sm text-gray-700 leading-8">
-            5分钟快速生成另一个你,<br></br>聊天对话客服解答产品推荐，统统帮你搞定;<br />
-            用AI连接世界，人人都可拥有自己的AI智能体,<br></br>AI助手24小时智能对话交流，<br></br>帮你介绍产品，解答客户疑问
+            5分钟快速生成另一个你，<br></br>聊天对话客服解答产品推荐，统统帮你搞定；<br />
+            用AI连接世界，人人都可拥有自己的AI智能体，<br></br>AI助手24小时智能对话交流，<br></br>帮你介绍产品，解答客户疑问。
           </p>
         </div>
         <!-- 卡片区域：从一行变为3行；小于sm为100%宽；sm及以上最大460px，居中 -->

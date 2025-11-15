@@ -8,8 +8,7 @@
           <h2 class="text-[56px] font-wendao text-black flex-shrink-0">供应商管理后台</h2>
           <!-- 描述 -->
           <p class="text-black">
-            让「答案」顾问式电商走进千家万户|让
-            喵呜AI成为每一个用户<br></br>的专业私人购物顾问|让电商回归「信任与理解」的本质。
+            让「答案」顾问式电商走进千家万户 | 让喵呜AI成为每一个用户<br></br>的专业私人购物顾问 | 让电商回归「信任与理解」的本质。
           </p>
         </section>
         <!-- 分割线 -->
@@ -90,7 +89,7 @@
         <h2 class="text-2xl font-wendao text-black">供应商管理后台</h2>
         <p class="text-sm text-black leading-7">
           让「答案」顾问式电商走进千家万户|让
-          喵呜AI成为每一个用户的专业私人购物顾问|让电商回归「信任与理解」的本质。
+          喵呜AI成为每一个用户的专业私人购物顾问 | 让电商回归「信任与理解」的本质。
         </p>
         <div class="w-full h-[2px] bg-black/80"></div>
       </section>
