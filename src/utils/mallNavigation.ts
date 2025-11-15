@@ -1,7 +1,7 @@
 // 使用相对路径并在 NodeNext 模式下带上 .js 扩展，确保类型解析正确
-import { apiMallLogin, apiMallRegister } from '@/api/user.js'
+import { apiMallLogin } from '@/api/user.js'
 import { useAuthStore } from '@/stores/auth.js'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElNotification } from 'element-plus'
 import { ref } from 'vue'
 
 /**
@@ -16,7 +16,7 @@ export function useMallRedirect() {
    */
   const prepareMallRedirect = async (): Promise<
     | { status: 'ready'; action: 'register' | 'login'; mallToken: string }
-    | { status: 'blocked'; action: 'none'; message: string }
+    | { status: 'blocked'; action: 'none'; message: string; notify?: boolean }
     | { status: 'error'; action: 'none'; message: string }
   > => {
     if (!auth.currentUser) {
@@ -27,10 +27,17 @@ export function useMallRedirect() {
     try {
       switch (Number(mall_state)) {
         case 1: {
-          const regRes = await apiMallRegister()
-          const token = regRes.data?.mall_token
-          if (token) return { status: 'ready', action: 'register', mallToken: token }
-          return { status: 'error', action: 'none', message: '注册成功但未返回 token' }
+          // 暂时不支持注册
+          // const regRes = await apiMallRegister()
+          // const token = regRes.data?.mall_token
+          // if (token) return { status: 'ready', action: 'register', mallToken: token }
+          // return { status: 'error', action: 'none', message: '注册成功但未返回 token' }
+          return {
+            status: 'blocked',
+            action: 'none',
+            message: '网站仅支持商家登录，非商家用户请使用喵呜 AI APP 端。',
+            notify: true,
+          }
         }
         case 2:
         case 3: {
@@ -44,6 +51,7 @@ export function useMallRedirect() {
             status: 'blocked',
             action: 'none',
             message: '抱歉，带货达人暂不支持入驻商城，请在app端查看和管理您的商品。',
+            notify: true,
           }
         default:
           return { status: 'error', action: 'none', message: '未知的商城状态' }
@@ -72,7 +80,11 @@ export function useMallRedirect() {
         // TODO: 将 mallToken 传入实际跳转方法
         navigateMall(result.mallToken)
       } else if (result.status === 'blocked') {
-        ElMessage.warning({ message: result.message, duration: 2000 })
+        if ((result as any).notify) {
+          ElNotification({ title: '提示', message: result.message, type: 'warning', duration: 3000 })
+        } else {
+          ElMessage.warning({ message: result.message, duration: 2000 })
+        }
       } else {
         ElMessage.error({ message: result.message, duration: 2000 })
       }
