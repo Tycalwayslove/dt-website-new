@@ -1,5 +1,9 @@
 import { useAuthStore } from '@/stores/auth.js'
 import axios, { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios'
+export type HttpRequestConfig = AxiosRequestConfig & {
+  withAuth?: boolean
+  allowHttpError?: boolean
+}
 
 // 在开发模式下我们走 Vite 代理，使用 /api；在构建后的生产/测试模式下，使用环境的完整域名
 const baseURL = import.meta.env.DEV ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api'
@@ -39,10 +43,14 @@ instance.interceptors.request.use((config) => {
 
   const auth = useAuthStore()
   // header 必须添加version 版本号，低于1.5.1的版本是不加密版本，大于等于1.5.1的版本是加密版本
-  const withAuth = (config as any).withAuth
+  const withAuth = (config as HttpRequestConfig).withAuth
   if ((withAuth === undefined || withAuth !== false) && auth.token) {
     config.headers = config.headers || {}
     ;(config.headers as any).Authorization = `Bearer ${auth.token}`
+  }
+  const allowHttpError = (config as HttpRequestConfig).allowHttpError
+  if (allowHttpError) {
+    config.validateStatus = () => true
   }
   return config
 })
@@ -50,6 +58,10 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response: AxiosResponse) => response.data,
   (error: AxiosError) => {
+    const cfg = (error.config || {}) as HttpRequestConfig
+    if (cfg.allowHttpError && error.response && (error.response as any).data !== undefined) {
+      return Promise.resolve((error.response as any).data)
+    }
     let message = '网络错误，请稍后重试'
     if (error.response) {
       const status = error.response.status
@@ -67,16 +79,16 @@ instance.interceptors.response.use(
   }
 )
 
-export async function httpGet<T = any>(url: string, config?: AxiosRequestConfig) {
+export async function httpGet<T = any>(url: string, config?: HttpRequestConfig) {
   return instance.get<T, T>(url, config)
 }
-export async function httpPost<T = any>(url: string, data?: any, config?: AxiosRequestConfig) {
+export async function httpPost<T = any>(url: string, data?: any, config?: HttpRequestConfig) {
   return instance.post<T, T>(url, data, config)
 }
-export async function httpPut<T = any>(url: string, data?: any, config?: AxiosRequestConfig) {
+export async function httpPut<T = any>(url: string, data?: any, config?: HttpRequestConfig) {
   return instance.put<T, T>(url, data, config)
 }
-export async function httpDelete<T = any>(url: string, config?: AxiosRequestConfig) {
+export async function httpDelete<T = any>(url: string, config?: HttpRequestConfig) {
   return instance.delete<T, T>(url, config)
 }
 

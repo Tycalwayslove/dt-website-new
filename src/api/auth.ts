@@ -79,13 +79,17 @@ export function apiGetAesKey(): Promise<AesKeyResponse> {
 
 // 用户登录
 export function apiLogin(payload: LoginRequest): Promise<LoginResponse> {
-  return httpPost<LoginResponse>('/api/user/login', payload)
+  return httpPost<LoginResponse>('/api/user/login', payload, { allowHttpError: true })
 }
 
 // 新的登录接口（使用加密数据）
 export function apiNewLogin(payload: NewLoginRequest): Promise<LoginResponse> {
   console.log(payload)
-  return httpPost<LoginResponse>('/api/user/login', { data: payload.data })
+  return httpPost<LoginResponse>(
+    '/api/user/login',
+    { data: payload.data },
+    { allowHttpError: true }
+  )
 }
 
 // 生成扫码登录二维码
