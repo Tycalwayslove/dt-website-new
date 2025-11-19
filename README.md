@@ -106,14 +106,15 @@
 ## Recent Commits
 
 <!-- RECENT_COMMITS_START -->
-
+- 5f5c81e 2025-11-19 tycalwayslove feat(非商家用户不允许登录): done
+- 5fbe008 2025-11-19 tycalwayslove fix(登录接口添加allowhttperror 参数,来跳出常用的code码判断): 登录接口如果密码错误，如果按照前期的code码来做判断，都是服务器开小差了。没办法展示错误msg
+- 49b920a 2025-11-15 tycalwayslove feat(调整登录逻辑): 带货达人和自我宣传角色不允许登录
+- e475a59 2025-11-15 tycalwayslove feat(文本的调整): done
+- 795f57f 2025-11-11 tycalwayslove feat(优化调整修改): done
+- e3301e8 2025-11-10 tycalwayslove fix(解决打包导致的链接拼接问题): done
+- 3b9fbed 2025-11-10 tycalwayslove chore: stop tracking dist and dist-test
+- a18dc7c 2025-11-10 tycalwayslove feat(功能开发完毕): done
+- 8db5d97 2025-11-08 tycalwayslove docs(readme修改): done
 - 722bf76 2025-11-08 tycalwayslove docs(新增changelog，并且在readme中显示最新的10条commit): done
-- 22cb27e 2025-11-08 tycalwayslove docs(完善readme): done
-- ca1b870 2025-11-08 tycalwayslove chore: remove tracked .DS_Store
-- 634ee25 2025-11-08 tycalwayslove fix(构建的配置): done
-- 561b749 2025-11-05 tycalwayslove feat(布局和局部细节优化): done
-- 70d175b 2025-11-04 tycalwayslove feat(静态页面基本完成): 目前所有页面展示都已经完成。后续将调整登录相关逻辑
-- 3cfd81a 2025-10-31 tycalwayslove feat(部分页面的提交): done
-- e1225a3 2025-10-24 tycalwayslove ci(初始化提交): done
 
 <!-- RECENT_COMMITS_END -->
