@@ -35,7 +35,7 @@ export function useMallRedirect() {
           return {
             status: 'blocked',
             action: 'none',
-            message: '网站仅支持商家登录，非商家用户请使用喵呜 AI APP 端。',
+            message: '供应商管理后台仅支持商家登录，非商家用户请使用喵呜 AI APP 端',
             notify: true,
           }
         }
@@ -81,7 +81,12 @@ export function useMallRedirect() {
         navigateMall(result.mallToken)
       } else if (result.status === 'blocked') {
         if ((result as any).notify) {
-          ElNotification({ title: '提示', message: result.message, type: 'warning', duration: 3000 })
+          ElNotification({
+            title: '提示',
+            message: result.message,
+            type: 'warning',
+            duration: 3000,
+          })
         } else {
           ElMessage.warning({ message: result.message, duration: 2000 })
         }

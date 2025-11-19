@@ -142,7 +142,7 @@
           <div class="text-left lg:text-left">
             <p class="text-black text-base">
               Copyright © {{ year }} Me&U AI. All Rights
-              Reserved｜喵呜宇宙（深圳）网络科技有限公司｜
+              Reserved｜喵呜宇宙（深圳）人工智能有限公司｜
               <a
                 href="https://beian.miit.gov.cn/#/Integrated/index"
                 target="_blank"

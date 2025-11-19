@@ -985,7 +985,7 @@ async function onLogin() {
 
         close()
       } else {
-        ElMessage.error(res?.message || '登录失败')
+        ElMessage.error((res as any)?.message || (res as any)?.msg || '登录失败')
       }
     } else {
       ElMessage.error(response?.message || '获取加密参数失败')
