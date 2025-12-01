@@ -87,7 +87,7 @@
                 <h4 class="text-lg font-semibold text-black mt-10 mb-2 text-4xl text-black">
                   客户端下载
                 </h4>
-                <p class="text-xl text-black">微信扫码立即下载手机app</p>
+                <p class="text-xl text-black">微信扫码立即下载手机App</p>
               </div>
 
               <!-- 卡片：iOS 下载方式 -->
@@ -97,12 +97,12 @@
                 <div class="flex justify-center">
                   <img
                     :src="img04"
-                    alt="ios下载二维码"
+                    alt="iOS下载二维码"
                     class="w-[150px] max-w-[150px] min-w-[100px] h-[150px] max-h-[150px] min-h-[100px] rounded-lg object-cover"
                   />
                 </div>
                 <h4 class="text-lg font-semibold text-black mt-10 mb-2 text-4xl text-black">
-                  ios下载
+                  iOS下载
                 </h4>
                 <a
                   href="https://apps.apple.com/cn/app/%E5%96%B5%E5%91%9Cai/id6462773304"
@@ -220,7 +220,7 @@
               />
             </div>
             <h4 class="text-lg font-semibold text-black mt-6 mb-2">客户端下载</h4>
-            <p class="text-sm text-gray-700">微信扫码立即下载手机app</p>
+            <p class="text-sm text-gray-700">微信扫码立即下载手机App</p>
           </div>
 
           <!-- iOS 下载方式 -->

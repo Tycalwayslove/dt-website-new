@@ -106,6 +106,7 @@
 ## Recent Commits
 
 <!-- RECENT_COMMITS_START -->
+
 - 5f5c81e 2025-11-19 tycalwayslove feat(非商家用户不允许登录): done
 - 5fbe008 2025-11-19 tycalwayslove fix(登录接口添加allowhttperror 参数,来跳出常用的code码判断): 登录接口如果密码错误，如果按照前期的code码来做判断，都是服务器开小差了。没办法展示错误msg
 - 49b920a 2025-11-15 tycalwayslove feat(调整登录逻辑): 带货达人和自我宣传角色不允许登录

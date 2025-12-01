@@ -1,5 +1,5 @@
 import { httpGet, httpPost } from './http.js'
-import type { ApiResponse } from './types.js'
+import type { ApiResponse, ApiResponseWithMsg } from './types.js'
 
 // AES 密钥响应数据结构
 export interface AesKeyData {
@@ -8,7 +8,7 @@ export interface AesKeyData {
 }
 
 // AES 密钥接口响应类型
-export type AesKeyResponse = ApiResponse<AesKeyData>
+export type AesKeyResponse = ApiResponseWithMsg<AesKeyData>
 
 // 登录请求参数
 export interface LoginRequest {
@@ -72,6 +72,42 @@ export interface ConfirmLoginRequest {
 // 确认登录响应类型
 export type ConfirmLoginResponse = ApiResponse<LoginData>
 
+// 注册请求参数
+export interface RegisterRequest {
+  phone: string
+  code: string
+  password: string
+  confirm_password: string
+  inviter?: string
+  captcha_id?: string
+  captcha_code?: string
+}
+
+// 注册响应类型（返回 access_token）
+export type RegisterResponse = ApiResponseWithMsg<LoginData>
+
+// 获取图形验证码请求参数
+export interface GetCaptchaRequest {}
+
+// 图形验证码响应数据
+export interface CaptchaData {
+  captcha_id: string
+  image: string // base64 图片
+}
+
+// 获取图形验证码响应类型
+export type GetCaptchaResponse = ApiResponseWithMsg<CaptchaData>
+
+// 获取短信验证码请求参数
+export interface GetSmsCodeRequest {
+  phone: string
+  captcha_code: string
+  captcha_id: string
+}
+
+// 获取短信验证码响应类型
+export type GetSmsCodeResponse = ApiResponseWithMsg<null>
+
 // 获取 AES 密钥
 export function apiGetAesKey(): Promise<AesKeyResponse> {
   return httpGet<AesKeyResponse>('/api/user/get_aes_key')
@@ -100,4 +136,19 @@ export function apiGenerateQrCode(params: GenerateQrCodeParams): Promise<QrCodeR
 // 查询二维码扫码状态
 export function apiGetQrCodeStatus(code_id: string): Promise<QrCodeStatusResponse> {
   return httpPost<QrCodeStatusResponse>('/api/login_qr_code_status', { code_id })
+}
+
+// 用户注册
+export function apiRegister(payload: RegisterRequest): Promise<RegisterResponse> {
+  return httpPost<RegisterResponse>('/api/web/merchant_regist', payload, { allowHttpError: true })
+}
+
+// 获取图形验证码
+export function apiGetCaptcha(): Promise<GetCaptchaResponse> {
+  return httpGet<GetCaptchaResponse>('/api/user/get_captcha')
+}
+
+// 获取短信验证码
+export function apiGetSmsCode(payload: GetSmsCodeRequest): Promise<GetSmsCodeResponse> {
+  return httpPost<GetSmsCodeResponse>('/api/web/send_sms', payload, { allowHttpError: true })
 }

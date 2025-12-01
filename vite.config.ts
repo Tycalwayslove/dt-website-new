@@ -5,14 +5,18 @@ import { fileURLToPath, URL } from 'node:url'
 import { defineConfig, loadEnv } from 'vite'
 import tsconfigPaths from 'vite-tsconfig-paths'
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const isTest = mode === 'test'
   const isProd = mode === 'production'
+  const isDev = command === 'serve'
   const API_BASE = env.VITE_API_BASE_URL || 'http://localhost:3000'
+
   // Resolve public base from env or scripts/oss.config.json
-  let PUBLIC_BASE = env.VITE_PUBLIC_BASE_URL || '/'
-  if (!env.VITE_PUBLIC_BASE_URL) {
+  // 在开发模式下始终使用 '/'，只在构建时使用 OSS 路径
+  let PUBLIC_BASE = isDev ? '/' : env.VITE_PUBLIC_BASE_URL || '/'
+
+  if (!isDev && !env.VITE_PUBLIC_BASE_URL) {
     try {
       const cfgPath = path.join(process.cwd(), 'scripts', 'oss.config.json')
       if (fs.existsSync(cfgPath)) {

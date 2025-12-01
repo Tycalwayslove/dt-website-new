@@ -1,5 +1,5 @@
 // 使用相对路径并在 NodeNext 模式下带上 .js 扩展，确保类型解析正确
-import { apiMallLogin } from '@/api/user.js'
+import { apiMallLogin, apiMallRegister } from '@/api/user.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { ElMessage, ElNotification } from 'element-plus'
 import { ref } from 'vue'
@@ -28,16 +28,16 @@ export function useMallRedirect() {
       switch (Number(mall_state)) {
         case 1: {
           // 暂时不支持注册
-          // const regRes = await apiMallRegister()
-          // const token = regRes.data?.mall_token
-          // if (token) return { status: 'ready', action: 'register', mallToken: token }
-          // return { status: 'error', action: 'none', message: '注册成功但未返回 token' }
-          return {
-            status: 'blocked',
-            action: 'none',
-            message: '供应商管理后台仅支持商家登录，非商家用户请使用喵呜 AI APP 端',
-            notify: true,
-          }
+          const regRes = await apiMallRegister()
+          const token = regRes.data?.mall_token
+          if (token) return { status: 'ready', action: 'register', mallToken: token }
+          return { status: 'error', action: 'none', message: '注册成功但未返回 token' }
+          // return {
+          //   status: 'blocked',
+          //   action: 'none',
+          //   message: '供应商管理后台仅支持商家登录，非商家用户请使用喵呜 AI APP 端',
+          //   notify: true,
+          // }
         }
         case 2:
         case 3: {

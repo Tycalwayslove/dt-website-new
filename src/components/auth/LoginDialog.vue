@@ -32,7 +32,40 @@
             <div class="h-full flex flex-col">
               <!-- 头部 -->
               <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜AI账号</h2>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜AI账号</h2>
+                  <el-tooltip
+                    placement="top"
+                    effect="dark"
+                    :show-after="200"
+                    popper-class="login-help-tooltip"
+                  >
+                    <template #content>
+                      <div style="max-width: 280px; line-height: 22px; padding: 16px 16px">
+                        <p class="text-sm text-white text-center leading-relaxed">
+                          请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
+                          <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
+                            <span class="text-white hover-underline underline lg:no-underline"
+                              >喵呜App</span
+                            >
+                          </span>
+                          」注册后登录。
+                        </p>
+                      </div>
+                    </template>
+                    <svg
+                      class="w-4 h-4 text-gray-500 cursor-help"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </el-tooltip>
+                </div>
                 <button
                   @click="close"
                   class="hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -54,18 +87,18 @@
               </div>
 
               <!-- 登录标签页 -->
-              <div class="mb-4">
+              <div class="mb-2">
                 <div class="flex justify-center">
                   <div
                     @click="loginTab = 'qrcode'"
-                    class="text-center font-medium transition-colors duration-200 mr-12 cursor-pointer"
+                    class="text-center text-2xl font-medium transition-colors duration-200 mr-10 cursor-pointer"
                     :class="loginTab === 'qrcode' ? 'underline-green text-black' : 'text-gray-500'"
                   >
                     扫码登录
                   </div>
                   <div
                     @click="loginTab = 'password'"
-                    class="text-center font-medium transition-colors duration-200 cursor-pointer"
+                    class="text-center text-2xl font-medium transition-colors duration-200 cursor-pointer"
                     :class="
                       loginTab === 'password' ? 'underline-green text-black' : 'text-gray-500'
                     "
@@ -147,7 +180,7 @@
                   </div>
 
                   <!-- 状态显示区域 -->
-                  <div class="mb-4">
+                  <div class="mb-2">
                     <!-- 状态图标和文本 - 只在非已扫码状态显示 -->
                     <div v-if="qrCodeStatus !== '2'" class="flex items-center justify-center mb-2">
                       <!-- 等待扫码状态 -->
@@ -191,6 +224,17 @@
                   >
                     刷新二维码
                   </button>
+                  <p
+                    v-if="!qrCodeExpired"
+                    class="text-base text-gray-500 text-center leading-relaxed"
+                  >
+                    商家/供应商入驻
+                    <span class="hover-underline-group cursor-pointer" @click="navigateToRegister">
+                      <span class="text-black hover-underline underline lg:no-underline font-medium"
+                        >注册>>>></span
+                      >
+                    </span>
+                  </p>
                 </div>
 
                 <!-- 账号登录 -->
@@ -298,14 +342,13 @@
                     {{ loggingIn ? '登录中...' : '登录' }}
                   </button>
 
-                  <p class="text-xs text-black text-center leading-relaxed">
-                    请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
-                    <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
-                      <span class="text-black hover-underline underline lg:no-underline"
-                        >喵呜App</span
+                  <p class="text-base text-gray-500 text-center leading-relaxed">
+                    商家/供应商入驻
+                    <span class="hover-underline-group cursor-pointer" @click="navigateToRegister">
+                      <span class="text-black hover-underline underline lg:no-underline font-medium"
+                        >注册>>>></span
                       >
                     </span>
-                    」注册后登录。
                   </p>
                 </div>
               </div>
@@ -330,7 +373,40 @@
             <div class="h-full flex flex-col">
               <!-- 头部 -->
               <div class="flex items-center justify-between mb-4">
-                <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜AI账号</h2>
+                <div class="flex items-center gap-2">
+                  <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜AI账号</h2>
+                  <el-tooltip
+                    placement="top"
+                    effect="dark"
+                    :show-after="200"
+                    popper-class="login-help-tooltip"
+                  >
+                    <template #content>
+                      <div style="max-width: 400px; line-height: 22px; padding: 16px 16px">
+                        <p class="text-sm text-white text-center leading-relaxed">
+                          请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
+                          <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
+                            <span class="text-white hover-underline underline lg:no-underline"
+                              >喵呜App</span
+                            >
+                          </span>
+                          」注册后登录。
+                        </p>
+                      </div>
+                    </template>
+                    <svg
+                      class="w-4 h-4 text-gray-500 cursor-help"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                  </el-tooltip>
+                </div>
                 <button
                   @click="close"
                   class="hover:bg-gray-100 rounded-full transition-colors duration-200"
@@ -352,18 +428,18 @@
               </div>
 
               <!-- 登录标签页 -->
-              <div class="mb-4">
+              <div class="mb-2">
                 <div class="flex justify-center">
                   <div
                     @click="loginTab = 'qrcode'"
-                    class="text-center font-medium transition-colors duration-200 mr-12 cursor-pointer"
+                    class="text-center text-2xl font-medium transition-colors duration-200 mr-10 cursor-pointer"
                     :class="loginTab === 'qrcode' ? 'underline-green text-black' : 'text-gray-500'"
                   >
                     扫码登录
                   </div>
                   <div
                     @click="loginTab = 'password'"
-                    class="text-center font-medium transition-colors duration-200 cursor-pointer"
+                    class="text-center text-2xl font-medium transition-colors duration-200 cursor-pointer"
                     :class="
                       loginTab === 'password' ? 'underline-green text-black' : 'text-gray-500'
                     "
@@ -445,7 +521,7 @@
                   </div>
 
                   <!-- 状态显示区域 -->
-                  <div class="mb-4">
+                  <div class="mb-2">
                     <!-- 状态图标和文本 -->
                     <div class="flex items-center justify-center mb-2">
                       <!-- 等待扫码状态 -->
@@ -500,6 +576,17 @@
                   >
                     刷新二维码
                   </button>
+                  <p
+                    v-if="!qrCodeExpired"
+                    class="text-base text-gray-500 text-center leading-relaxed"
+                  >
+                    商家/供应商入驻
+                    <span class="hover-underline-group cursor-pointer" @click="navigateToRegister">
+                      <span class="text-black hover-underline underline lg:no-underline font-medium"
+                        >注册>>>></span
+                      >
+                    </span>
+                  </p>
                 </div>
 
                 <!-- 账号登录 -->
@@ -607,14 +694,13 @@
                     {{ loggingIn ? '登录中...' : '登录' }}
                   </button>
 
-                  <p class="text-sm text-black text-center leading-relaxed">
-                    请使用您的喵呜账号登录，若您还未注册喵呜账号，请联系商务获取注册码后下载「
-                    <span class="hover-underline-group cursor-pointer" @click="navigateToApp">
-                      <span class="text-black hover-underline underline lg:no-underline"
-                        >喵呜App</span
+                  <p class="text-base text-gray-500 text-center leading-relaxed">
+                    商家/供应商入驻
+                    <span class="hover-underline-group cursor-pointer" @click="navigateToRegister">
+                      <span class="text-black hover-underline underline lg:no-underline font-medium"
+                        >注册>>>></span
                       >
                     </span>
-                    」注册后登录。
                   </p>
                 </div>
               </div>
@@ -694,6 +780,11 @@ const router = useRouter()
 function navigateToApp() {
   close()
   router.push('/products/app')
+}
+
+function navigateToRegister() {
+  close()
+  router.push('/register')
 }
 
 const loginTab = ref<'password' | 'qrcode'>('qrcode')
@@ -985,10 +1076,10 @@ async function onLogin() {
 
         close()
       } else {
-        ElMessage.error((res as any)?.message || (res as any)?.msg || '登录失败')
+        ElMessage.error((res as any)?.msg || (res as any)?.msg || '登录失败')
       }
     } else {
-      ElMessage.error(response?.message || '获取加密参数失败')
+      ElMessage.error(response?.msg || '获取加密参数失败')
     }
   } catch (e: any) {
     ElMessage.error(e?.message || '登录失败')
@@ -1026,5 +1117,22 @@ async function onLogin() {
   100% {
     transform: translateY(160px);
   }
+}
+
+// 疑问图标样式
+.cursor-help {
+  cursor: help;
+  transition: color 0.2s;
+}
+
+.cursor-help:hover {
+  color: #666;
+}
+</style>
+
+<style lang="scss">
+// 登录帮助提示框样式（非 scoped，因为 tooltip 渲染在外部）
+.login-help-tooltip {
+  max-width: 300px !important;
 }
 </style>

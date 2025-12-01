@@ -11,6 +11,14 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '首页' },
   },
 
+  // 注册
+  {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/pages/Register.vue'),
+    meta: { title: '注册' },
+  },
+
   // 产品与服务（嵌套路由）
   {
     path: '/products',

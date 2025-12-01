@@ -22,6 +22,14 @@ export interface ApiResponse<T = any> {
   code?: number
 }
 
+// 使用 msg 字段的 API 响应结构（部分接口使用）
+export interface ApiResponseWithMsg<T = any> {
+  status: 'ok' | 'error'
+  msg?: string
+  data: T
+  code?: number
+}
+
 // 错误响应结构
 export interface ApiError {
   status: 'error'
