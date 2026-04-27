@@ -23,7 +23,7 @@
                 <!-- 地址（图标+地址） -->
                 <p class="text-base text-white mt-2 flex items-center">
                   <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-                  深圳市南山区粤海街道科兴科学园A1-1003
+                  深圳市南山区粤海街道科兴科学园A1-602～603
                 </p>
                 <!-- <p class="text-base text-white mt-2 flex items-center">
                   <img :src="emailImg" alt="地址图标" class="w-[18px] h-[13px] mr-2" />
@@ -53,7 +53,7 @@
         <div class="w-full p-4 bg-black flex flex-col items-left justify-start">
           <p class="text-base text-white mt-2 flex items-left text-left">
             <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-            深圳市南山区粤海街道科兴科学园A1-1003
+            深圳市南山区粤海街道科兴科学园A1-602～603
           </p>
           <!-- <p class="text-base text-white mt-2 flex items-center">
             <img :src="emailImg" alt="地址图标" class="w-[18px] h-[13px] mr-2" />
@@ -68,5 +68,4 @@
 <script setup lang="ts">
 import bg from '@/assets/img/contact-bg.png'
 import locationImg from '@/assets/img/contact-location.png'
-
 </script>

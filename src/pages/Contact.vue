@@ -40,7 +40,7 @@
             <!-- 第三行：地址（图标+地址） -->
             <p class="text-base mt-2 flex items-center">
               <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-              深圳市南山区粤海街道科兴科学园A1-1003
+              深圳市南山区粤海街道科兴科学园A1-602～603
             </p>
             <!-- 第四行：邮箱（图标+email） -->
             <p class="text-base mt-2 flex items-center">
@@ -64,7 +64,7 @@
             <div class="mt-2 space-y-2">
               <p class="text-base text-white flex items-center justify-center">
                 <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
-                深圳市南山区粤海街道科兴科学园A1-1003
+                深圳市南山区粤海街道科兴科学园A1-602～603
               </p>
               <p class="text-base text-white flex items-center justify-center">
                 <img :src="emailImg" alt="邮箱图标" class="w-[18px] h-[13px] mr-2" />

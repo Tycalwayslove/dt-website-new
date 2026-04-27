@@ -11,6 +11,9 @@
     <!-- 招募 -->
     <Recruitment />
 
+    <!-- 郑重声明 -->
+    <ImportantDeclaration />
+
     <!-- 合作伙伴 -->
     <Partners />
   </div>
@@ -20,6 +23,7 @@
 import CompanyInfo from './components/CompanyInfo.vue'
 import DigitalHuman from './components/DigitalHuman.vue'
 import HeroBanner from './components/HeroBanner.vue'
+import ImportantDeclaration from './components/ImportantDeclaration.vue'
 import Partners from './components/Partners.vue'
 import Recruitment from './components/Recruitment.vue'
 </script>

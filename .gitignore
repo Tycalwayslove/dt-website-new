@@ -9,3 +9,5 @@ dist-test/*
 nginx
 .DS_Store
 dist-test/index.html
+package-lock.json
+yarn.lock

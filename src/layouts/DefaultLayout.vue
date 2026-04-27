@@ -1,10 +1,8 @@
 <template>
   <div class="min-h-full flex flex-col">
-    <!-- 顶部广告条 -->
-    <TopAdv />
+    <TopAdv v-if="!isBlank" />
 
-    <!-- 导航栏 -->
-    <AppNav />
+    <AppNav v-if="!isBlank" />
 
     <!-- 主内容区域 -->
   <main class="flex-1">
@@ -17,8 +15,7 @@
     </RouterView>
   </main>
 
-    <!-- 底部 -->
-    <AppFooter />
+    <AppFooter v-if="!isBlank" />
   </div>
 </template>
 
@@ -26,5 +23,9 @@
 import AppFooter from '@/components/AppFooter.vue'
 import AppNav from '@/components/AppNav.vue'
 import TopAdv from '@/components/TopAdv.vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
+import { computed } from 'vue'
+
+const route = useRoute()
+const isBlank = computed(() => route.meta?.layout === 'blank')
 </script>

@@ -94,11 +94,11 @@
 
 <script setup lang="ts">
 // 移除 img() 助手，改用静态模块导入
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
 import rec01 from '@/assets/img/recruitment-01.png'
 import rec02 from '@/assets/img/recruitment-02.png'
 import rec03 from '@/assets/img/recruitment-03.png'
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 // 招募信息接口
 interface RecruitmentItem {

@@ -125,6 +125,14 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
+  // 小程序中转直达页（不在导航或底部展示）
+  {
+    path: '/mp-redirect',
+    name: 'MiniProgramRedirect',
+    component: () => import('@/pages/Redirect.vue'),
+    meta: { title: '正在打开小程序', layout: 'blank' },
+  },
+
   // （已移除）服务中心
 
   // 兜底重定向
