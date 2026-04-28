@@ -33,7 +33,7 @@
               <!-- 头部 -->
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
-                  <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜AI账号</h2>
+                  <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜云链账号</h2>
                   <el-tooltip
                     placement="top"
                     effect="dark"
@@ -259,7 +259,7 @@
                     <!-- 清空按钮 -->
                     <button
                       v-if="loginForm.username"
-                      @click="((loginForm.username = ''), clearValidationErrors())"
+                      @click=";(loginForm.username = ''), clearValidationErrors()"
                       class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -300,7 +300,7 @@
                     <!-- 清空按钮 -->
                     <button
                       v-if="loginForm.password"
-                      @click="((loginForm.password = ''), clearValidationErrors())"
+                      @click=";(loginForm.password = ''), clearValidationErrors()"
                       class="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -374,7 +374,7 @@
               <!-- 头部 -->
               <div class="flex items-center justify-between mb-4">
                 <div class="flex items-center gap-2">
-                  <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜AI账号</h2>
+                  <h2 class="text-lg font-semibold text-gray-800">登录您的喵呜云链账号</h2>
                   <el-tooltip
                     placement="top"
                     effect="dark"
@@ -611,7 +611,7 @@
                     <!-- 清空按钮 -->
                     <button
                       v-if="loginForm.username"
-                      @click="((loginForm.username = ''), clearValidationErrors())"
+                      @click=";(loginForm.username = ''), clearValidationErrors()"
                       class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -652,7 +652,7 @@
                     <!-- 清空按钮 -->
                     <button
                       v-if="loginForm.password"
-                      @click="((loginForm.password = ''), clearValidationErrors())"
+                      @click=";(loginForm.password = ''), clearValidationErrors()"
                       class="absolute right-12 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors duration-200"
                     >
                       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

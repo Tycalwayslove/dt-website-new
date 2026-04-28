@@ -5,7 +5,7 @@
       v-fade-in-up="{ delay: 300 }"
       class="text-[28px] lg:text-[56px] text-center color-black mb-5 font-wendao text-black"
     >
-      喵呜AI顾问式电商
+      喵呜云链顾问式电商
     </h2>
     <!-- 描述 -->
     <p
@@ -212,9 +212,7 @@ onUnmounted(() => {
 
 <style scoped>
 .card-tilt {
-  transition:
-    transform 250ms ease,
-    box-shadow 250ms ease;
+  transition: transform 250ms ease, box-shadow 250ms ease;
   transform-style: preserve-3d;
   will-change: transform;
 }

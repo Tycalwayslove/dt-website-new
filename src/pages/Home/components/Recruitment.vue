@@ -6,7 +6,7 @@
         v-fade-in-up="{ delay: 300 }"
         class="text-4xl text-left color-black mb-5 font-wendao text-black"
       >
-        喵呜AI招募
+        喵呜云链招募
       </h2>
       <p
         v-fade-in-up="{ delay: 300 }"
@@ -51,7 +51,7 @@
           v-fade-in-up="{ delay: 300 }"
           class="text-4xl text-left color-black font-wendao text-black"
         >
-          喵呜AI招募
+          喵呜云链招募
         </h2>
         <div class="flex-1">
           <p
@@ -118,7 +118,7 @@ const recruitmentList = ref<RecruitmentItem[]>([
   },
   {
     id: 2,
-    title: '「喵呜AI卖手招募」',
+    title: '「喵呜云链卖手招募」',
     image: rec02,
     to: '/cooperation/sellers',
   },

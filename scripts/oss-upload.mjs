@@ -58,6 +58,11 @@ function toPosix(p) {
   return p.split(path.sep).join('/')
 }
 
+function normalizePrefix(prefix) {
+  if (!prefix) return prefix
+  return prefix.endsWith('/') ? prefix : `${prefix}/`
+}
+
 async function ensureCleanPrefix(client, prefix) {
   const toDelete = []
   let marker
@@ -101,13 +106,20 @@ async function main() {
     process.exit(1)
   }
 
-  const localDir = env === 'test' ? path.join(root, 'dist-test') : path.join(root, 'dist')
+  const localDirOption = opt.localDir || opt['local-dir']
+  const localDir = localDirOption
+    ? path.resolve(root, localDirOption)
+    : env === 'test'
+      ? path.join(root, 'dist-test')
+      : path.join(root, 'dist')
   if (!isDir(localDir)) {
     console.error(`[oss] 本地目录不存在：${localDir}。请先执行对应环境的构建。`)
     process.exit(1)
   }
 
-  const prefix = env === 'test' ? (cfg.testPrefix || 'website-test/') : (cfg.prodPrefix || 'website-prod/')
+  const prefix = normalizePrefix(
+    opt.prefix || (env === 'test' ? (cfg.testPrefix || 'website-test/') : (cfg.prodPrefix || 'website-prod/'))
+  )
   const client = new OSS({
     region: cfg.region,
     accessKeyId: cfg.accessKeyId,

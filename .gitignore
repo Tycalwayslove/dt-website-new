@@ -6,6 +6,8 @@ dist
 dist/*
 dist-test
 dist-test/*
+dist-meumall-test
+dist-meumall-test/*
 nginx
 .DS_Store
 dist-test/index.html

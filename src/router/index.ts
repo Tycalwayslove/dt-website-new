@@ -30,13 +30,13 @@ const routes: RouteRecordRaw[] = [
         path: 'mini-program',
         name: 'ProductMiniProgram',
         component: () => import('@/pages/Products/MiniProgram.vue'),
-        meta: { title: '喵呜AI 小程序' },
+        meta: { title: '喵呜云链 小程序' },
       },
       {
         path: 'app',
         name: 'ProductApp',
         component: () => import('@/pages/Products/App.vue'),
-        meta: { title: '喵呜AI App' },
+        meta: { title: '喵呜云链 App' },
       },
       {
         path: 'supplier-console',
@@ -64,7 +64,7 @@ const routes: RouteRecordRaw[] = [
         path: 'sellers',
         name: 'CooperationSellers',
         component: () => import('@/pages/Cooperation/Sellers.vue'),
-        meta: { title: '喵呜AI卖手招募' },
+        meta: { title: '喵呜云链卖手招募' },
       },
       {
         path: 'partners',
@@ -86,7 +86,7 @@ const routes: RouteRecordRaw[] = [
         path: 'company',
         name: 'AboutCompany',
         component: () => import('@/pages/About/Company.vue'),
-        meta: { title: '关于喵呜AI' },
+        meta: { title: '关于喵呜云链' },
       },
       {
         path: 'contact',
@@ -159,7 +159,7 @@ router.beforeEach(() => {
 
 router.afterEach((to) => {
   if (to.meta?.title) {
-    document.title = String(to.meta.title) + ' - 喵呜AI - 顾问式电商平台'
+    document.title = String(to.meta.title) + ' - 喵呜云链 - 顾问式电商平台'
   }
   NProgress.done()
 })

@@ -22,7 +22,7 @@
               <div class="rounded-xl bg-white/10 p-4 border border-white/10">
                 <button
                   class="w-full flex items-center justify-between text-left"
-                  @click="((faqOpen = !faqOpen), selectCategory('faq'))"
+                  @click=";(faqOpen = !faqOpen), selectCategory('faq')"
                 >
                   <div class="flex items-center gap-2">
                     <!-- 常见问题 icon -->
@@ -462,10 +462,10 @@
               cat === 'faq'
                 ? '常见问题'
                 : cat === 'guide'
-                  ? '使用指南'
-                  : cat === 'vendor'
-                    ? '供应商入驻'
-                    : '商务合作'
+                ? '使用指南'
+                : cat === 'vendor'
+                ? '供应商入驻'
+                : '商务合作'
             }}
           </button>
         </div>
@@ -616,17 +616,17 @@
           :key="item.id"
           class="px-4 py-3 rounded-lg bg-miaowu-green text-black text-sm"
           @click="
-            ((keyword = item.title),
-            router.replace({
-              path: route.path,
-              query: {
-                ...route.query,
-                cat: 'faq',
-                group: selectedFaqGroup,
-                keyword: item.title,
-                qid: item.id,
-              },
-            }))
+            ;(keyword = item.title),
+              router.replace({
+                path: route.path,
+                query: {
+                  ...route.query,
+                  cat: 'faq',
+                  group: selectedFaqGroup,
+                  keyword: item.title,
+                  qid: item.id,
+                },
+              })
           "
           aria-label="筛选到问题"
         >
@@ -1136,7 +1136,7 @@ const faqItemsMap: Record<string, FaqItem[]> = {
       id: 'q20',
       title: '怎么分享？',
       answer:
-        '主页右上角点击分享按钮可通过分享小程序、h5以及链接的形式快速完成分享。小程序可直接分享给微信好友；h5可分享至微信好友及朋友圈 若想要宣传您的产品/活动/观点/业务等，可以通过营销工具生成相应海报或名片后分享。 若直接推荐分享产品/服务，也可在产品/服务列表直接分享。 你的用户可以点开你分享的链接或者识别图片中的二维码进入您的小程序主页与你的AI智能体对话。注：喵呜官方小程序为：喵呜AI智能体',
+        '主页右上角点击分享按钮可通过分享小程序、h5以及链接的形式快速完成分享。小程序可直接分享给微信好友；h5可分享至微信好友及朋友圈 若想要宣传您的产品/活动/观点/业务等，可以通过营销工具生成相应海报或名片后分享。 若直接推荐分享产品/服务，也可在产品/服务列表直接分享。 你的用户可以点开你分享的链接或者识别图片中的二维码进入您的小程序主页与你的AI智能体对话。注：喵呜官方小程序为：喵呜云链智能体',
     },
   ],
   商城: [

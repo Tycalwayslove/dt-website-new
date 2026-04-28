@@ -35,8 +35,8 @@
           >
             <!-- 第一行：联系我们 -->
             <h2 class="text-3xl font-semibold">联系我们</h2>
-            <!-- 第二行：AI 智能体（喵呜AI） -->
-            <p class="text-xl">喵呜AI</p>
+            <!-- 第二行：AI 智能体（喵呜云链） -->
+            <p class="text-xl">喵呜云链</p>
             <!-- 第三行：地址（图标+地址） -->
             <p class="text-base mt-2 flex items-center">
               <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />
@@ -60,7 +60,7 @@
         <div class="absolute inset-0 flex items-center justify-center">
           <div class="px-6 py-4 bg-black/40 rounded-2xl text-center backdrop-blur-sm">
             <h2 class="text-2xl font-semibold text-white">联系我们</h2>
-            <p class="text-base text-white">喵呜AI</p>
+            <p class="text-base text-white">喵呜云链</p>
             <div class="mt-2 space-y-2">
               <p class="text-base text-white flex items-center justify-center">
                 <img :src="locationImg" alt="地址图标" class="w-[17px] h-[20px] mr-2" />

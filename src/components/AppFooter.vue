@@ -7,7 +7,7 @@
           <!-- 品牌Logo区域（PC：基础50%，可收缩，不增长） -->
           <div class="basis-1/2 shrink grow-0">
             <div class="flex items-center space-x-2 mb-6">
-              <img :src="logoDark" alt="喵呜AI" class="h-10 w-auto" />
+              <img :src="logoDark" alt="喵呜云链" class="h-10 w-auto" />
             </div>
             <!-- <p class="text-gray-600 text-sm leading-relaxed">
               专业的AI顾问式电商平台，让每一次购物都更智能、更贴心。
@@ -86,7 +86,7 @@
         <!-- 品牌Logo区域 -->
         <div class="text-left">
           <div class="flex items-center space-x-2 mb-4">
-            <img :src="logoDark" alt="喵呜AI" class="h-8 w-auto" />
+            <img :src="logoDark" alt="喵呜云链" class="h-8 w-auto" />
           </div>
         </div>
 
@@ -141,14 +141,14 @@
           <!-- 版权信息 -->
           <div class="text-left lg:text-left">
             <p class="text-black text-base">
-              Copyright © {{ year }} Me&U AI. All Rights
-              Reserved｜喵呜宇宙（深圳）人工智能有限公司｜
+              Copyright © {{ year }} MeuMall AI. All Rights
+              Reserved｜喵呜云链智能商务（深圳）有限公司
               <a
                 href="https://beian.miit.gov.cn/#/Integrated/index"
                 target="_blank"
                 rel="noopener noreferrer"
                 class="text-black underline"
-                >粤ICP备2023042737号-1</a
+                >粤ICP备2025440064号-1</a
               >
               <a
                 href="https://www.12377.cn/"
@@ -184,18 +184,18 @@ const year = new Date().getFullYear()
 
 const products: Array<{ label: string; to: string }> = [
   { label: '供应商管理后台', to: '/products/supplier-console' },
-  { label: '喵呜AI App', to: '/products/app' },
-  { label: '喵呜AI 小程序', to: '/products/mini-program' },
+  { label: '喵呜云链 App', to: '/products/app' },
+  { label: '喵呜云链 小程序', to: '/products/mini-program' },
 ]
 
 const cooperations: Array<{ label: string; to: string }> = [
   { label: '喵呜品牌供应商招募', to: '/cooperation/suppliers' },
-  { label: '喵呜AI卖手招募', to: '/cooperation/sellers' },
+  // { label: '喵呜云链卖手招募', to: '/cooperation/sellers' },
   { label: '其他商务合作', to: '/cooperation/partners' },
 ]
 
 const aboutUs: Array<{ label: string; to: string }> = [
-  { label: '关于喵呜AI', to: '/about/company' },
+  { label: '关于喵呜云链', to: '/about/company' },
   { label: '联系我们', to: '/about/contact' },
 ]
 

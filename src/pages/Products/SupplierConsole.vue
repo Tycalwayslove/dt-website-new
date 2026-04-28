@@ -8,7 +8,7 @@
           <h2 class="text-[56px] font-wendao text-black flex-shrink-0">供应商管理后台</h2>
           <!-- 描述 -->
           <p class="text-black">
-            让「答案」顾问式电商走进千家万户 | 让喵呜AI成为每一个用户<br></br>的专业私人购物顾问 | 让电商回归「信任与理解」的本质。
+            让「答案」顾问式电商走进千家万户 | 让喵呜云链成为每一个用户<br></br>的专业私人购物顾问 | 让电商回归「信任与理解」的本质。
           </p>
         </section>
         <!-- 分割线 -->
@@ -28,8 +28,8 @@
               <div class="w-[160px] h-[160px] flex items-center justify-center">
                 <img class="w-[140px] h-[140px] object-contain" :src="img3" alt="" />
               </div>
-              <div class="flex-1 ml-2 leading-[50px] max-w-[230px]">
-                <p class="text-[36px] text-white">喵呜AI供应商</p>
+              <div class="flex-1 ml-2 leading-[50px] max-w-[300px]">
+                <p class="text-[36px] text-white">喵呜云链供应商</p>
                 <p class="text-[36px] text-white">平台入驻规则</p>
               </div>
             </div>
@@ -63,8 +63,8 @@
               <div class="w-[160px] h-[160px] flex items-center justify-center">
                 <img class="w-[140px] h-[140px] object-contain" :src="img4" alt="" />
               </div>
-              <div class="flex-1 ml-2 leading-[50px] max-w-[230px]">
-                <p class="text-[36px] text-white">喵呜AI供应商</p>
+              <div class="flex-1 ml-2 leading-[50px] max-w-[300px]">
+                <p class="text-[36px] text-white">喵呜云链供应商</p>
                 <p class="text-[36px] text-white">商品管理</p>
               </div>
             </div>
@@ -89,7 +89,7 @@
         <h2 class="text-2xl font-wendao text-black">供应商管理后台</h2>
         <p class="text-sm text-black leading-7">
           让「答案」顾问式电商走进千家万户|让
-          喵呜AI成为每一个用户的专业私人购物顾问 | 让电商回归「信任与理解」的本质。
+          喵呜云链成为每一个用户的专业私人购物顾问 | 让电商回归「信任与理解」的本质。
         </p>
         <div class="w-full h-[2px] bg-black/80"></div>
       </section>
@@ -110,7 +110,7 @@
               <img class="w-[100px] h-[100px] object-contain" :src="img3" alt="" />
             </div>
             <div class="flex-1 ml-2 leading-[36px] max-w-[240px] text-white">
-              <p class="text-[24px] text-white">喵呜AI供应商</p>
+              <p class="text-[24px] text-white">喵呜云链供应商</p>
               <p class="text-[24px] text-white">平台入驻规则</p>
             </div>
           </div>
@@ -142,7 +142,7 @@
               <img class="w-[100px] h-[100px] object-contain" :src="img4" alt="" />
             </div>
             <div class="flex-1 ml-2 leading-[36px] max-w-[240px] text-white">
-              <p class="text-[24px] text白">喵呜AI供应商</p>
+              <p class="text-[24px] text白">喵呜云链供应商</p>
               <p class="text-[24px] text白">商品管理</p>
             </div>
           </div>

@@ -43,7 +43,7 @@
         to="/"
         class="flex items-center absolute left-1/2 transform -translate-x-1/2 lg:static lg:transform-none lg:translate-x-0"
       >
-        <img :src="logoUrl" alt="喵呜AI Logo" class="h-8 lg:h-10 w-auto" />
+        <img :src="logoUrl" alt="喵呜云链 Logo" class="h-8 lg:h-10 w-auto" />
       </RouterLink>
 
       <!-- 中间：桌面导航（仅PC端显示，居中） -->
@@ -302,8 +302,8 @@
           class="hidden lg:flex items-center justify-center gap-2 bg-miaowu-green text-black px-[36px] py-[12px] rounded-xl text-base hover:bg-white hover:text-black transition-colors duration-200"
           @click="goToApp"
         >
-          <img :src="iconDownloadUrl" alt="下载喵呜App" class="w-6 h-6" />
-          下载喵呜App
+          <img :src="iconDownloadUrl" alt="下载App" class="w-6 h-6" />
+          下载App
         </button>
 
         <!-- 移动端：仅图标按钮 -->
@@ -804,7 +804,7 @@ const toggleMobileMenu = () => {
   }
 }
 
-// 跳转到喵呜AI App页面
+// 跳转到喵呜云链 App页面
 const goToApp = () => {
   router.push('/products/app')
 }
@@ -817,8 +817,8 @@ const navItems: NavItem[] = [
     label: '喵呜业务',
     children: [
       { to: '/products/supplier-console', label: '供应商管理后台' },
-      { to: '/products/app', label: '喵呜AI App' },
-      { to: '/products/mini-program', label: '喵呜AI 小程序' },
+      { to: '/products/app', label: '喵呜云链 App' },
+      { to: '/products/mini-program', label: '喵呜云链 小程序' },
     ],
   },
   {
@@ -826,7 +826,7 @@ const navItems: NavItem[] = [
     label: '喵呜招募',
     children: [
       { to: '/cooperation/suppliers', label: '喵呜品牌供应商招募' },
-      { to: '/cooperation/sellers', label: '喵呜AI卖手招募' },
+      // { to: '/cooperation/sellers', label: '喵呜云链卖手招募' },
       { to: '/cooperation/partners', label: '其他商务合作' },
     ],
   },
@@ -834,7 +834,7 @@ const navItems: NavItem[] = [
     to: '/about',
     label: '关于我们',
     children: [
-      { to: '/about/company', label: '关于喵呜AI' },
+      { to: '/about/company', label: '关于喵呜云链' },
       { to: '/about/contact', label: '联系我们' },
     ],
   },

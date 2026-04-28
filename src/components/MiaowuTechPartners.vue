@@ -1,7 +1,7 @@
 <template>
   <div class="bg-black py-20 w-full">
     <h2 class="text-[28px] lg:text-[56px] font-wendao text-center text-white py-10">
-      喵呜AI合作伙伴
+      喵呜云链合作伙伴
     </h2>
     <div class="w-full max-w-[1920px] mx-auto px-6 lg:px-20 py-10">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-10 justify-items-center">

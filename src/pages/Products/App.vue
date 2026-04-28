@@ -20,10 +20,10 @@
               <!-- 右侧：文案区域（垂直居中，与左侧有间距） -->
               <div v-stagger="{ delay: 500 }" class="flex-1 flex flex-col justify-center ml-10 mr-20 space-y-5">
                 <!-- 三行文案 -->
-                <h2 class="text-3xl font-wendao text-white drop-shadow-md">喵呜App</h2>
-                <p class="text-xl text-white/90 mt-3 drop-shadow-md">AI 智能体，就用喵呜AI。</p>
+                <h2 class="text-3xl font-wendao text-white drop-shadow-md">MeuMall App</h2>
+                <p class="text-xl text-white/90 mt-3 drop-shadow-md">AI 智能体，就用MeuMall。</p>
                 <p class="text-base text-white/80 mt-2 drop-shadow-md">
-                  打造个人AI智能体，用AI技术创造销售新篇章！让你对用户的服务随时都在，让你成为品牌AI智能体；喵呜AI智能体，您的高效销售方式只需一张照片，5分钟即可生成您的专属AI智能体，有货没货都能赚，省时省力，一键解锁私域财富密码。
+                  打造个人AI智能体，用AI技术创造销售新篇章！让你对用户的服务随时都在，让你成为品牌AI智能体；喵呜云链智能体，您的高效销售方式只需一张照片，5分钟即可生成您的专属AI智能体，有货没货都能赚，省时省力，一键解锁私域财富密码。
                 </p>
 
                 <!-- 图标横向排列：icon01 - icon05 -->
@@ -55,7 +55,11 @@
             </p>
           </div>
           <!-- 下载地址展示区域 -->
-          <div v-stagger="{ delay: 1000 }" class="relative w-full mt-10">
+          <!-- 新版App上线后将 showDownload 改为 true 即可恢复展示 -->
+          <div v-if="!showDownload" class="relative w-full mt-10 flex justify-center">
+            <p class="text-2xl text-black/60 tracking-widest py-16">各大应用市场正在上线中...</p>
+          </div>
+          <div v-if="showDownload" v-stagger="{ delay: 1000 }" class="relative w-full mt-10">
             <div class="flex justify-center gap-8 mx-auto">
               <!-- 卡片：微信扫码下载 -->
               <div
@@ -81,7 +85,7 @@
                   iOS下载
                 </h4>
                 <a href="https://apps.apple.com/cn/app/%E5%96%B5%E5%91%9Cai/id6462773304" target="_blank"
-                  rel="noopener noreferrer" aria-label="前往 App Store 下载喵呜AI"
+                  rel="noopener noreferrer" aria-label="前往 App Store 下载喵呜云链"
                   class="hover-underline-group text-xl text-black mx-auto" title="前往 App Store 下载">
                   <span class="hover-underline">前往 App Store 下载 >>>></span>
                 </a>
@@ -122,10 +126,10 @@
 
       <!-- 文案区域：置于背景图下方，间距适中 -->
       <div v-fade-in-up="{ delay: 500 }" class="mt-6 space-y-4 text-center">
-        <h2 class="text-2xl font-wendao text-black">喵呜App</h2>
-        <p class="text-base text-gray-700">AI 智能体，就用喵呜AI。</p>
+        <h2 class="text-2xl font-wendao text-black">MeuMall</h2>
+        <p class="text-base text-gray-700">AI 智能体，就用MeuMall。</p>
         <p class="text-sm text-gray-600">
-          打造个人AI智能体，用AI技术创造销售新篇章！让你对用户的服务随时都在，让你成为品牌AI智能体；喵呜AI智能体，您的高效销售方式只需一张照片，5分钟即可生成您的专属AI智能体，有货没货都能赚，省时省力，一键解锁私域财富密码。
+          打造个人AI智能体，用AI技术创造销售新篇章！让你对用户的服务随时都在，让你成为品牌AI智能体；喵呜云链智能体，您的高效销售方式只需一张照片，5分钟即可生成您的专属AI智能体，有货没货都能赚，省时省力，一键解锁私域财富密码。
         </p>
         <!-- 图标横向排列：居中，适配小屏尺寸 -->
         <div class="mt-4 flex justify-center gap-6 bg-black/95 p-4 rounded-2xl">
@@ -154,7 +158,11 @@
           </p>
         </div>
         <!-- 卡片区域：从一行变为3行；小于sm为100%宽；sm及以上最大460px，居中 -->
-        <div class="mt-6 space-y-6">
+        <!-- 新版App上线后将 showDownload 改为 true 即可恢复展示 -->
+        <div v-if="!showDownload" class="mt-6 flex justify-center">
+          <p class="text-lg text-black/60 tracking-widest py-10">各大应用市场正在上线中...</p>
+        </div>
+        <div v-if="showDownload" class="mt-6 space-y-6">
           <!-- 微信扫码下载 -->
           <div
             class="bg-white/95 rounded-2xl border border-black px-4 py-6 w-full sm:max-w-[460px] mx-auto text-center">
@@ -173,7 +181,7 @@
             </div>
             <h4 class="text-lg font-semibold text-black mt-6 mb-2">iOS 下载</h4>
             <a href="https://apps.apple.com/cn/app/%E5%96%B5%E5%91%9Cai/id6462773304" target="_blank"
-              rel="noopener noreferrer" aria-label="前往 App Store 下载喵呜AI"
+              rel="noopener noreferrer" aria-label="前往 App Store 下载喵呜云链"
               class="text-sm text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
               title="前往 App Store 下载">
               前往 App Store 下载 →
@@ -206,7 +214,7 @@
 </template>
 
 <script setup lang="ts">
-// 页面：喵呜AI App（静态资源模块化导入）
+// 页面：喵呜云链 App（静态资源模块化导入）
 import img01 from '@/assets/img/product-app-01.png'
 import img02 from '@/assets/img/product-app-02.png'
 import img03 from '@/assets/img/product-app-03.png'
@@ -216,6 +224,9 @@ import icon01 from '@/assets/img/product-app-icon-01.png'
 import icon04 from '@/assets/img/product-app-icon-04.png'
 import icon05 from '@/assets/img/product-app-icon-05.png'
 import { onMounted, ref } from 'vue'
+
+// 新版App上线后改为 true 即可恢复下载区域展示
+const showDownload = ref(false)
 
 // 移动端机型检测：ios / android / unknown
 const platform = ref<'ios' | 'android' | 'unknown'>('unknown')
