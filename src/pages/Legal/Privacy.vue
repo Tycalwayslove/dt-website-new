@@ -4,13 +4,13 @@
       <h1 class="text-[56px] font-wendao text-black">隐私协议</h1>
       <div class="w-[100px] h-[3px] bg-black"></div>
       <div>
-        <p class="text-gray-600 mt-2">更新日期：2025 年 10 月 30 日</p>
-        <p class="text-gray-600 mt-2">生效日期：2025 年 10 月 30 日</p>
+        <p class="text-gray-600 mt-2">更新日期：2026 年 05 月 06 日</p>
+        <p class="text-gray-600 mt-2">生效日期：2026 年 05 月 06 日</p>
       </div>
     </header>
     <article class="bg-white text-gray-800 leading-relaxed space-y-6 policy-body">
       <p>
-        感谢您使用喵呜软件，本应用由嗷呜世界（深圳）网络科技有限公司（以下简称“本司”）提供服务，应用尊重并保护所有使用服务的用户个人隐私权。为了给您提供更好的服务，本应用会按照本隐私政策的规定使用和披露您的个人信息。我们将以高度的勤勉、审慎义务对待这些信息。除本隐私政策相关规定外，在未得到您允许的情况下，本应用不会将这些信息对外披露或向第三方提供。本应用会不定时更新隐私政策。您在同意本应用服务使用协议之时，即视为您已经同意本隐私政策全部内容，本隐私政策属于本应用服务使用协议不可分割的一部分。本隐私政策将帮助您了解在使用本应用的过程中可能涉及的内容，请您在使用我们的产品（或服务）前，请您仔细阅读以下内容：
+        感谢您使用喵呜软件，本应用由喵鸣云链智能商务（深圳）有限公司（以下简称“本司”）提供服务，应用尊重并保护所有使用服务的用户个人隐私权。为了给您提供更好的服务，本应用会按照本隐私政策的规定使用和披露您的个人信息。我们将以高度的勤勉、审慎义务对待这些信息。除本隐私政策相关规定外，在未得到您允许的情况下，本应用不会将这些信息对外披露或向第三方提供。本应用会不定时更新隐私政策。您在同意本应用服务使用协议之时，即视为您已经同意本隐私政策全部内容，本隐私政策属于本应用服务使用协议不可分割的一部分。本隐私政策将帮助您了解在使用本应用的过程中可能涉及的内容，请您在使用我们的产品（或服务）前，请您仔细阅读以下内容：
       </p>
 
       <ul class="list-none space-y-1">
@@ -95,7 +95,12 @@
           当您使用应用内的语音键进行说话时，会开启您的麦克风权限用于录音，并通过第三方 sdk
           转义成文字形式，用于发送内容。
         </p>
-        <h3 class="font-medium">（四）合作接入的第三方获取的相关信息</h3>
+        <h3 class="font-medium">（四）收录声音进行语音克隆</h3>
+        <p>
+          为了向您提供语音识别/语音合成及语音克隆功能，您录制的语音内容将被上传并发送至第三方 AI
+          服务「语音合成-千问」进行处理。发送的数据包括：您的录音音频及为实现该功能所必需的请求信息。您的语音数据仅用于语音特征处理与语音克隆相关功能，不会用于广告、用户画像、分析或其他用途。上传的原始音频文件在处理完成后将在一定时间内自动失效并删除（通常不超过24小时），不会进行长期存储。
+        </p>
+        <h3 class="font-medium">（五）合作接入的第三方获取的相关信息</h3>
         为保障本应用内功能的实现和稳定运行，我们可能接入由其他第三方提供的软件开发包（SDK）、应用程序接口（API）等代码或通过合作方式，以实现相关目的。具体合作方及其可能获取相关信息。我们会对获取信息的合作方的代码进行严格安全检测，以保护数据安全。请注意，合作方的代码可能因其版本升级、策略调整原因导致数据处理类型存在变化，请以其公示的官网说明为准。<text
           class="font-bold"
           >我们接入的第三方 SDK
@@ -340,6 +345,81 @@
             </tr>
           </tbody>
         </table>
+        <!-- 通义千问（Qwen）AI 服务 / 语音处理服务 SDK 表：左侧为行表头（label），右侧为具体值（value） -->
+        <table class="w-full text-left border border-gray-300 mt-6">
+          <tbody>
+            <tr>
+              <th
+                scope="row"
+                class="w-40 md:w-56 px-4 py-2 border border-gray-300 font-bold bg-gray-50"
+              >
+                SDK 名称
+              </th>
+              <td class="px-4 py-2 border border-gray-300">
+                通义千问（Qwen）AI 服务 / 语音处理服务 SDK
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+                class="w-40 md:w-56 px-4 py-2 border border-gray-300 font-bold bg-gray-50"
+              >
+                服务商
+              </th>
+              <td class="px-4 py-2 border border-gray-300">
+                阿里云计算有限公司（Alibaba Cloud Computing Ltd.）
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+                class="w-40 md:w-56 px-4 py-2 border border-gray-300 font-bold bg-gray-50"
+              >
+                使用目的
+              </th>
+              <td class="px-4 py-2 border border-gray-300">
+                <div>
+                  为了向您提供语音识别、语音合成或语音相关的 AI
+                  处理功能，我们需要将您录制的语音数据发送至通义千问（Qwen）服务进行分析与处理。
+                </div>
+                <div class="mt-2">
+                  同时，为保障服务的稳定性与安全性，可能会使用必要的网络信息进行请求处理与结果返回。
+                </div>
+                <div class="mt-2">网络连接权限：</div>
+                <div>
+                  允许程序使用网络连接，进行数据传输；允许程序获取当前网络信息，以保障语音服务请求的正常发送与响应。
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+                class="w-40 md:w-56 px-4 py-2 border border-gray-300 font-bold bg-gray-50"
+              >
+                收集个人信息类型
+              </th>
+              <td class="px-4 py-2 border border-gray-300">用户录音音频数据（语音内容）。</td>
+            </tr>
+            <tr>
+              <th
+                scope="row"
+                class="w-40 md:w-56 px-4 py-2 border border-gray-300 font-bold bg-gray-50"
+              >
+                SDK 政策链接
+              </th>
+              <td class="px-4 py-2 border border-gray-300">
+                <a
+                  href="https://www.alibabacloud.com/help/zh/legal/latest/alibaba-cloud-international-website-privacy-policy?spm=a2c63.p38356.9135018350.34.371c7c1d0SILin"
+                  target="_blank"
+                  rel="noopener"
+                  class="text-primary-600 hover:underline break-all"
+                >
+                  阿里云官网法律声明及隐私权政策
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
         <!-- Alipay 支付宝客户端 SDK 表：左侧为行表头（label），右侧为具体值（value） -->
         <table class="w-full text-left border border-gray-300 mt-6">
           <tbody>
@@ -496,8 +576,8 @@
         <h2 class="text-xl font-semibold">九、用户如何管理信息</h2>
         <p>
           访问、更正和删除：您可通过手机系统“设置”-“应用管理”-“权限”-“喵呜”查看您的系统授权权限。若您需要查阅您在使用过程中产生的个人信息，在合理要求下，我们会向您提供。若您无法通过上述方式访问、更正或删除您的个人信息，也可以发送邮件至
-          <a href="mailto:support@meupop.com" class="text-primary-600 hover:underline break-all"
-            >support@meupop.com</a
+          <a href="mailto:service@meupop.com" class="text-primary-600 hover:underline break-all"
+            >service@meupop.com</a
           >
           联系我们，我们会在 15 个工作日内回复您。
         </p>
@@ -551,8 +631,8 @@
           <li>联系喵呜的运营人员提交反馈意见；</li>
           <li>
             向
-            <a href="mailto:support@meupop.com" class="text-primary-600 hover:underline break-all"
-              >support@meupop.com</a
+            <a href="mailto:service@meupop.com" class="text-primary-600 hover:underline break-all"
+              >service@meupop.com</a
             >
             客服邮箱发送邮件；
           </li>

@@ -4,8 +4,8 @@
       <h1 class="text-[56px] font-wendao text-black">服务条款</h1>
       <div class="w-[100px] h-[3px] bg-black"></div>
       <div>
-        <p class="text-gray-600 mt-2">更新日期：2024 年 12 月 13 日</p>
-        <p class="text-gray-600 mt-2">生效日期：2024 年 12 月 13 日</p>
+        <p class="text-gray-600 mt-2">更新日期：2026 年 05 月 06 日</p>
+        <p class="text-gray-600 mt-2">生效日期：2026 年 05 月 06 日</p>
       </div>
     </header>
     <article class="bg-white text-gray-800 leading-relaxed space-y-6 policy-body">
@@ -13,7 +13,7 @@
         <h2 class="text-lg font-semibold">1. 导言</h2>
         <p>欢迎您使用 “ 喵呜 AI ” 软件及相关服务！</p>
         <p>
-          本《用户服务协议》（以下简称 “ 本协议 ” ）系由嗷呜世界（深圳）网络科技有限公司 ( 以下简称
+          本《用户服务协议》（以下简称 “ 本协议 ” ）系由喵鸣云链智能商务（深圳）有限公司 ( 以下简称
           “ 本司 ”) 与所有使用本 软件 的主体（包括但不限于个人、团队等）（以下简称 “ 您 ”
           ）针对使用本 软件
           相关服务所订立的有效合约。您在使用本司的服务前请认真阅读、充分理解本协议中的各项条款。特别是涉及免除或者限制本司责任、争议解决和法律适用的条款，您需要重点阅读。如您不同意本协议，这将导致公司无法为您提供完整的产品和服务，您也可以选择停止使用。如果您使用本

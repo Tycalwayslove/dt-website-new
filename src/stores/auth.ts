@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import { ElMessage } from 'element-plus'
 import { apiGetUserInfo } from '@/api/user.js'
 import type { UserInfo } from '@/api/user.js'
+import { safeLocalStorage } from '@/utils/safeStorage.js'
 
 const TOKEN_KEY = 'auth-token'
 const USER_INFO_KEY = 'user-info'
@@ -17,8 +18,8 @@ export const useAuthStore = defineStore('auth', {
   },
   actions: {
     init() {
-      this.token = localStorage.getItem(TOKEN_KEY) || ''
-      const userInfoStr = localStorage.getItem(USER_INFO_KEY)
+      this.token = safeLocalStorage.getItem(TOKEN_KEY) || ''
+      const userInfoStr = safeLocalStorage.getItem(USER_INFO_KEY)
       if (userInfoStr) {
         try {
           this.userInfo = JSON.parse(userInfoStr)
@@ -37,17 +38,17 @@ export const useAuthStore = defineStore('auth', {
     },
     setToken(token: string) {
       this.token = token
-      localStorage.setItem(TOKEN_KEY, token)
+      safeLocalStorage.setItem(TOKEN_KEY, token)
     },
     setUserInfo(userInfo: UserInfo) {
       this.userInfo = userInfo
-      localStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo))
+      safeLocalStorage.setItem(USER_INFO_KEY, JSON.stringify(userInfo))
     },
     clear() {
       this.token = ''
       this.userInfo = null
-      localStorage.removeItem(TOKEN_KEY)
-      localStorage.removeItem(USER_INFO_KEY)
+      safeLocalStorage.removeItem(TOKEN_KEY)
+      safeLocalStorage.removeItem(USER_INFO_KEY)
     },
     logout() {
       this.clear()
