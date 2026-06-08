@@ -1,3 +1,5 @@
+/.env.local
+/.env.*.local
 node_modules/
 node_modules
 scripts/deploy.config.json
@@ -7,6 +9,8 @@ dist/*
 dist-test
 dist-test/*
 nginx
+logs/
+/public/news/
 .DS_Store
 dist-test/index.html
 package-lock.json
