@@ -835,6 +835,7 @@ const navItems: NavItem[] = [
     label: '关于我们',
     children: [
       { to: '/about/company', label: '关于喵呜AI' },
+      { to: '/about/news', label: '公司资讯' },
       { to: '/about/contact', label: '联系我们' },
     ],
   },

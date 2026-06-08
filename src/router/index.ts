@@ -89,6 +89,24 @@ const routes: RouteRecordRaw[] = [
         meta: { title: '关于喵呜AI' },
       },
       {
+        path: 'news',
+        name: 'AboutNews',
+        component: () => import('@/pages/About/News.vue'),
+        meta: { title: '公司资讯' },
+      },
+      {
+        path: 'news/import',
+        name: 'AboutNewsImport',
+        component: () => import('@/pages/About/NewsImport.vue'),
+        meta: { title: '公司资讯补录' },
+      },
+      {
+        path: 'news/:id',
+        name: 'AboutNewsDetail',
+        component: () => import('@/pages/About/NewsDetail.vue'),
+        meta: { title: '公司资讯详情' },
+      },
+      {
         path: 'contact',
         name: 'AboutContact',
         component: () => import('@/pages/Contact.vue'),

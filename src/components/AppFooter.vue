@@ -196,6 +196,7 @@ const cooperations: Array<{ label: string; to: string }> = [
 
 const aboutUs: Array<{ label: string; to: string }> = [
   { label: '关于喵呜AI', to: '/about/company' },
+  { label: '公司资讯', to: '/about/news' },
   { label: '联系我们', to: '/about/contact' },
 ]
 
