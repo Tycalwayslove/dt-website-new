@@ -15,3 +15,5 @@ logs/
 dist-test/index.html
 package-lock.json
 yarn.lock
+public
+dist-meumall-test
