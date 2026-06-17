@@ -401,7 +401,7 @@
               <div v-else class="space-y-6" aria-label="商务合作信息">
                 <h2 class="text-xl font-semibold">商务合作</h2>
                 <p class="text-white/80">
-                  品牌入驻、代理合作、渠道共建等商务事宜，请联系下方商务经理。
+                  品牌入驻、经销商合作、渠道共建等商务事宜，请联系下方商务经理。
                 </p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
@@ -818,7 +818,7 @@
       >
         <h2 class="text-base font-semibold">商务合作</h2>
         <p class="text-white/80 text-sm">
-          品牌入驻、代理合作、渠道共建等商务事宜，请联系下方商务经理。
+          品牌入驻、经销商合作、渠道共建等商务事宜，请联系下方商务经理。
         </p>
         <div class="space-y-3">
           <div class="rounded-lg bg-white/5 border border-white/10 p-3">
@@ -1066,7 +1066,7 @@ const faqItemsMap: Record<string, FaqItem[]> = {
       id: 'q3',
       title: '激活码怎么获取？',
       blocks: [
-        { type: 'text', text: '个人用户：请联系您所在地区的代理商购买。' },
+        { type: 'text', text: '个人用户：请联系您所在地区的经销商商购买。' },
         { type: 'text', text: '大量需求用户：请直接联系我们的商务经理咨询。' },
         { type: 'text', text: '联系方式见官网-帮助中心-商务合作页面。' },
       ],
@@ -1160,7 +1160,7 @@ const faqItemsMap: Record<string, FaqItem[]> = {
       id: 'q27',
       title: '我申请了入驻商城怎么还没通过？',
       answer:
-        '入驻商城审核时间为1-2个工作日， 请耐心等待。若超过2个工作日仍无审核结果，请联系您的代理进行反馈。',
+        '入驻商城审核时间为1-2个工作日， 请耐心等待。若超过2个工作日仍无审核结果，请联系您的经销商进行反馈。',
     },
     {
       id: 'q28',

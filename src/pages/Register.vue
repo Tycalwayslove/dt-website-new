@@ -124,15 +124,15 @@
             </el-input>
           </el-form-item>
 
-          <!-- 代理ID -->
+          <!-- 经销商ID -->
           <el-form-item prop="inviter">
             <el-input
               v-model="registerForm.inviter"
-              placeholder="请输入邀请您入驻的代理ID"
+              placeholder="请输入邀请您入驻的经销商ID"
               clearable
             >
               <template #prefix>
-                <img :src="iconAgentId" alt="代理ID" class="w-[17px] h-[20px]" />
+                <img :src="iconAgentId" alt="经销商ID" class="w-[17px] h-[20px]" />
               </template>
             </el-input>
           </el-form-item>
@@ -174,7 +174,7 @@
               class="text-black font-medium hover-underline"
               @click.prevent="handleNoAgentId"
             >
-              没有代理ID？
+              没有经销商ID？
             </a>
           </div>
         </div>
@@ -302,7 +302,7 @@ const registerRules = reactive<FormRules>({
     { required: true, message: '请再次输入密码', trigger: 'blur' },
     { validator: validatePasswordMatch, trigger: 'blur' },
   ],
-  inviter: [{ required: true, message: '请输入代理ID', trigger: 'blur' }],
+  inviter: [{ required: true, message: '请输入经销商ID', trigger: 'blur' }],
 })
 
 // 获取验证码 - 打开图形验证码弹窗
@@ -449,9 +449,9 @@ const handleRegister = async () => {
   }
 }
 
-// 没有代理ID的处理 - 跳转到帮助中心的商务合作页面
+// 没有经销商ID的处理 - 跳转到帮助中心的商务合作页面
 const handleNoAgentId = () => {
-  ElMessage.info('请联系商务获取代理ID')
+  ElMessage.info('请联系商务获取经销商ID')
   router.push('/legal/help?cat=biz')
 }
 
