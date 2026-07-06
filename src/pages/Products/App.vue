@@ -80,7 +80,7 @@
                 <h4 class="text-lg font-semibold text-black mt-10 mb-2 text-4xl text-black">
                   iOS下载
                 </h4>
-                <a href="https://apps.apple.com/cn/app/%E5%96%B5%E5%91%9Cai/id6462773304" target="_blank"
+                <a href="https://apps.apple.com/cn/app/meumall/id6761810265" target="_blank"
                   rel="noopener noreferrer" aria-label="前往 App Store 下载喵呜AI"
                   class="hover-underline-group text-xl text-black mx-auto" title="前往 App Store 下载">
                   <span class="hover-underline">前往 App Store 下载 >>>></span>
@@ -172,7 +172,7 @@
               <img :src="img04" alt="iOS 下载图标" class="w-20 h-20 rounded-lg object-cover" />
             </div>
             <h4 class="text-lg font-semibold text-black mt-6 mb-2">iOS 下载</h4>
-            <a href="https://apps.apple.com/cn/app/%E5%96%B5%E5%91%9Cai/id6462773304" target="_blank"
+            <a href="https://apps.apple.com/cn/app/meumall/id6761810265" target="_blank"
               rel="noopener noreferrer" aria-label="前往 App Store 下载喵呜AI"
               class="text-sm text-miaowu-green underline underline-offset-4 hover:text-miaowu-green/80"
               title="前往 App Store 下载">
