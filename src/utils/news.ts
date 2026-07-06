@@ -1,6 +1,7 @@
 export interface NewsArticleSummary {
   id: string
   title: string
+  category?: NewsCategory
   digest?: string
   author?: string
   coverUrl?: string
@@ -10,6 +11,8 @@ export interface NewsArticleSummary {
   sourcePublishId?: string
   sourceIndex?: number
 }
+
+export type NewsCategory = 'poster' | 'article'
 
 export interface NewsArticleDetail extends NewsArticleSummary {
   contentHtml: string
@@ -34,11 +37,17 @@ export function buildNewsArticleApiPath(id: string): string {
   return `/api/news/articles/${encodeURIComponent(id)}`
 }
 
-export function buildNewsArticlesApiPath(page = 1, pageSize = 10): string {
+export function buildNewsArticlesApiPath(
+  page = 1,
+  pageSize = 10,
+  category?: NewsCategory | ''
+): string {
   const query = new URLSearchParams({
     page: String(page),
     pageSize: String(pageSize),
   })
+
+  if (category) query.set('category', category)
 
   return `/api/news/articles?${query.toString()}`
 }

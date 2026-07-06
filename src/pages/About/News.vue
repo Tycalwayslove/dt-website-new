@@ -9,7 +9,7 @@
         </p>
       </div>
 
-      <div v-if="loading && articles.length === 0" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+      <div v-if="loading" class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         <div
           v-for="item in 6"
           :key="item"
@@ -43,7 +43,7 @@
         class="rounded-lg border border-gray-200 p-8 text-center"
       >
         <p class="text-lg font-medium text-black">暂无公司资讯</p>
-        <p class="mt-2 text-sm text-gray-500">同步脚本运行后，这里会自动展示公众号文章。</p>
+        <p class="mt-2 text-sm text-gray-500">同步脚本运行后，这里会自动展示公众号内容。</p>
       </div>
 
       <template v-else>
@@ -129,12 +129,23 @@ const loadingMore = ref(false)
 const errorMessage = ref('')
 const loadMoreTrigger = ref<HTMLElement | null>(null)
 let loadMoreObserver: IntersectionObserver | null = null
+let activeRequestId = 0
+let activeAbortController: AbortController | null = null
 
 const loadNews = async (reset = true) => {
   const nextPage = reset ? 1 : page.value + 1
+  const requestId = activeRequestId + 1
+  activeRequestId = requestId
+
+  activeAbortController?.abort()
+  activeAbortController = new AbortController()
 
   if (reset) {
     loading.value = true
+    articles.value = []
+    page.value = 1
+    total.value = 0
+    hasMore.value = false
   } else {
     loadingMore.value = true
   }
@@ -143,6 +154,7 @@ const loadNews = async (reset = true) => {
   try {
     const response = await fetch(buildNewsArticlesApiPath(nextPage, pageSize), {
       cache: 'no-store',
+      signal: activeAbortController.signal,
     })
 
     if (!response.ok) {
@@ -150,6 +162,8 @@ const loadNews = async (reset = true) => {
     }
 
     const payload = (await response.json()) as NewsListPayload
+    if (requestId !== activeRequestId) return
+
     const incomingArticles = payload.articles ?? []
 
     articles.value = reset ? incomingArticles : mergeArticles(articles.value, incomingArticles)
@@ -157,9 +171,13 @@ const loadNews = async (reset = true) => {
     total.value = payload.total ?? articles.value.length
     hasMore.value = payload.hasMore ?? articles.value.length < total.value
   } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') return
+    if (requestId !== activeRequestId) return
+
     if (reset) articles.value = []
     errorMessage.value = error instanceof Error ? error.message : '请稍后重试'
   } finally {
+    if (requestId !== activeRequestId) return
     loading.value = false
     loadingMore.value = false
   }
@@ -215,5 +233,6 @@ watch([hasMore, () => articles.value.length], async () => {
 
 onBeforeUnmount(() => {
   loadMoreObserver?.disconnect()
+  activeAbortController?.abort()
 })
 </script>

@@ -54,6 +54,10 @@ test('buildNewsArticlesApiPath builds paginated list endpoints', async () => {
   try {
     assert.equal(module.buildNewsArticlesApiPath(), '/api/news/articles?page=1&pageSize=10')
     assert.equal(module.buildNewsArticlesApiPath(3, 20), '/api/news/articles?page=3&pageSize=20')
+    assert.equal(
+      module.buildNewsArticlesApiPath(2, 10, 'poster'),
+      '/api/news/articles?page=2&pageSize=10&category=poster',
+    )
   } finally {
     await cleanup()
   }
