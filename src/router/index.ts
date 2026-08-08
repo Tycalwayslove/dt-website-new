@@ -75,6 +75,31 @@ const routes: RouteRecordRaw[] = [
     ],
   },
 
+  // 成长中心
+  {
+    path: '/growth-center',
+    redirect: '/growth-center/sellers',
+    meta: { title: '成长中心' },
+  },
+  {
+    path: '/growth-center/sellers',
+    name: 'GrowthCenterSellers',
+    component: () => import('@/pages/GrowthCenter.vue'),
+    meta: { title: '我是达人卖手' },
+  },
+  {
+    path: '/growth-center/suppliers',
+    name: 'GrowthCenterSuppliers',
+    component: () => import('@/pages/GrowthCenter.vue'),
+    meta: { title: '我是供应链商家' },
+  },
+  {
+    path: '/growth-center/article/:id',
+    name: 'GrowthArticleDetail',
+    component: () => import('@/pages/GrowthDetail.vue'),
+    meta: { title: '成长中心详情' },
+  },
+
   // 关于我们（嵌套路由）
   {
     path: '/about',

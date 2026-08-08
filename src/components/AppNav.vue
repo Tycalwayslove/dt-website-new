@@ -248,8 +248,8 @@
                 <!-- 退出登录按钮 -->
                 <div class="px-7 py-5">
                   <button
-                    @click="handleLogout"
                     class="w-full h-10 text-center px-3 line-height-10 rounded-xl text-black bg-white hover:text-red-300 hover:bg-red-900/20 transition-colors duration-200"
+                    @click="handleLogout"
                   >
                     退出登录
                   </button>
@@ -543,8 +543,8 @@
             <!-- 退出登录按钮 -->
             <div class="mt-6 animate-fade-in-up" style="animation-delay: 300ms">
               <button
-                @click="handleLogout"
                 class="w-full flex items-center justify-center px-4 py-3 bg-red-600/20 text-red-400 rounded-lg hover:bg-red-600/30 transition-colors duration-200"
+                @click="handleLogout"
               >
                 退出登录
               </button>
@@ -602,9 +602,6 @@ const isTopAdvVisible = ref(false)
 const mobileMenuTopClass = computed(() => {
   // 导航栏高度：h-20 = 80px
   // TopAdv高度：移动端 h-11 = 44px，PC端 h-[66px] = 66px
-  const navHeight = 80 // 导航栏高度
-  const topAdvHeight = isTopAdvVisible.value ? 44 : 0 // 移动端TopAdv高度
-
   return {
     'top-20': !isTopAdvVisible.value, // 没有TopAdv时使用默认的top-20
     'top-[124px]': isTopAdvVisible.value, // 有TopAdv时：80px + 44px = 124px
@@ -615,9 +612,6 @@ const mobileMenuTopClass = computed(() => {
 const mobileUserPanelTopClass = computed(() => {
   // 导航栏高度：h-20 = 80px
   // TopAdv高度：移动端 h-11 = 44px
-  const navHeight = 80 // 导航栏高度
-  const topAdvHeight = isTopAdvVisible.value ? 44 : 0 // 移动端TopAdv高度
-
   return {
     'top-20': !isTopAdvVisible.value, // 没有TopAdv时使用默认的top-20
     'top-[124px]': isTopAdvVisible.value, // 有TopAdv时：80px + 44px = 124px
@@ -714,6 +708,8 @@ const isActive = (path: string) => {
 const isActiveParent = (item: NavItem) => {
   if (!item.children) return false
   const current = normalizePath(route.path)
+  const parent = normalizePath(item.to)
+  if (current === parent || current.startsWith(parent + '/')) return true
   return item.children.some((child) => {
     const target = normalizePath(child.to)
     return current === target || current.startsWith(target + '/')
@@ -828,6 +824,14 @@ const navItems: NavItem[] = [
       { to: '/cooperation/suppliers', label: '喵呜品牌供应商招募' },
       // { to: '/cooperation/sellers', label: '喵呜云链卖手招募' },
       { to: '/cooperation/partners', label: '其他商务合作' },
+    ],
+  },
+  {
+    to: '/growth-center',
+    label: '成长中心',
+    children: [
+      { to: '/growth-center/sellers', label: '我是达人卖手' },
+      { to: '/growth-center/suppliers', label: '我是供应链商家' },
     ],
   },
   {

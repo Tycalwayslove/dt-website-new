@@ -5,8 +5,9 @@ export type HttpRequestConfig = AxiosRequestConfig & {
   allowHttpError?: boolean
 }
 
-// 在开发模式下我们走 Vite 代理，使用 /api；在构建后的生产/测试模式下，使用环境的完整域名
-const baseURL = import.meta.env.DEV ? '/api' : import.meta.env.VITE_API_BASE_URL || '/api'
+// 开发模式下保留业务接口自身的 /api、/manage 前缀，让 Vite 代理按路径转发。
+// 构建后再使用环境变量里的完整域名拼接这些接口路径。
+const baseURL = import.meta.env.DEV ? '' : import.meta.env.VITE_API_BASE_URL || ''
 
 const instance: AxiosInstance = axios.create({
   baseURL,
