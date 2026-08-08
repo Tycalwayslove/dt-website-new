@@ -3,4 +3,4 @@ export * from './http.js'
 export * from './types.js'
 export * from './user.js'
 export * from './wechat.js'
-
+export * from './growth.js'

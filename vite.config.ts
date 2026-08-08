@@ -8,9 +8,9 @@ import tsconfigPaths from 'vite-tsconfig-paths'
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd(), '')
   const isTest = mode === 'test'
-  const isProd = mode === 'production'
   const isDev = command === 'serve'
   const API_BASE = env.VITE_API_BASE_URL || 'http://localhost:3000'
+  const GROWTH_API_BASE = env.VITE_GROWTH_API_BASE_URL || API_BASE
 
   // Resolve public base from env or scripts/oss.config.json
   // 在开发模式下始终使用 '/'，只在构建时使用 OSS 路径
@@ -48,12 +48,16 @@ export default defineConfig(({ mode, command }) => {
       open: true,
       host: true,
       proxy: {
+        '/growth/center': {
+          target: GROWTH_API_BASE,
+          changeOrigin: true,
+        },
         '/api': {
           target: API_BASE,
           changeOrigin: true,
         },
         '/manage': {
-          target: API_BASE + '/manage',
+          target: API_BASE,
           changeOrigin: true,
         },
       },
