@@ -163,9 +163,12 @@ export function getGrowthArticleHeroImage(article?: GrowthArticle | null) {
   )
 }
 
-export async function apiGetGrowthRecommendedArticles() {
+export async function apiGetGrowthRecommendedArticles(params?: {
+  bizType?: GrowthBizType | number
+}) {
   const response = await growthGet<MallApiResponse<GrowthArticle[]>>(
-    `${GROWTH_API_PREFIX}/recommendArticles`
+    `${GROWTH_API_PREFIX}/recommendArticles`,
+    { params }
   )
   return unwrapMallResponse<GrowthArticle[]>(response) || []
 }

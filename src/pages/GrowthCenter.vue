@@ -14,6 +14,23 @@
         </button>
       </div>
 
+      <div
+        v-else-if="!canViewCurrentBizType"
+        class="mx-auto max-w-3xl rounded-2xl bg-gray-50 p-8 text-center"
+      >
+        <p class="text-2xl font-semibold text-black">暂无当前成长中心访问权限</p>
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+          当前账号暂未开通{{ currentAudienceName }}内容，请切换到账号已开通的身份后查看。
+        </p>
+        <RouterLink
+          v-if="firstAllowedGrowthOption"
+          :to="firstAllowedGrowthOption.path"
+          class="mt-6 inline-flex rounded-xl bg-miaowu-green px-8 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-miaowu-green"
+        >
+          查看{{ firstAllowedGrowthOption.label }}
+        </RouterLink>
+      </div>
+
       <template v-else>
         <div class="mx-auto max-w-[1400px]">
           <section class="overflow-hidden rounded-2xl bg-black">
@@ -27,9 +44,11 @@
                 v-for="heroArticle in heroArticles"
                 :key="heroArticle.articleId || heroArticle.title"
               >
-                <RouterLink
-                  :to="getArticleLink(heroArticle)"
+                <component
+                  :is="isHeroArticleClickable(heroArticle) ? RouterLink : 'div'"
+                  v-bind="getHeroArticleBind(heroArticle)"
                   class="growth-hero group relative block h-full overflow-hidden rounded-2xl"
+                  :class="{ 'cursor-default': !isHeroArticleClickable(heroArticle) }"
                 >
                   <img
                     :src="getArticleDisplayImage(heroArticle) || fallbackBanner"
@@ -56,7 +75,7 @@
                       {{ heroArticle.summary || '查看平台公告、操作指南和课程内容。' }}
                     </p>
                   </div>
-                </RouterLink>
+                </component>
               </el-carousel-item>
             </el-carousel>
           </section>
@@ -88,15 +107,12 @@
 
           <div
             v-if="secondCategories.length"
-            class="mt-5 grid overflow-x-auto rounded-lg bg-gray-50 px-4"
-            :style="{
-              gridTemplateColumns: `repeat(${secondCategories.length}, minmax(112px, 1fr))`,
-            }"
+            class="mt-5 flex justify-start gap-8 overflow-x-auto rounded-lg bg-gray-50 px-6"
           >
             <button
               v-for="category in secondCategories"
               :key="category.categoryId"
-              class="relative min-w-[112px] whitespace-nowrap px-3 py-4 text-sm font-semibold text-gray-600 transition hover:text-black"
+              class="relative shrink-0 whitespace-nowrap px-3 py-4 text-sm font-semibold text-gray-600 transition hover:text-black"
               :class="{ 'text-black': Number(activeSecondId) === Number(category.categoryId) }"
               @click="selectSecondCategory(category)"
             >
@@ -248,13 +264,16 @@ import {
 } from '@/api/growth.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
+import { canAccessGrowthBizType, getGrowthAudienceOptions } from '@/utils/growthPermission.js'
 import { computed, defineComponent, h, onBeforeUnmount, onMounted, ref, watch } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
 const auth = useAuthStore()
 const ui = useUiStore()
 const pageSize = 20
+type GrowthHeroArticle = GrowthArticle & { __fallback?: boolean }
 
 const categoryLoading = ref(false)
 const pageLoading = ref(false)
@@ -269,6 +288,7 @@ const currentPage = ref(1)
 const total = ref(0)
 const isMobileViewport = ref(false)
 let pageRequestId = 0
+let recommendRequestId = 0
 
 function compareCategorySort(a: GrowthCategory, b: GrowthCategory) {
   return Number(a.sort || 0) - Number(b.sort || 0)
@@ -292,6 +312,19 @@ function normalizeCategoryNode(category: GrowthCategory): GrowthCategory {
 
 const activeBizType = computed<GrowthBizType>(() => {
   return route.path.includes('/suppliers') ? GROWTH_BIZ_TYPE.SUPPLIER : GROWTH_BIZ_TYPE.SELLER
+})
+const allowedGrowthOptions = computed(() =>
+  auth.isLoggedIn ? getGrowthAudienceOptions(auth.currentUser) : []
+)
+const growthAccessKey = computed(() =>
+  allowedGrowthOptions.value.map((item) => item.bizType).join(',')
+)
+const firstAllowedGrowthOption = computed(() => allowedGrowthOptions.value[0] || null)
+const canViewCurrentBizType = computed(() => {
+  return auth.isLoggedIn && canAccessGrowthBizType(auth.currentUser, activeBizType.value)
+})
+const currentAudienceName = computed(() => {
+  return activeBizType.value === GROWTH_BIZ_TYPE.SUPPLIER ? '供应链商家' : '达人卖手'
 })
 const currentAudienceLabel = computed(() => {
   return activeBizType.value === GROWTH_BIZ_TYPE.SUPPLIER
@@ -366,12 +399,22 @@ const isVideoSectionMode = computed(
 )
 const hasMore = computed(() => articles.value.length < total.value)
 const carouselHeight = computed(() => (isMobileViewport.value ? '220px' : '430px'))
-const heroArticles = computed(() => {
+const heroArticles = computed<GrowthHeroArticle[]>(() => {
   const filtered = recommendedArticles.value.filter(
     (article) => Number(article.bizType) === Number(activeBizType.value)
   )
   const list = filtered.length ? filtered : recommendedArticles.value
-  return list.length ? list : [{ title: currentAudienceLabel.value }]
+  return list.length
+    ? list
+    : [
+        {
+          title: currentAudienceLabel.value,
+          summary: '查看平台公告、操作指南和课程内容。',
+          bizType: activeBizType.value,
+          bizTypeName: currentAudienceLabel.value,
+          __fallback: true,
+        },
+      ]
 })
 const videoSectionGroups = computed(() => {
   const sections = activeSecondCategory.value?.sectionList || []
@@ -404,20 +447,66 @@ const ensureLogin = () => {
   return false
 }
 
+const clearGrowthData = () => {
+  categories.value = []
+  recommendedArticles.value = []
+  articles.value = []
+  activeFirstId.value = ''
+  activeSecondId.value = ''
+  currentPage.value = 1
+  total.value = 0
+}
+
+const ensureGrowthAccess = () => {
+  if (!ensureLogin()) return false
+  return canViewCurrentBizType.value
+}
+
+const syncGrowthPermissionRoute = () => {
+  if (!auth.isLoggedIn || canViewCurrentBizType.value) return
+  const option = firstAllowedGrowthOption.value
+  if (option && route.path !== option.path) {
+    void router.replace(option.path)
+  } else {
+    clearGrowthData()
+  }
+}
+
+const refreshGrowthForCurrentAccess = () => {
+  if (!auth.isLoggedIn) {
+    clearGrowthData()
+    return
+  }
+
+  syncGrowthPermissionRoute()
+  if (canViewCurrentBizType.value) {
+    void loadBaseData()
+  }
+}
+
 const syncViewport = () => {
   isMobileViewport.value = window.innerWidth < 768
 }
 
+const loadRecommendedArticles = async () => {
+  if (!ensureGrowthAccess()) return
+  const requestId = ++recommendRequestId
+  const recommendList = await apiGetGrowthRecommendedArticles({
+    bizType: activeBizType.value,
+  })
+  if (requestId !== recommendRequestId) return
+  recommendedArticles.value = recommendList
+}
+
 const loadBaseData = async () => {
-  if (!ensureLogin()) return
+  if (!ensureGrowthAccess()) return
   categoryLoading.value = true
   errorMessage.value = ''
   try {
-    const [recommendList, categoryList] = await Promise.all([
-      apiGetGrowthRecommendedArticles(),
+    const [, categoryList] = await Promise.all([
+      loadRecommendedArticles(),
       apiGetGrowthCategories(),
     ])
-    recommendedArticles.value = recommendList
     categories.value = categoryList
     syncCategorySelection()
     await loadArticles(true)
@@ -444,7 +533,7 @@ const syncCategorySelection = () => {
 }
 
 const loadArticles = async (reset = true) => {
-  if (!auth.isLoggedIn || !activeSecondId.value) {
+  if (!canViewCurrentBizType.value || !activeSecondId.value) {
     articles.value = []
     total.value = 0
     return
@@ -520,6 +609,12 @@ const getArticleLink = (article: GrowthArticle) => {
 }
 
 const getArticleDisplayImage = (article: GrowthArticle) => getGrowthArticleHeroImage(article)
+const isHeroArticleClickable = (article: GrowthHeroArticle) => {
+  return !article.__fallback && Boolean(article.articleId)
+}
+const getHeroArticleBind = (article: GrowthHeroArticle) => {
+  return isHeroArticleClickable(article) ? { to: getArticleLink(article) } : {}
+}
 const formatDate = (value?: string) => String(value || '').slice(0, 10)
 const stripHtml = (value?: string) =>
   String(value || '')
@@ -629,6 +724,7 @@ const VideoGrid = defineComponent({
 onMounted(() => {
   syncViewport()
   window.addEventListener('resize', syncViewport)
+  syncGrowthPermissionRoute()
   void loadBaseData()
 })
 
@@ -636,20 +732,21 @@ onBeforeUnmount(() => {
   window.removeEventListener('resize', syncViewport)
 })
 
-watch(
-  () => auth.isLoggedIn,
-  (loggedIn) => {
-    if (loggedIn) void loadBaseData()
-    else {
-      categories.value = []
-      recommendedArticles.value = []
-      articles.value = []
-    }
-  }
-)
+watch([() => auth.isLoggedIn, growthAccessKey], refreshGrowthForCurrentAccess, { flush: 'post' })
 
 watch(activeBizType, () => {
+  if (!auth.isLoggedIn) {
+    clearGrowthData()
+    return
+  }
+  syncGrowthPermissionRoute()
+  if (!canViewCurrentBizType.value) {
+    clearGrowthData()
+    return
+  }
+  recommendedArticles.value = []
   syncCategorySelection()
+  void loadRecommendedArticles()
   void loadArticles(true)
 })
 </script>

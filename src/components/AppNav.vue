@@ -561,6 +561,7 @@ import iconDownloadUrl from '@/assets/img/download.png'
 import logoUrl from '@/assets/img/logo-light.png'
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
+import { GROWTH_AUDIENCES, getGrowthAudienceOptions } from '@/utils/growthPermission.js'
 import { useMallRedirect } from '@/utils/mallNavigation.js'
 import { ElMessage } from 'element-plus'
 import { computed, onMounted, onUnmounted, ref, watchEffect } from 'vue'
@@ -795,7 +796,7 @@ const toggleMobileMenu = () => {
   mobileUserPanelOpen.value = false
   // 当打开移动端菜单时，自动展开当前页面对应的父级菜单，确保高亮项可见
   if (open.value) {
-    const activeParent = navItems.find((item) => isActiveParent(item))
+    const activeParent = navItems.value.find((item) => isActiveParent(item))
     openMobileSubmenu.value = activeParent ? activeParent.to : null
   }
 }
@@ -806,7 +807,7 @@ const goToApp = () => {
 }
 
 // 导航菜单配置（与路由一致）
-const navItems: NavItem[] = [
+const baseNavItems: NavItem[] = [
   { to: '/', label: '首页' },
   {
     to: '/products',
@@ -829,10 +830,7 @@ const navItems: NavItem[] = [
   {
     to: '/growth-center',
     label: '成长中心',
-    children: [
-      { to: '/growth-center/sellers', label: '我是达人卖手' },
-      { to: '/growth-center/suppliers', label: '我是供应链商家' },
-    ],
+    children: GROWTH_AUDIENCES.map((item) => ({ to: item.path, label: item.label })),
   },
   {
     to: '/about',
@@ -853,6 +851,25 @@ const navItems: NavItem[] = [
     ],
   },
 ]
+
+const growthNavChildren = computed(() => {
+  const audiences = auth.isLoggedIn ? getGrowthAudienceOptions(auth.currentUser) : GROWTH_AUDIENCES
+  return audiences.map((item) => ({ to: item.path, label: item.label }))
+})
+
+const navItems = computed<NavItem[]>(() =>
+  baseNavItems
+    .map((item) => {
+      if (item.to !== '/growth-center') return item
+      if (auth.isLoggedIn && !growthNavChildren.value.length) return null
+      return {
+        ...item,
+        to: growthNavChildren.value[0]?.to || item.to,
+        children: growthNavChildren.value,
+      }
+    })
+    .filter((item): item is NavItem => Boolean(item))
+)
 </script>
 
 <style scoped>

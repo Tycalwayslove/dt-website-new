@@ -16,6 +16,14 @@ export interface UserInfo {
   created_at?: string
   updated_at?: string
   mall_state?: number | string
+  role?: string | number
+  roles?: Array<string | number>
+  roleCodes?: Array<string | number>
+  userType?: string | number
+  identityType?: string | number
+  bizType?: number | string
+  bizTypes?: Array<number | string>
+  growthBizTypes?: Array<number | string>
 }
 
 // 获取用户信息响应类型
