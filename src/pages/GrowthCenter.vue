@@ -265,7 +265,7 @@ import {
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
 import { canAccessGrowthBizType, getGrowthAudienceOptions } from '@/utils/growthPermission.js'
-import { computed, defineComponent, h, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, h, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
@@ -286,7 +286,6 @@ const activeFirstId = ref<number | string>('')
 const activeSecondId = ref<number | string>('')
 const currentPage = ref(1)
 const total = ref(0)
-const isMobileViewport = ref(false)
 let pageRequestId = 0
 let recommendRequestId = 0
 
@@ -398,7 +397,7 @@ const isVideoSectionMode = computed(
   () => activeDisplayMode.value === GROWTH_DISPLAY_MODE.VIDEO_SECTION
 )
 const hasMore = computed(() => articles.value.length < total.value)
-const carouselHeight = computed(() => (isMobileViewport.value ? '220px' : '430px'))
+const carouselHeight = computed(() => '320px')
 const heroArticles = computed<GrowthHeroArticle[]>(() => {
   const filtered = recommendedArticles.value.filter(
     (article) => Number(article.bizType) === Number(activeBizType.value)
@@ -482,10 +481,6 @@ const refreshGrowthForCurrentAccess = () => {
   if (canViewCurrentBizType.value) {
     void loadBaseData()
   }
-}
-
-const syncViewport = () => {
-  isMobileViewport.value = window.innerWidth < 768
 }
 
 const loadRecommendedArticles = async () => {
@@ -722,14 +717,8 @@ const VideoGrid = defineComponent({
 })
 
 onMounted(() => {
-  syncViewport()
-  window.addEventListener('resize', syncViewport)
   syncGrowthPermissionRoute()
   void loadBaseData()
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('resize', syncViewport)
 })
 
 watch([() => auth.isLoggedIn, growthAccessKey], refreshGrowthForCurrentAccess, { flush: 'post' })
