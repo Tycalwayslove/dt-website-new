@@ -15,6 +15,23 @@
         </button>
       </div>
 
+      <div
+        v-else-if="!canViewRequestedBizType"
+        class="mx-auto max-w-3xl rounded-2xl bg-gray-50 p-8 text-center"
+      >
+        <p class="text-2xl font-semibold text-black">暂无文章访问权限</p>
+        <p class="mt-3 text-sm leading-6 text-gray-500">
+          当前账号暂未开通该成长中心内容，请切换到账号已开通的身份后查看。
+        </p>
+        <RouterLink
+          v-if="firstAllowedGrowthOption"
+          :to="firstAllowedGrowthOption.path"
+          class="mt-6 inline-flex rounded-xl bg-miaowu-green px-8 py-3 text-sm font-semibold text-black transition hover:bg-black hover:text-miaowu-green"
+        >
+          返回{{ firstAllowedGrowthOption.label }}
+        </RouterLink>
+      </div>
+
       <div v-else class="mx-auto max-w-[1240px]">
         <RouterLink
           :to="backLink"
@@ -112,15 +129,18 @@
 
 <script setup lang="ts">
 import {
+  GROWTH_BIZ_TYPE,
   apiGetGrowthArticleDetail,
   apiGetOtherCategoryHotArticles,
   apiGetSameCategoryHotArticles,
   getGrowthArticleImage,
   normalizeGrowthFileUrl,
   type GrowthArticle,
+  type GrowthBizType,
 } from '@/api/growth.js'
 import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
+import { canAccessGrowthBizType, getGrowthAudienceOptions } from '@/utils/growthPermission.js'
 import { formatNewsSummaryText, sanitizeNewsHtml } from '@/utils/news'
 import { computed, defineComponent, h, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
@@ -140,8 +160,29 @@ const articleId = computed(() => {
   const id = route.params.id
   return Array.isArray(id) ? id[0] : id
 })
+const routeBizType = computed<GrowthBizType | null>(() => {
+  const value = Number(route.query.bizType)
+  if (value === GROWTH_BIZ_TYPE.SUPPLIER || value === GROWTH_BIZ_TYPE.SELLER) {
+    return value
+  }
+  return null
+})
+const allowedGrowthOptions = computed(() =>
+  auth.isLoggedIn ? getGrowthAudienceOptions(auth.currentUser) : []
+)
+const growthAccessKey = computed(() =>
+  allowedGrowthOptions.value.map((item) => item.bizType).join(',')
+)
+const firstAllowedGrowthOption = computed(() => allowedGrowthOptions.value[0] || null)
+const canViewRequestedBizType = computed(() => {
+  if (!auth.isLoggedIn) return false
+  if (!routeBizType.value) return allowedGrowthOptions.value.length > 0
+  return canAccessGrowthBizType(auth.currentUser, routeBizType.value)
+})
 const backLink = computed(() => {
-  return Number(route.query.bizType) === 1 ? '/growth-center/suppliers' : '/growth-center/sellers'
+  if (Number(route.query.bizType) === GROWTH_BIZ_TYPE.SUPPLIER) return '/growth-center/suppliers'
+  if (Number(route.query.bizType) === GROWTH_BIZ_TYPE.SELLER) return '/growth-center/sellers'
+  return firstAllowedGrowthOption.value?.path || '/growth-center/sellers'
 })
 const articlePoster = computed(() => getGrowthArticleImage(article.value))
 const safeContent = computed(() => sanitizeNewsHtml(article.value?.content || ''))
@@ -157,8 +198,22 @@ const ensureLogin = () => {
   return false
 }
 
+const ensureGrowthAccess = () => {
+  if (!ensureLogin()) return false
+  return canViewRequestedBizType.value
+}
+
+const clearDetailData = () => {
+  article.value = null
+  sameCategoryHotArticles.value = []
+  otherCategoryHotArticles.value = []
+}
+
 const loadDetail = async () => {
-  if (!ensureLogin()) return
+  if (!ensureGrowthAccess()) {
+    clearDetailData()
+    return
+  }
   if (!articleId.value) {
     errorMessage.value = '缺少文章 ID'
     return
@@ -167,13 +222,19 @@ const loadDetail = async () => {
   const currentRequestId = ++requestId
   loading.value = true
   errorMessage.value = ''
-  article.value = null
-  sameCategoryHotArticles.value = []
-  otherCategoryHotArticles.value = []
+  clearDetailData()
 
   try {
     const detail = await apiGetGrowthArticleDetail(articleId.value)
     if (currentRequestId !== requestId) return
+    if (
+      detail?.bizType &&
+      !canAccessGrowthBizType(auth.currentUser, Number(detail.bizType) as GrowthBizType)
+    ) {
+      clearDetailData()
+      errorMessage.value = '暂无该文章访问权限'
+      return
+    }
     article.value = detail
 
     const [sameResult, otherResult] = await Promise.allSettled([
@@ -264,15 +325,19 @@ watch(articleId, () => {
 })
 
 watch(
-  () => auth.isLoggedIn,
-  (loggedIn) => {
-    if (loggedIn) void loadDetail()
-    else {
-      article.value = null
-      sameCategoryHotArticles.value = []
-      otherCategoryHotArticles.value = []
-    }
+  () => route.query.bizType,
+  () => {
+    void loadDetail()
   }
+)
+
+watch(
+  [() => auth.isLoggedIn, growthAccessKey],
+  ([loggedIn]) => {
+    if (loggedIn) void loadDetail()
+    else clearDetailData()
+  },
+  { flush: 'post' }
 )
 </script>
 
