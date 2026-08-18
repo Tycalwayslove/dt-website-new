@@ -212,10 +212,14 @@ export async function apiGetSameCategoryHotArticles(articleId: string | number, 
   return unwrapMallResponse<GrowthArticle[]>(response) || []
 }
 
-export async function apiGetOtherCategoryHotArticles(articleId: string | number, limit = 10) {
+export async function apiGetOtherCategoryHotArticles(
+  articleId: string | number,
+  bizType: GrowthBizType | number,
+  limit = 10
+) {
   const response = await growthGet<MallApiResponse<GrowthArticle[]>>(
     `${GROWTH_API_PREFIX}/article/${articleId}/otherCategoryHotArticles`,
-    { params: { limit } }
+    { params: { bizType, limit } }
   )
   return unwrapMallResponse<GrowthArticle[]>(response) || []
 }

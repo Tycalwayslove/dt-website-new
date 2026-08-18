@@ -239,10 +239,13 @@ const loadDetail = async () => {
       return
     }
     article.value = detail
+    const recommendBizType = Number(
+      detail?.bizType || routeBizType.value || firstAllowedGrowthOption.value?.bizType
+    )
 
     const [sameResult, otherResult] = await Promise.allSettled([
       apiGetSameCategoryHotArticles(articleId.value, 10),
-      apiGetOtherCategoryHotArticles(articleId.value, 10),
+      apiGetOtherCategoryHotArticles(articleId.value, recommendBizType, 10),
     ])
     if (currentRequestId !== requestId) return
     sameCategoryHotArticles.value =
