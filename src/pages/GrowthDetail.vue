@@ -106,6 +106,7 @@
 
             <div
               v-if="safeContent"
+              ref="contentRef"
               class="growth-detail-content mt-7 text-base leading-8 text-black"
               v-html="safeContent"
             ></div>
@@ -142,7 +143,7 @@ import { useAuthStore } from '@/stores/auth.js'
 import { useUiStore } from '@/stores/ui.js'
 import { canAccessGrowthBizType, getGrowthAudienceOptions } from '@/utils/growthPermission.js'
 import { formatNewsSummaryText, sanitizeNewsHtml } from '@/utils/news'
-import { computed, defineComponent, h, onMounted, ref, watch } from 'vue'
+import { computed, defineComponent, h, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -152,9 +153,11 @@ const ui = useUiStore()
 const article = ref<GrowthArticle | null>(null)
 const sameCategoryHotArticles = ref<GrowthArticle[]>([])
 const otherCategoryHotArticles = ref<GrowthArticle[]>([])
+const contentRef = ref<HTMLElement | null>(null)
 const loading = ref(false)
 const errorMessage = ref('')
 let requestId = 0
+let richTextLayoutFrame = 0
 
 const articleId = computed(() => {
   const id = route.params.id
@@ -260,6 +263,49 @@ const isNotCurrentArticle = (item: GrowthArticle) => {
   return String(item.articleId) !== String(articleId.value)
 }
 const formatDate = (value?: string) => String(value || '').slice(0, 10)
+const parsePixelSize = (value?: string | null) => {
+  const normalized = String(value || '').trim()
+  if (!normalized) return 0
+  const matched = normalized.match(/^(\d+(?:\.\d+)?)(?:px)?$/i)
+  return matched ? Number(matched[1]) : 0
+}
+
+const getDeclaredImageSize = (image: HTMLImageElement) => {
+  const width = parsePixelSize(image.style.width) || parsePixelSize(image.getAttribute('width'))
+  const height = parsePixelSize(image.style.height) || parsePixelSize(image.getAttribute('height'))
+  return { width, height }
+}
+
+const adjustRichTextImages = () => {
+  const content = contentRef.value
+  if (!content) return
+
+  content.querySelectorAll('img').forEach((image) => {
+    const { width, height } = getDeclaredImageSize(image)
+    if (!width || !height) return
+
+    const parentWidth = image.parentElement?.clientWidth || content.clientWidth
+    const targetWidth = Math.min(width, parentWidth)
+    const targetHeight = (targetWidth * height) / width
+
+    image.style.width = `${targetWidth}px`
+    image.style.height = `${targetHeight}px`
+    image.style.maxWidth = '100%'
+    image.style.objectFit = 'fill'
+  })
+}
+
+const scheduleRichTextLayout = () => {
+  if (typeof window === 'undefined') return
+  if (richTextLayoutFrame) window.cancelAnimationFrame(richTextLayoutFrame)
+
+  void nextTick(() => {
+    richTextLayoutFrame = window.requestAnimationFrame(() => {
+      richTextLayoutFrame = 0
+      adjustRichTextImages()
+    })
+  })
+}
 
 const HotPanel = defineComponent({
   name: 'HotPanel',
@@ -317,11 +363,21 @@ const HotPanel = defineComponent({
 })
 
 onMounted(() => {
+  window.addEventListener('resize', scheduleRichTextLayout)
   void loadDetail()
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('resize', scheduleRichTextLayout)
+  if (richTextLayoutFrame) window.cancelAnimationFrame(richTextLayoutFrame)
 })
 
 watch(articleId, () => {
   void loadDetail()
+})
+
+watch(safeContent, () => {
+  scheduleRichTextLayout()
 })
 
 watch(
@@ -344,6 +400,7 @@ watch(
 <style scoped>
 .growth-detail-content {
   word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 .growth-detail-content :deep(p) {
@@ -351,11 +408,12 @@ watch(
 }
 
 .growth-detail-content :deep(img) {
-  display: block;
   max-width: 100%;
+  vertical-align: middle;
+}
+
+.growth-detail-content :deep(img:not([height]):not([style*='height'])) {
   height: auto;
-  margin: 1.5rem auto;
-  border-radius: 12px;
 }
 
 .growth-detail-content :deep(a) {
@@ -366,5 +424,60 @@ watch(
 
 .growth-detail-content :deep(video) {
   max-width: 100%;
+}
+
+.growth-detail-content :deep(table) {
+  max-width: 100%;
+  border-collapse: collapse;
+}
+
+.growth-detail-content :deep(th),
+.growth-detail-content :deep(td) {
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+}
+
+.growth-detail-content :deep(ul),
+.growth-detail-content :deep(ol) {
+  margin: 1em 0;
+  padding-left: 1.5em;
+}
+
+.growth-detail-content :deep(ul) {
+  list-style: disc;
+}
+
+.growth-detail-content :deep(ol) {
+  list-style: decimal;
+}
+
+.growth-detail-content :deep(blockquote) {
+  margin: 1em 0;
+  padding-left: 1em;
+  border-left: 4px solid #e5e7eb;
+  color: #4b5563;
+}
+
+.growth-detail-content :deep(h1),
+.growth-detail-content :deep(h2),
+.growth-detail-content :deep(h3),
+.growth-detail-content :deep(h4),
+.growth-detail-content :deep(h5),
+.growth-detail-content :deep(h6) {
+  margin: 1em 0 0.6em;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.growth-detail-content :deep(h1) {
+  font-size: 2em;
+}
+
+.growth-detail-content :deep(h2) {
+  font-size: 1.5em;
+}
+
+.growth-detail-content :deep(h3) {
+  font-size: 1.25em;
 }
 </style>
